@@ -2,6 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Context7 Integration
+
+Always use context7 when I need code generation, setup or configuration steps, or
+library/API documentation. This means you should automatically use the Context7 MCP
+tools to resolve library id and get library docs without me having to explicitly ask.
+
+For this project, prioritize these libraries:
+
+- `/nuxt/nuxt` - For Nuxt 4 framework documentation
+- `/nuxt/ui` - For Nuxt UI 4 components and styling
+- `/microsoft/TypeScript` - For TypeScript guidance
+- `/vitejs/vite` - For Vite build tool (used by Nuxt)
+
 ## Commands
 
 ### Development
@@ -41,80 +54,58 @@ job-finder/
 - **tsconfig.json**: References Nuxt's generated TypeScript configs
 - **eslint.config.mjs**: Uses Nuxt's ESLint configuration
 
-## Gestion des tâches avec TaskMaster
+## Gestion des tâches avec TaskMaster MCP
 
-This project uses TaskMaster AI for project management:
+This project uses TaskMaster AI for project management via MCP (Model Context Protocol):
 
 - Configuration in `.taskmaster/` directory
 - Tasks defined in `.taskmaster/tasks/tasks.json`
 - PRD available in `.taskmaster/docs/prd.txt` describing a CV Optimizer application
 
+**IMPORTANT**: TaskMaster is configured as an MCP server. Use the MCP tools directly - DO NOT use CLI commands like `task-master next`. Instead, use the available MCP tools to interact with tasks.
+
 ### Workflow de configuration des tâches
 
 #### 1. Expansion des tâches
 
-Avant de commencer, toujours développer les tâches en sous-tâches :
-
-```bash
-task-master expand --all
-```
+Use TaskMaster MCP tools to expand tasks into subtasks when needed.
 
 #### 2. Revue du plan
 
-- Lister les tâches : `task-master list`
-- Voir les détails d'une tâche : `task-master show --id=<##>`
-- Vérifier la structure des dossiers, dépendances, et pertinence
+Use TaskMaster MCP tools to:
+
+- List tasks
+- View task details by ID
+- Check folder structure, dependencies, and relevance
 
 ### Workflow d'exécution
 
 #### 1. Sélectionner la prochaine tâche
 
-Toujours utiliser la commande `next` pour respecter les dépendances :
-
-```bash
-task-master next
-```
+Use TaskMaster MCP tools to get the next task respecting dependencies.
 
 #### 2. Discussion avant exécution
 
-- Confirmer la compréhension de la tâche avant de coder
-- Référencer les fichiers et dossiers pertinents avec @mentions
-- Valider le plan d'action proposé
+- Confirm understanding of the task before coding
+- Reference relevant files and folders with @mentions
+- Validate the proposed action plan
 
 #### 3. Exécution
 
-- Ne commencer qu'après validation du plan
-- Suivre la stratégie de test définie dans la tâche
+- Only start after plan validation
+- Follow the testing strategy defined in the task
 
 #### 4. Validation et clôture
 
-```bash
-task-master set-status --id=<##> --status=done
-```
-
-### Commandes de modification
-
-- **Mettre à jour une tâche** : `task-master update-task --id=<##> --prompt="description des changements"`
-- **Créer des règles** : Documenter les patterns et solutions pour référence future
+Use TaskMaster MCP tools to update task status to "done".
 
 ### Principes à respecter
 
-1. **Ne jamais sauter l'étape de discussion** - Toujours confirmer la compréhension avant de coder
-2. **Respecter les dépendances** - Utiliser `next` plutôt que choisir arbitrairement
-3. **Tester selon la stratégie** - Chaque tâche a une stratégie de test à suivre
-4. **Documenter les règles** - Les erreurs résolues deviennent des règles pour l'avenir
-5. **Tâches atomiques** - Préférer des sous-tâches claires aux tâches monolithiques
-
-### Commandes rapides
-
-| Action              | Commande                                         |
-| ------------------- | ------------------------------------------------ |
-| Prochaine tâche     | `task-master next`                               |
-| Lister tout         | `task-master list`                               |
-| Détails tâche       | `task-master show --id=<##>`                     |
-| Marquer terminé     | `task-master set-status --id=<##> --status=done` |
-| Analyser complexité | `task-master analyze-complexity`                 |
-| Développer tout     | `task-master expand --all`                       |
+1. **Ne jamais sauter l'étape de discussion** - Always confirm understanding before coding
+2. **Respecter les dépendances** - Use MCP tools to get next task rather than choosing arbitrarily
+3. **Tester selon la stratégie** - Each task has a testing strategy to follow
+4. **Documenter les règles** - Resolved errors become rules for the future
+5. **Tâches atomiques** - Prefer clear subtasks over monolithic tasks
 
 ### Current State
 
