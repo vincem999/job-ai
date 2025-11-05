@@ -43,6 +43,60 @@ If an error is blocking and requires user input or decision, clearly explain:
 
 **Remember**: Every unresolved error compounds technical debt and can cause cascading issues later.
 
+## Git Workflow
+
+**MANDATORY**: After completing each task, you MUST commit and push changes automatically.
+
+### Commit Process (REQUIRED after each task)
+
+1. **Stage all changes**: `git add .`
+2. **Commit with meaningful message**: `git commit -m "feat: [task description]"`
+3. **Push to remote**: `git push`
+
+### Commit Message Format
+
+Follow conventional commits format:
+
+- `feat: [description]` - New feature or functionality
+- `fix: [description]` - Bug fix
+- `refactor: [description]` - Code refactoring without changing functionality
+- `docs: [description]` - Documentation changes
+- `style: [description]` - Code style/formatting changes
+- `test: [description]` - Adding or updating tests
+- `chore: [description]` - Maintenance tasks, dependency updates
+
+**Examples**:
+
+- `feat: add job offer analysis component`
+- `fix: resolve PDF generation encoding issue`
+- `refactor: improve CV matching algorithm`
+- `docs: update API documentation`
+
+### When to Commit
+
+You MUST commit and push:
+
+- ✅ After completing a task successfully
+- ✅ After resolving all errors for that task
+- ✅ After all tests pass
+- ✅ Before marking a task as "done" in TaskMaster
+
+❌ DO NOT commit:
+
+- Code with unresolved errors
+- Incomplete implementations
+- Code that doesn't run or build
+
+### Commit Message Content
+
+Include in your commit message:
+
+- Brief description of what was done (max 72 characters for first line)
+- Task ID if applicable (e.g., `feat(task-42): add user authentication`)
+- Any breaking changes or important notes
+
+**Note**: If git push fails (e.g., authentication issues, conflicts), inform the user immediately and wait for their input.
+
 ## Commands
 
 ### Development
@@ -122,18 +176,28 @@ Use TaskMaster MCP tools to get the next task respecting dependencies.
 
 - Only start after plan validation
 - Follow the testing strategy defined in the task
+- **Resolve ALL errors before marking task as complete**
 
 #### 4. Validation et clôture
 
-Use TaskMaster MCP tools to update task status to "done".
+**MANDATORY steps in order:**
+
+1. Verify all errors are resolved
+2. Verify tests pass
+3. **Git commit and push changes** (see Git Workflow section)
+4. Use TaskMaster MCP tools to update task status to "done"
+
+**Only mark as done when all errors are resolved, tests pass, AND changes are committed and pushed.**
 
 ### Principes à respecter
 
 1. **Ne jamais sauter l'étape de discussion** - Always confirm understanding before coding
 2. **Respecter les dépendances** - Use MCP tools to get next task rather than choosing arbitrarily
 3. **Tester selon la stratégie** - Each task has a testing strategy to follow
-4. **Documenter les règles** - Resolved errors become rules for the future
-5. **Tâches atomiques** - Prefer clear subtasks over monolithic tasks
+4. **Résoudre toutes les erreurs** - Never skip or ignore errors, always fix them completely
+5. **Commit et push systématiquement** - ALWAYS commit and push after completing a task
+6. **Documenter les règles** - Resolved errors become rules for the future
+7. **Tâches atomiques** - Prefer clear subtasks over monolithic tasks
 
 ### Current State
 
