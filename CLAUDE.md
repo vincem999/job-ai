@@ -12,6 +12,7 @@ For this project, prioritize these libraries:
 
 - `/nuxt/nuxt` - For Nuxt 4 framework documentation
 - `/nuxt/ui` - For Nuxt UI 4 components and styling
+- `/vuejs/pinia` - For Pinia state management
 - `/microsoft/TypeScript` - For TypeScript guidance
 - `/vitejs/vite` - For Vite build tool (used by Nuxt)
 
@@ -123,6 +124,7 @@ Include in your commit message:
 ### Framework
 
 - **Nuxt 4** with Vue 3 and TypeScript
+- **Pinia** for state management
 - Uses the new `app/` directory structure for Nuxt 4
 - **Nuxt UI 4** for components and styling
 - **ESLint** configured via @nuxt/eslint module
@@ -229,7 +231,9 @@ The project is a fresh Nuxt 4 setup with the default welcome page. According to 
 - Use the `app/` directory for all application code
 - Components should leverage Nuxt UI 4 for consistency
 - Server routes go in `server/` directory when needed
-- Use Nuxt composables for reactive state management
+- **State Management**:
+  - Use **Pinia** for structured, multi-step, or complex state (e.g., job analysis workflow, user data). This is the primary choice.
+  - Use Nuxt's built-in `useState` for very simple, isolated states (e.g., UI state like theme toggles).
 
 ### Code Style
 
