@@ -60,7 +60,7 @@
       <div class="flex justify-end space-x-3 pt-4">
         <UButton
           type="button"
-          color="gray"
+          color="neutral"
           variant="ghost"
           :disabled="loading"
           @click="clearForm"
@@ -80,7 +80,7 @@
     <!-- Real-time feedback -->
     <div v-if="feedback" class="mt-4">
       <UAlert
-        :color="feedback.type === 'error' ? 'red' : feedback.type === 'warning' ? 'yellow' : 'green'"
+        :color="feedback.type === 'error' ? 'error' : feedback.type === 'warning' ? 'warning' : 'success'"
         :title="feedback.title"
         :description="feedback.message"
         :close-button="{ 'aria-label': 'Close' }"
@@ -152,7 +152,7 @@ watch(
 
 // Watch for input changes to provide real-time feedback
 watch(
-  () => [state.title, state.company],
+  () => [state.title, state.company] as const,
   ([title, company]) => {
     if ((title.length > 0 && title.length < 2) || (company.length > 0 && company.length < 2)) {
       showFeedback('warning', 'Input too short', 'Title and company name should be at least 2 characters')

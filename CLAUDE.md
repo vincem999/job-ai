@@ -49,6 +49,14 @@ If an error is blocking and requires user input or decision, clearly explain:
 
 ### Commit Process (REQUIRED after each task)
 
+**MANDATORY Pre-Commit Checks**: Before staging, you MUST ensure:
+
+1. ✅ **Type-Check Passed**: No TypeScript errors (using the strict configuration).
+2. ✅ **Lint Passed**: No ESLint errors or warnings remain (`pnpm lint`).
+3. 🛑 **If checks fail**: Go back to step 2/3 of the Error Handling Policy (Fix thoroughly & Test the fix). **DO NOT COMMIT** if lint or type-check fails.
+
+**Commit Steps**:
+
 1. **Stage all changes**: `git add .`
 2. **Commit with meaningful message**: `git commit -m "feat: [task description]"`
 3. **Push to remote**: `git push`
