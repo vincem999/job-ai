@@ -1,7 +1,7 @@
 // API Request/Response Type Definitions
 
 import type { CV, AdaptedCV } from './cv'
-import type { JobOffer, JobAnalysis } from './job-analysis'
+import type { JobAnalysis } from './job-analysis'
 
 // Base API Response Structure
 export interface ApiResponse<T = any> {

@@ -270,7 +270,7 @@ interface CVData {
 }
 
 // Define props
-const props = defineProps<{
+defineProps<{
   cvData: CVData
 }>()
 </script>

@@ -4,10 +4,10 @@
       <h1>Test du Template CV</h1>
       <p>Cette page permet de tester le rendu du template CV avec des données mock.</p>
       <div class="actions">
-        <button @click="printPreview" class="btn btn-primary">
+        <button class="btn btn-primary" @click="printPreview">
           Aperçu d'impression
         </button>
-        <button @click="toggleData" class="btn btn-secondary">
+        <button class="btn btn-secondary" @click="toggleData">
           {{ showMinimalData ? 'Données complètes' : 'Données minimales' }}
         </button>
       </div>
