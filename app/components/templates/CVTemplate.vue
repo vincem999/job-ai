@@ -206,68 +206,7 @@
 </template>
 
 <script setup lang="ts">
-interface PersonalInfo {
-  name: string
-  title: string
-  email: string
-  phone: string
-  location: string
-  linkedin?: string
-  github?: string
-}
-
-interface Experience {
-  id?: string
-  title: string
-  company: string
-  location: string
-  startDate: string
-  endDate: string
-  description?: string
-  bullets?: string[]
-  skills?: string[]
-  relevance?: string[]
-}
-
-interface Education {
-  id?: string
-  degree: string
-  institution: string
-  year: string
-  description?: string
-}
-
-interface Skills {
-  technical: string[]
-  languages: string[]
-  soft: string[]
-}
-
-interface Certification {
-  id?: string
-  name: string
-  issuer: string
-  date?: string
-}
-
-interface Project {
-  id?: string
-  name: string
-  description?: string
-  technologies?: string[]
-  url?: string
-  date?: string
-}
-
-interface CVData {
-  personalInfo: PersonalInfo
-  summary: string
-  experiences: Experience[]
-  education: Education[]
-  skills: Skills
-  certifications?: Certification[]
-  projects?: Project[]
-}
+import type { CVData } from './mockCVData'
 
 // Define props
 defineProps<{

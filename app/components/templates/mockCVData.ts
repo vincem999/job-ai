@@ -1,5 +1,70 @@
 // Mock CV data for testing the CVTemplate component
 
+// Local types for template (simplified structure)
+export interface PersonalInfo {
+  name: string
+  title: string
+  email: string
+  phone: string
+  location: string
+  linkedin?: string
+  github?: string
+}
+
+export interface Experience {
+  id: string
+  title: string
+  company: string
+  location: string
+  startDate: string
+  endDate: string
+  description: string
+  bullets: string[]
+  skills: string[]
+}
+
+export interface Education {
+  id: string
+  degree: string
+  institution: string
+  year: string
+  location?: string
+  details?: string
+  description?: string
+}
+
+export interface Skills {
+  technical: string[]
+  languages: string[]
+  soft: string[]
+}
+
+export interface Certification {
+  id?: string
+  name: string
+  issuer: string
+  date?: string
+}
+
+export interface Project {
+  id?: string
+  name: string
+  description?: string
+  technologies?: string[]
+  url?: string
+  date?: string
+}
+
+export interface CVData {
+  personalInfo: PersonalInfo
+  summary: string
+  experiences: Experience[]
+  education: Education[]
+  skills: Skills
+  certifications?: Certification[]
+  projects?: Project[]
+}
+
 export const mockCVData = {
   personalInfo: {
     name: "Jean Dupont",
@@ -124,4 +189,4 @@ export const mockCVData = {
   ]
 }
 
-export type CVData = typeof mockCVData
+// CVData interface is defined above
