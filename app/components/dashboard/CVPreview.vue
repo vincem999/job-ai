@@ -19,11 +19,7 @@
         >
           Fermer
         </UButton>
-        <UButton
-          icon="i-heroicons-printer"
-          variant="outline"
-          @click="printCV"
-        >
+        <UButton icon="i-heroicons-printer" variant="outline" @click="printCV">
           Imprimer
         </UButton>
       </div>
@@ -32,7 +28,7 @@
     <div
       ref="previewContainer"
       class="preview-container"
-      :class="{ 'fullscreen': isFullScreen }"
+      :class="{ fullscreen: isFullScreen }"
     >
       <div class="preview-content">
         <CVTemplate :cv-data="cvData" />
@@ -49,8 +45,8 @@
 </template>
 
 <script setup lang="ts">
-import CVTemplate from '../templates/CVTemplate.vue'
-import type { CVData } from '../templates/mockCVData'
+import CVTemplate from "../templates/CVTemplate.vue"
+import type { CVData } from "../templates/mockCVData"
 
 interface Props {
   cvData: CVData
@@ -68,20 +64,21 @@ const toggleFullScreen = () => {
 
   if (isFullScreen.value) {
     // Add class to body to prevent scrolling
-    document.body.classList.add('overflow-hidden')
+    document.body.classList.add("overflow-hidden")
   } else {
     // Remove class from body to restore scrolling
-    document.body.classList.remove('overflow-hidden')
+    document.body.classList.remove("overflow-hidden")
   }
 }
 
 const printCV = () => {
   // Create a new window for printing
-  const printWindow = window.open('', '_blank')
+  const printWindow = window.open("", "_blank")
   if (!printWindow) return
 
   // Get the CV template content
-  const cvContent = previewContainer.value?.querySelector('.preview-content')?.innerHTML
+  const cvContent =
+    previewContainer.value?.querySelector(".preview-content")?.innerHTML
   if (!cvContent) return
 
   // Create print document
@@ -117,28 +114,28 @@ const printCV = () => {
 // Cleanup on unmount
 onUnmounted(() => {
   if (isFullScreen.value) {
-    document.body.classList.remove('overflow-hidden')
+    document.body.classList.remove("overflow-hidden")
   }
 })
 
 // Handle ESC key to close fullscreen
 onMounted(() => {
   const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && isFullScreen.value) {
+    if (event.key === "Escape" && isFullScreen.value) {
       toggleFullScreen()
     }
   }
 
-  document.addEventListener('keydown', handleEscape)
+  document.addEventListener("keydown", handleEscape)
 
   onUnmounted(() => {
-    document.removeEventListener('keydown', handleEscape)
+    document.removeEventListener("keydown", handleEscape)
   })
 })
 </script>
 
 <style scoped>
-@reference;
+@reference "~/assets/css/main.css";
 
 .cv-preview {
   @apply w-full;
@@ -173,7 +170,7 @@ onMounted(() => {
 }
 
 .fullscreen-overlay {
-  @apply fixed inset-0 bg-black bg-opacity-50 z-40;
+  @apply fixed inset-0 bg-black/50 z-40;
 }
 
 /* Custom scrollbar for preview */
