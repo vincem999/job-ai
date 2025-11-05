@@ -15,6 +15,34 @@ For this project, prioritize these libraries:
 - `/microsoft/TypeScript` - For TypeScript guidance
 - `/vitejs/vite` - For Vite build tool (used by Nuxt)
 
+## Error Handling Policy
+
+**CRITICAL**: You must ALWAYS resolve errors completely - NEVER skip or ignore them.
+
+When encountering an error:
+
+1. ✅ **Stop and analyze** - Understand the root cause before proceeding
+2. ✅ **Fix thoroughly** - Implement a complete solution, not a workaround
+3. ✅ **Test the fix** - Verify the error is completely resolved
+4. ✅ **Document if needed** - Add the solution to project rules for future reference
+
+❌ **NEVER**:
+
+- Skip an error to move forward
+- Suggest "we'll fix this later"
+- Leave warnings or errors unresolved
+- Propose temporary workarounds without fixing the underlying issue
+- Move to the next task while errors remain
+
+If an error is blocking and requires user input or decision, clearly explain:
+
+- What the error is
+- Why it's blocking
+- What options are available to resolve it
+- Your recommended solution
+
+**Remember**: Every unresolved error compounds technical debt and can cause cascading issues later.
+
 ## Commands
 
 ### Development
