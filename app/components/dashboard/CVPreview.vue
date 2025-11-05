@@ -138,6 +138,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@reference;
+
 .cv-preview {
   @apply w-full;
 }

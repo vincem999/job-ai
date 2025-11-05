@@ -454,6 +454,8 @@ watch([errorMessage, successMessage], () => {
 </script>
 
 <style scoped>
+@reference;
+
 .document-download {
   @apply w-full space-y-6;
 }
