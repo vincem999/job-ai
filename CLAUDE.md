@@ -15,6 +15,7 @@ For this project, prioritize these libraries:
 - `/vuejs/pinia` - For Pinia state management
 - `/microsoft/TypeScript` - For TypeScript guidance
 - `/vitejs/vite` - For Vite build tool (used by Nuxt)
+- `tailwindcss.com/docs`- For Tailwind CSS
 
 ## Error Handling Policy
 
