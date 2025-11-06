@@ -1,0 +1,415 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CV Schema",
+  "description": "JSON schema for CV data structure",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the CV"
+    },
+    "personalInfo": {
+      "$ref": "#/definitions/PersonalInfo"
+    },
+    "workExperience": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/WorkExperience"
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Education"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Skill"
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Project"
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Certification"
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Language"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Reference"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time when CV was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time when CV was last updated"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the CV"
+    },
+    "isTemplate": {
+      "type": "boolean",
+      "description": "Whether this CV is used as a template"
+    },
+    "templateName": {
+      "type": "string",
+      "description": "Name of the template if isTemplate is true"
+    }
+  },
+  "required": [
+    "id",
+    "personalInfo",
+    "workExperience",
+    "education",
+    "skills",
+    "projects",
+    "certifications",
+    "languages",
+    "references",
+    "createdAt",
+    "updatedAt",
+    "version",
+    "isTemplate"
+  ],
+  "definitions": {
+    "PersonalInfo": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "linkedin": {
+          "type": "string",
+          "format": "uri"
+        },
+        "github": {
+          "type": "string",
+          "format": "uri"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": ["firstName", "lastName", "email"]
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      },
+      "required": ["city", "country"]
+    },
+    "WorkExperience": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isCurrentPosition": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "achievements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["id", "company", "position", "startDate", "isCurrentPosition", "description", "achievements", "skills", "technologies"]
+    },
+    "Education": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "institution": {
+          "type": "string"
+        },
+        "degree": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isCurrentEducation": {
+          "type": "boolean"
+        },
+        "gpa": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 4.0
+        },
+        "honors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relevantCourses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "institution", "degree", "field", "startDate", "isCurrentEducation"]
+    },
+    "Skill": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "soft", "language", "certification", "tool", "framework"]
+        },
+        "level": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"]
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "yearsOfExperience": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": ["id", "name", "category", "level", "keywords"]
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isOngoing": {
+          "type": "boolean"
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "achievements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": ["id", "name", "description", "role", "startDate", "isOngoing", "technologies", "achievements"]
+    },
+    "Certification": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "issueDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiryDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "credentialId": {
+          "type": "string"
+        },
+        "credentialUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "name", "issuer", "issueDate"]
+    },
+    "Language": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string",
+          "enum": ["basic", "conversational", "fluent", "native"]
+        },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["id", "name", "level"]
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "relationship": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "name", "position", "company", "relationship"]
+    }
+  }
+}

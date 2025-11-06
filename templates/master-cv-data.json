@@ -1,0 +1,385 @@
+{
+  "id": "master-cv-template-001",
+  "personalInfo": {
+    "firstName": "Alex",
+    "lastName": "Johnson",
+    "email": "alex.johnson@email.com",
+    "phone": "+1 (555) 123-4567",
+    "address": {
+      "street": "123 Tech Street, Apt 4B",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94105",
+      "country": "United States"
+    },
+    "linkedin": "https://linkedin.com/in/alexjohnson",
+    "github": "https://github.com/alexjohnson",
+    "website": "https://alexjohnson.dev",
+    "summary": "Experienced Full Stack Developer with 8+ years of expertise in modern web technologies. Passionate about creating scalable solutions and leading development teams. Proven track record of delivering high-quality software products that drive business growth."
+  },
+  "workExperience": [
+    {
+      "id": "work-001",
+      "company": "TechCorp Inc.",
+      "position": "Senior Full Stack Developer",
+      "startDate": "2022-03-01T00:00:00.000Z",
+      "endDate": null,
+      "isCurrentPosition": true,
+      "location": "San Francisco, CA",
+      "description": "Lead development of enterprise web applications using modern JavaScript frameworks. Collaborate with cross-functional teams to deliver scalable solutions serving 100k+ users.",
+      "achievements": [
+        "Architected and implemented microservices architecture reducing system latency by 40%",
+        "Led team of 5 developers in agile development process",
+        "Improved application performance by 60% through code optimization and caching strategies",
+        "Mentored junior developers and conducted technical interviews"
+      ],
+      "skills": [
+        "Team Leadership",
+        "System Architecture",
+        "Performance Optimization",
+        "Code Review"
+      ],
+      "technologies": [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Redis"
+      ]
+    },
+    {
+      "id": "work-002",
+      "company": "StartupXYZ",
+      "position": "Full Stack Developer",
+      "startDate": "2019-06-01T00:00:00.000Z",
+      "endDate": "2022-02-28T00:00:00.000Z",
+      "isCurrentPosition": false,
+      "location": "Remote",
+      "description": "Developed and maintained multiple web applications for early-stage startup. Worked directly with founders to translate business requirements into technical solutions.",
+      "achievements": [
+        "Built MVP from scratch using React and Node.js, helping secure $2M Series A funding",
+        "Implemented CI/CD pipeline reducing deployment time by 75%",
+        "Developed real-time features using WebSocket technology",
+        "Established coding standards and best practices for growing team"
+      ],
+      "skills": [
+        "MVP Development",
+        "Startup Experience",
+        "Real-time Applications",
+        "CI/CD"
+      ],
+      "technologies": [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "Socket.io",
+        "Jest",
+        "GitHub Actions",
+        "Heroku"
+      ]
+    },
+    {
+      "id": "work-003",
+      "company": "WebSolutions Agency",
+      "position": "Frontend Developer",
+      "startDate": "2017-01-15T00:00:00.000Z",
+      "endDate": "2019-05-31T00:00:00.000Z",
+      "isCurrentPosition": false,
+      "location": "New York, NY",
+      "description": "Developed responsive websites and web applications for diverse clients across various industries. Collaborated with designers and backend developers to deliver pixel-perfect user experiences.",
+      "achievements": [
+        "Delivered 25+ client projects with 98% on-time completion rate",
+        "Improved client website loading speeds by average of 50%",
+        "Created reusable component library adopted across all projects",
+        "Trained team on modern JavaScript frameworks and tools"
+      ],
+      "skills": [
+        "Client Management",
+        "Responsive Design",
+        "Component Architecture",
+        "Performance Optimization"
+      ],
+      "technologies": [
+        "Vue.js",
+        "JavaScript",
+        "SASS",
+        "Webpack",
+        "PHP",
+        "WordPress",
+        "MySQL"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-001",
+      "institution": "University of California, Berkeley",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2013-08-01T00:00:00.000Z",
+      "endDate": "2017-05-15T00:00:00.000Z",
+      "isCurrentEducation": false,
+      "gpa": 3.7,
+      "honors": [
+        "Dean's List",
+        "Phi Beta Kappa",
+        "CS Department Honor Society"
+      ],
+      "relevantCourses": [
+        "Data Structures and Algorithms",
+        "Database Systems",
+        "Software Engineering",
+        "Computer Networks",
+        "Web Development",
+        "Machine Learning"
+      ],
+      "description": "Comprehensive computer science education with focus on software engineering principles and web technologies."
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-001",
+      "name": "JavaScript",
+      "category": "technical",
+      "level": "expert",
+      "keywords": ["ES6+", "Async/Await", "Closures", "Prototypes"],
+      "yearsOfExperience": 8
+    },
+    {
+      "id": "skill-002",
+      "name": "TypeScript",
+      "category": "technical",
+      "level": "advanced",
+      "keywords": ["Type Safety", "Generics", "Interfaces", "Decorators"],
+      "yearsOfExperience": 5
+    },
+    {
+      "id": "skill-003",
+      "name": "React",
+      "category": "framework",
+      "level": "expert",
+      "keywords": ["Hooks", "Context API", "Redux", "Testing"],
+      "yearsOfExperience": 6
+    },
+    {
+      "id": "skill-004",
+      "name": "Node.js",
+      "category": "technical",
+      "level": "advanced",
+      "keywords": ["Express", "API Development", "Microservices", "Performance"],
+      "yearsOfExperience": 6
+    },
+    {
+      "id": "skill-005",
+      "name": "PostgreSQL",
+      "category": "technical",
+      "level": "intermediate",
+      "keywords": ["Query Optimization", "Indexing", "Relationships", "Migrations"],
+      "yearsOfExperience": 4
+    },
+    {
+      "id": "skill-006",
+      "name": "AWS",
+      "category": "tool",
+      "level": "intermediate",
+      "keywords": ["EC2", "S3", "Lambda", "RDS", "CloudFormation"],
+      "yearsOfExperience": 3
+    },
+    {
+      "id": "skill-007",
+      "name": "Docker",
+      "category": "tool",
+      "level": "intermediate",
+      "keywords": ["Containerization", "Docker Compose", "Multi-stage builds"],
+      "yearsOfExperience": 4
+    },
+    {
+      "id": "skill-008",
+      "name": "Team Leadership",
+      "category": "soft",
+      "level": "advanced",
+      "keywords": ["Mentoring", "Code Reviews", "Project Planning", "Agile"],
+      "yearsOfExperience": 3
+    },
+    {
+      "id": "skill-009",
+      "name": "Problem Solving",
+      "category": "soft",
+      "level": "expert",
+      "keywords": ["Debugging", "System Design", "Critical Thinking", "Innovation"],
+      "yearsOfExperience": 8
+    },
+    {
+      "id": "skill-010",
+      "name": "Communication",
+      "category": "soft",
+      "level": "advanced",
+      "keywords": ["Technical Writing", "Presentations", "Cross-team Collaboration"],
+      "yearsOfExperience": 8
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-001",
+      "name": "E-commerce Platform",
+      "description": "Full-stack e-commerce platform with real-time inventory management and payment processing",
+      "role": "Lead Developer",
+      "startDate": "2023-01-01T00:00:00.000Z",
+      "endDate": "2023-08-31T00:00:00.000Z",
+      "isOngoing": false,
+      "technologies": [
+        "React",
+        "Node.js",
+        "PostgreSQL",
+        "Stripe API",
+        "Redis",
+        "Docker"
+      ],
+      "achievements": [
+        "Processed over $1M in transactions within first 6 months",
+        "Achieved 99.9% uptime with robust error handling",
+        "Implemented advanced search and filtering capabilities",
+        "Integrated with multiple payment providers"
+      ],
+      "url": "https://demo.ecommerce-platform.com",
+      "repository": "https://github.com/alexjohnson/ecommerce-platform"
+    },
+    {
+      "id": "project-002",
+      "name": "Task Management SaaS",
+      "description": "Collaborative task management application with real-time updates and team analytics",
+      "role": "Full Stack Developer",
+      "startDate": "2022-09-01T00:00:00.000Z",
+      "endDate": null,
+      "isOngoing": true,
+      "technologies": [
+        "Vue.js",
+        "Express",
+        "MongoDB",
+        "Socket.io",
+        "Chart.js",
+        "AWS"
+      ],
+      "achievements": [
+        "Built real-time collaboration features for teams up to 50 members",
+        "Implemented comprehensive analytics dashboard",
+        "Achieved sub-100ms response times for core operations",
+        "Developed mobile-responsive design"
+      ],
+      "url": "https://taskmaster-saas.com",
+      "repository": "https://github.com/alexjohnson/taskmaster-saas"
+    },
+    {
+      "id": "project-003",
+      "name": "Open Source UI Component Library",
+      "description": "Reusable React component library with comprehensive documentation and testing",
+      "role": "Maintainer",
+      "startDate": "2021-03-01T00:00:00.000Z",
+      "endDate": null,
+      "isOngoing": true,
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Storybook",
+        "Jest",
+        "Rollup",
+        "CSS-in-JS"
+      ],
+      "achievements": [
+        "Over 5000 weekly downloads on npm",
+        "100% test coverage with automated testing",
+        "Comprehensive documentation with live examples",
+        "Active community with 50+ contributors"
+      ],
+      "url": "https://ui-lib.alexjohnson.dev",
+      "repository": "https://github.com/alexjohnson/react-ui-lib"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-001",
+      "name": "AWS Certified Solutions Architect - Associate",
+      "issuer": "Amazon Web Services",
+      "issueDate": "2023-03-15T00:00:00.000Z",
+      "expiryDate": "2026-03-15T00:00:00.000Z",
+      "credentialId": "AWS-ASA-123456789",
+      "credentialUrl": "https://aws.amazon.com/verification/AWS-ASA-123456789",
+      "description": "Demonstrates ability to design distributed systems on AWS platform"
+    },
+    {
+      "id": "cert-002",
+      "name": "Professional Scrum Master I",
+      "issuer": "Scrum.org",
+      "issueDate": "2022-08-20T00:00:00.000Z",
+      "expiryDate": null,
+      "credentialId": "PSM-I-987654321",
+      "credentialUrl": "https://scrum.org/certificates/PSM-I-987654321",
+      "description": "Certified in Scrum framework and agile development practices"
+    },
+    {
+      "id": "cert-003",
+      "name": "React Developer Certification",
+      "issuer": "Meta",
+      "issueDate": "2021-11-10T00:00:00.000Z",
+      "expiryDate": "2024-11-10T00:00:00.000Z",
+      "credentialId": "META-REACT-456789123",
+      "credentialUrl": "https://developers.facebook.com/certification/META-REACT-456789123",
+      "description": "Advanced React development skills certification"
+    }
+  ],
+  "languages": [
+    {
+      "id": "lang-001",
+      "name": "English",
+      "level": "native",
+      "certifications": []
+    },
+    {
+      "id": "lang-002",
+      "name": "Spanish",
+      "level": "conversational",
+      "certifications": ["DELE B2"]
+    },
+    {
+      "id": "lang-003",
+      "name": "French",
+      "level": "basic",
+      "certifications": []
+    }
+  ],
+  "references": [
+    {
+      "id": "ref-001",
+      "name": "Sarah Chen",
+      "position": "Engineering Manager",
+      "company": "TechCorp Inc.",
+      "email": "sarah.chen@techcorp.com",
+      "phone": "+1 (555) 987-6543",
+      "relationship": "Direct Manager"
+    },
+    {
+      "id": "ref-002",
+      "name": "Michael Rodriguez",
+      "position": "CTO",
+      "company": "StartupXYZ",
+      "email": "michael@startupxyz.com",
+      "phone": "+1 (555) 456-7890",
+      "relationship": "Former Supervisor"
+    },
+    {
+      "id": "ref-003",
+      "name": "Jennifer Kim",
+      "position": "Senior Frontend Developer",
+      "company": "TechCorp Inc.",
+      "email": "jennifer.kim@techcorp.com",
+      "relationship": "Colleague"
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-11-06T00:00:00.000Z",
+  "version": "1.0.0",
+  "isTemplate": true,
+  "templateName": "Master CV Template"
+}
