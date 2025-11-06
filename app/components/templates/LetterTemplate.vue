@@ -139,10 +139,13 @@ const formatDate = (date: string | Date): string => {
 </script>
 
 <style scoped>
+@reference "~/assets/css/main.css";
+
 .letter-template {
-  @apply max-w-4xl mx-auto bg-white p-8 shadow-sm font-serif text-gray-900;
+  @apply mx-auto bg-white p-8 shadow-sm font-serif text-gray-900;
   font-family: 'Times New Roman', Times, serif;
   line-height: 1.6;
+  max-width: 56rem; /* Equivalent to max-w-4xl */
 }
 
 /* Header Section */

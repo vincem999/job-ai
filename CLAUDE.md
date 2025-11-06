@@ -16,6 +16,7 @@ For this project, prioritize these libraries:
 - `/microsoft/TypeScript` - For TypeScript guidance
 - `/vitejs/vite` - For Vite build tool (used by Nuxt)
 - `tailwindcss.com/docs`- For Tailwind CSS
+- `/vercel/vercel`- For Vercel
 
 ## Error Handling Policy
 
@@ -241,3 +242,24 @@ The project is a fresh Nuxt 4 setup with the default welcome page. According to 
 - Follow the existing ESLint configuration
 - Use Vue 3 Composition API patterns
 - Prefer TypeScript interfaces over types where appropriate
+
+### Tailwind CSS v4 Specific Rules
+
+**CRITICAL**: When using Tailwind CSS classes in Vue components with `<style scoped>`, you MUST add the reference directive at the top of the style block:
+
+```vue
+<style scoped>
+@reference "~/assets/css/main.css";
+
+.your-class {
+  @apply bg-white text-black;
+}
+</style>
+```
+
+**Why this is needed**: Tailwind CSS v4 requires the `@reference` directive to make Tailwind classes available in scoped styles. Without it, you'll get build errors like "Cannot apply unknown utility class bg-white".
+
+**Examples of when to use**:
+- Any Vue component using `@apply` with Tailwind classes
+- Components with scoped styles that reference Tailwind utilities
+- Template components like CVTemplate.vue, LetterTemplate.vue, etc.
