@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+
+  // Nuxt 4 modules
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
+
+  // Global CSS
   css: ['~/assets/css/main.css'],
 
   // Runtime configuration for environment variables
@@ -12,11 +16,39 @@ export default defineNuxtConfig({
     openaiApiKey: process.env.OPENAI_API_KEY || '', // OpenAI API key for job analysis and document generation
     perplexityApiKey: process.env.PERPLEXITY_API_KEY || '', // Perplexity API key for research features
 
+    // Future environment variables (currently unused but defined for Phase 2+)
+    redisUrl: process.env.UPSTASH_REDIS_URL || '',
+    redisToken: process.env.UPSTASH_REDIS_TOKEN || '',
+    sentryDsn: process.env.SENTRY_DSN || '',
+
     // Public keys (exposed to client if needed)
     // These values are accessible via useRuntimeConfig() in both client and server
     public: {
-      appName: 'Job Finder',
-      appVersion: '1.0.0'
+      appName: 'CV Optimizer',
+      appVersion: '1.0.0',
+      appDescription: 'AI-powered CV and cover letter generator'
     }
+  },
+
+  // Nitro server configuration for deployment
+  nitro: {
+    preset: 'vercel', // Optimized for Vercel deployment
+
+    // Server route rules for API optimization
+    routeRules: {
+      '/api/**': {
+        cors: true,
+        headers: {
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      }
+    }
+  },
+
+  // TypeScript configuration
+  typescript: {
+    strict: true,
+    typeCheck: true
   }
 })
