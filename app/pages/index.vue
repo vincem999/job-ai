@@ -46,24 +46,8 @@
       <!-- Hero Section -->
       <LandingHero />
 
-      <!-- Tech Stack Section (Placeholder) -->
-      <section class="py-16 bg-white dark:bg-gray-800">
-        <UContainer>
-          <div class="text-center">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Built with Modern Technology
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              Powered by cutting-edge tools and frameworks
-            </p>
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-8">
-              <p class="text-gray-500 dark:text-gray-400 italic">
-                🔧 TechStack component coming soon - showcasing Nuxt 4, Vue 3, TypeScript, OpenAI API, and more
-              </p>
-            </div>
-          </div>
-        </UContainer>
-      </section>
+      <!-- Tech Stack Section -->
+      <LandingTechStack />
 
       <!-- Demo Preview Section (Placeholder) -->
       <section class="py-16 bg-gray-50 dark:bg-gray-900">

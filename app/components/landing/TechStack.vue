@@ -1,0 +1,157 @@
+<template>
+  <section class="py-16 bg-white dark:bg-gray-900">
+    <UContainer>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Built with Modern Technologies
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Leveraging cutting-edge technologies to deliver a fast, reliable, and scalable solution
+          for your CV optimization needs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        <!-- Frontend Technologies -->
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-green-100 dark:bg-green-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-zap" class="w-10 h-10 text-green-600 dark:text-green-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Nuxt 4</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Full-stack framework with SSR
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-green-100 dark:bg-green-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-triangle" class="w-10 h-10 text-green-600 dark:text-green-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vue 3</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Progressive JavaScript framework
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-blue-100 dark:bg-blue-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-code-xml" class="w-10 h-10 text-blue-600 dark:text-blue-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">TypeScript</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Type-safe development
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-cyan-100 dark:bg-cyan-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-palette" class="w-10 h-10 text-cyan-600 dark:text-cyan-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Tailwind CSS</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Utility-first styling
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-purple-100 dark:bg-purple-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-component" class="w-10 h-10 text-purple-600 dark:text-purple-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Nuxt UI</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Beautiful UI components
+          </p>
+        </div>
+
+        <!-- Backend & AI Technologies -->
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-orange-100 dark:bg-orange-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-brain" class="w-10 h-10 text-orange-600 dark:text-orange-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">OpenAI</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            AI-powered analysis
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-database" class="w-10 h-10 text-yellow-600 dark:text-yellow-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Pinia</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            State management
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-indigo-100 dark:bg-indigo-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-shield-check" class="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Zod</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Schema validation
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-red-100 dark:bg-red-900 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-flask-conical" class="w-10 h-10 text-red-600 dark:text-red-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vitest</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Unit testing framework
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 mb-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform duration-200">
+            <UIcon name="i-lucide-rocket" class="w-10 h-10 text-gray-600 dark:text-gray-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vite</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+            Lightning-fast build tool
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Benefits -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
+            <UIcon name="i-lucide-zap" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Performance First</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            Built with Nuxt 4 and Vite for lightning-fast loading and optimal user experience.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
+            <UIcon name="i-lucide-shield" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Type Safe</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            TypeScript and Zod ensure robust, error-free code with comprehensive validation.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
+            <UIcon name="i-lucide-brain" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">AI-Powered</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            Leverages OpenAI's advanced models for intelligent job analysis and CV optimization.
+          </p>
+        </div>
+      </div>
+    </UContainer>
+  </section>
+</template>
+
+<script setup lang="ts">
+// TechStack component showcases the technologies used in the application
+// Provides visual representation of the modern tech stack with descriptions
+</script>
