@@ -1,6 +1,17 @@
 import { z } from 'zod'
 
 /**
+ * Schema for validating address information
+ */
+const AddressSchema = z.object({
+  street: z.string().optional(),
+  city: z.string().min(1, 'City is required'),
+  state: z.string().optional(),
+  zipCode: z.string().optional(),
+  country: z.string().min(1, 'Country is required'),
+})
+
+/**
  * Schema for validating personal information in a CV
  */
 const PersonalInfoSchema = z.object({
@@ -8,36 +19,44 @@ const PersonalInfoSchema = z.object({
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email format'),
   phone: z.string().optional(),
-  location: z.string().optional(),
-  website: z.string().url().optional(),
+  address: AddressSchema.optional(),
   linkedin: z.string().url().optional(),
   github: z.string().url().optional(),
+  website: z.string().url().optional(),
+  summary: z.string().optional(),
 })
 
 /**
  * Schema for validating work experience entries
  */
 const WorkExperienceSchema = z.object({
+  id: z.string().min(1, 'Work experience ID is required'),
   company: z.string().min(1, 'Company name is required'),
   position: z.string().min(1, 'Position is required'),
-  startDate: z.string().min(1, 'Start date is required'),
-  endDate: z.string().optional(),
-  current: z.boolean().default(false),
-  description: z.string().optional(),
-  achievements: z.array(z.string()).default([]),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  isCurrentPosition: z.boolean().default(false),
   location: z.string().optional(),
+  description: z.string().min(1, 'Description is required'),
+  achievements: z.array(z.string()).default([]),
+  skills: z.array(z.string()).default([]),
+  technologies: z.array(z.string()).default([]),
 })
 
 /**
  * Schema for validating education entries
  */
 const EducationSchema = z.object({
+  id: z.string().min(1, 'Education ID is required'),
   institution: z.string().min(1, 'Institution name is required'),
   degree: z.string().min(1, 'Degree is required'),
-  field: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  gpa: z.string().optional(),
+  field: z.string().min(1, 'Field is required'),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  isCurrentEducation: z.boolean().default(false),
+  gpa: z.number().optional(),
+  honors: z.array(z.string()).default([]),
+  relevantCourses: z.array(z.string()).default([]),
   description: z.string().optional(),
 })
 
@@ -45,56 +64,71 @@ const EducationSchema = z.object({
  * Schema for validating skills
  */
 const SkillSchema = z.object({
+  id: z.string().min(1, 'Skill ID is required'),
   name: z.string().min(1, 'Skill name is required'),
-  level: z.enum(['Beginner', 'Intermediate', 'Advanced', 'Expert']).optional(),
-  category: z.string().optional(),
+  level: z.enum(['beginner', 'intermediate', 'advanced', 'expert', 'professional']),
+  category: z.string().min(1, 'Category is required'),
+  keywords: z.array(z.string()).default([]),
+  yearsOfExperience: z.number().optional(),
 })
 
 /**
  * Schema for validating certifications
  */
 const CertificationSchema = z.object({
+  id: z.string().min(1, 'Certification ID is required'),
   name: z.string().min(1, 'Certification name is required'),
   issuer: z.string().min(1, 'Issuer is required'),
-  date: z.string().optional(),
-  expiryDate: z.string().optional(),
+  issueDate: z.date(),
+  expiryDate: z.date().optional(),
   credentialId: z.string().optional(),
-  url: z.string().url().optional(),
+  verificationUrl: z.string().url().optional(),
+  description: z.string().optional(),
 })
 
 /**
  * Schema for validating projects
  */
 const ProjectSchema = z.object({
+  id: z.string().min(1, 'Project ID is required'),
   name: z.string().min(1, 'Project name is required'),
-  description: z.string().optional(),
+  description: z.string().min(1, 'Project description is required'),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  isCurrentProject: z.boolean().default(false),
   technologies: z.array(z.string()).default([]),
+  role: z.string().optional(),
+  teamSize: z.number().optional(),
+  achievements: z.array(z.string()).default([]),
   url: z.string().url().optional(),
   github: z.string().url().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
 })
 
 /**
  * Schema for validating languages
  */
 const LanguageSchema = z.object({
+  id: z.string().min(1, 'Language ID is required'),
   name: z.string().min(1, 'Language name is required'),
-  level: z.enum(['Basic', 'Conversational', 'Professional', 'Native']).optional(),
+  level: z.enum(['basic', 'conversational', 'professional', 'native']),
+  certifications: z.array(z.string()).default([]),
 })
 
 /**
  * Complete CV schema that validates the entire CV structure
  */
 export const CVSchema = z.object({
+  id: z.string().min(1, 'CV ID is required'),
   personalInfo: PersonalInfoSchema,
-  summary: z.string().optional(),
   workExperience: z.array(WorkExperienceSchema).default([]),
   education: z.array(EducationSchema).default([]),
   skills: z.array(SkillSchema).default([]),
   certifications: z.array(CertificationSchema).default([]),
   projects: z.array(ProjectSchema).default([]),
   languages: z.array(LanguageSchema).default([]),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  version: z.string().min(1, 'Version is required'),
 })
 
 /**
