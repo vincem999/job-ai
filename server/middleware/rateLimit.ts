@@ -1,4 +1,5 @@
-import { defineEventHandler, getRequestIP, createError, getRequestURL } from 'h3'
+import { defineEventHandler, getRequestIP, getRequestURL } from 'h3'
+import { createError as createAppError } from './errorHandler'
 
 // In-memory store for rate limiting (for development)
 // In production, consider using Redis or another persistent store
@@ -52,11 +53,7 @@ export default defineEventHandler(async (event) => {
       event.node.res.setHeader('X-RateLimit-Reset', Math.ceil(rateLimitData.banUntil / 1000).toString())
     }
 
-    throw createError({
-      statusCode: 429,
-      statusMessage: 'Too Many Requests',
-      message: RATE_LIMIT_CONFIG.message
-    })
+    throw createAppError.rateLimit(Math.ceil((rateLimitData.banUntil - now) / 1000))
   }
 
   // Clear expired ban and reset window
@@ -98,11 +95,7 @@ export default defineEventHandler(async (event) => {
       event.node.res.setHeader('X-RateLimit-Remaining', '0')
     }
 
-    throw createError({
-      statusCode: 429,
-      statusMessage: 'Too Many Requests',
-      message: RATE_LIMIT_CONFIG.message
-    })
+    throw createAppError.rateLimit(Math.ceil(RATE_LIMIT_CONFIG.banDurationMs / 1000))
   }
 })
 

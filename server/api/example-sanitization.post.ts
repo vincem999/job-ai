@@ -9,6 +9,7 @@ import {
   sanitizeEmail,
   sanitizeUrl
 } from '../utils/validation/sanitize';
+import { handleError, createError } from '../middleware/errorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -59,44 +60,32 @@ export default defineEventHandler(async (event) => {
     return result;
 
   } catch (error) {
-    // Handle sanitization errors (e.g., invalid email, invalid URL)
+    // Handle specific sanitization errors with appropriate error types
     if (error instanceof Error) {
       if (error.message.includes('Invalid email format')) {
-        setResponseStatus(event, 400);
-        return {
-          success: false,
-          error: 'Invalid email address provided',
-          code: 'INVALID_EMAIL'
-        };
+        return handleError(createError.validation('Invalid email address provided', {
+          field: 'email',
+          value: error.message
+        }), event);
       }
 
       if (error.message.includes('Invalid URL')) {
-        setResponseStatus(event, 400);
-        return {
-          success: false,
-          error: 'Invalid URL provided',
-          code: 'INVALID_URL'
-        };
+        return handleError(createError.validation('Invalid URL provided', {
+          field: 'website',
+          value: error.message
+        }), event);
       }
 
       if (error.message.includes('Input contains invalid characters')) {
-        setResponseStatus(event, 400);
-        return {
-          success: false,
-          error: 'Input contains invalid characters',
-          code: 'INVALID_INPUT'
-        };
+        return handleError(createError.validation('Input contains invalid characters', {
+          field: 'input',
+          value: error.message
+        }), event);
       }
     }
 
-    // Log the error for debugging (in production, use proper error logging)
+    // Log and handle unknown errors
     console.error('Sanitization error:', error);
-
-    setResponseStatus(event, 500);
-    return {
-      success: false,
-      error: 'Internal server error during input processing',
-      code: 'PROCESSING_ERROR'
-    };
+    return handleError(error, event);
   }
 });

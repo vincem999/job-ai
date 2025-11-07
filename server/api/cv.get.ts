@@ -1,4 +1,5 @@
 import { useMasterCV } from '../utils/cv/composable'
+import { handleError, createError } from '../middleware/errorHandler'
 
 /**
  * API endpoint to serve the master CV data
@@ -15,11 +16,10 @@ export default defineEventHandler(async (event) => {
     if (!status.ready) {
       console.error('❌ API: CV not ready -', status)
 
-      return {
-        success: false,
-        error: status.error || 'CV data is not available',
-        status
-      }
+      throw createError.server(
+        status.error || 'CV data is not available',
+        status.error ? new Error(status.error) : undefined
+      )
     }
 
     // Get the CV data
@@ -38,20 +38,7 @@ export default defineEventHandler(async (event) => {
     }
   }
   catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
-    console.error('❌ API: Failed to get CV data:', errorMessage)
-
-    // Set error status
-    setResponseStatus(event, 500)
-
-    return {
-      success: false,
-      error: errorMessage,
-      status: {
-        loaded: false,
-        ready: false,
-        error: errorMessage
-      }
-    }
+    console.error('❌ API: Failed to get CV data:', error)
+    return handleError(error, event)
   }
 })
