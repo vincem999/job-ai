@@ -49,24 +49,8 @@
       <!-- Tech Stack Section -->
       <LandingTechStack />
 
-      <!-- Demo Preview Section (Placeholder) -->
-      <section class="py-16 bg-gray-50 dark:bg-gray-900">
-        <UContainer>
-          <div class="text-center">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              See It In Action
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              Watch how our AI analyzes job offers and generates tailored documents
-            </p>
-            <div class="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-700">
-              <p class="text-gray-500 dark:text-gray-400 italic">
-                🎬 DemoPreview component coming soon - interactive demo of the CV generation process
-              </p>
-            </div>
-          </div>
-        </UContainer>
-      </section>
+      <!-- Demo Preview Section -->
+      <LandingDemoPreview />
 
       <!-- Developer Profile Section (Placeholder) -->
       <section class="py-16 bg-white dark:bg-gray-800">
