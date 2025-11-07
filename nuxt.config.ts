@@ -46,6 +46,20 @@ export default defineNuxtConfig({
     }
   },
 
+  // Auto-import configuration
+  imports: {
+    dirs: [
+      // Only scan specific directories and patterns
+      'composables',
+      'utils',
+      'stores',
+      // Scan server utils but exclude validation directory to prevent README import
+      'server/utils/!(validation)',
+      // Explicitly include validation index file only
+      'server/utils/validation/index.{ts,js,mjs,mts}'
+    ]
+  },
+
   // TypeScript configuration
   typescript: {
     strict: true,

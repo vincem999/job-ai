@@ -213,7 +213,7 @@ function validateMetadata(cv: any, result: CVValidationResult): void {
  * Add warnings for recommended fields
  */
 function addRecommendationWarnings(cv: any, result: CVValidationResult): void {
-  if (!cv.summary?.trim()) {
+  if (!cv.personalInfo?.summary?.trim()) {
     result.warnings.push(RECOMMENDED_CV_FIELDS.personalInfo.summary)
   }
 

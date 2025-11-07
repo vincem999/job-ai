@@ -322,8 +322,8 @@
       "id": "cert-003",
       "name": "React Developer Certification",
       "issuer": "Meta",
-      "issueDate": "2021-11-10T00:00:00.000Z",
-      "expiryDate": "2024-11-10T00:00:00.000Z",
+      "issueDate": "2024-11-10T00:00:00.000Z",
+      "expiryDate": "2027-11-10T00:00:00.000Z",
       "credentialId": "META-REACT-456789123",
       "credentialUrl": "https://developers.facebook.com/certification/META-REACT-456789123",
       "description": "Advanced React development skills certification"

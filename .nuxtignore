@@ -1,0 +1,9 @@
+# Ignore README files to prevent auto-import warnings
+server/utils/validation/README.md
+**/README.md
+**/readme.md
+**/*.md
+
+# Ignore test files
+**/*.test.ts
+**/*.spec.ts
