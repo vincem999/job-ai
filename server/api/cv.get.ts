@@ -1,6 +1,6 @@
 import { defineEventHandler } from 'h3'
 import { useMasterCV } from '../utils/cv/composable'
-import { handleError, createError } from '../utils/errorHandler'
+import { handleError, createAppError } from '../utils/errorHandler'
 
 /**
  * API endpoint to serve the master CV data
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     if (!status.ready) {
       console.error('❌ API: CV not ready -', status)
 
-      throw createError.server(
+      throw createAppError.server(
         status.error || 'CV data is not available',
         status.error ? new Error(status.error) : undefined
       )

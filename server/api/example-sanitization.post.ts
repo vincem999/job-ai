@@ -10,7 +10,7 @@ import {
   sanitizeEmail,
   sanitizeUrl
 } from '../utils/validation/sanitize';
-import { handleError, createError } from '../utils/errorHandler';
+import { handleError, createAppError } from '../utils/errorHandler';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -64,21 +64,21 @@ export default defineEventHandler(async (event) => {
     // Handle specific sanitization errors with appropriate error types
     if (error instanceof Error) {
       if (error.message.includes('Invalid email format')) {
-        return handleError(createError.validation('Invalid email address provided', {
+        return handleError(createAppError.validation('Invalid email address provided', {
           field: 'email',
           value: error.message
         }), event);
       }
 
       if (error.message.includes('Invalid URL')) {
-        return handleError(createError.validation('Invalid URL provided', {
+        return handleError(createAppError.validation('Invalid URL provided', {
           field: 'website',
           value: error.message
         }), event);
       }
 
       if (error.message.includes('Input contains invalid characters')) {
-        return handleError(createError.validation('Input contains invalid characters', {
+        return handleError(createAppError.validation('Input contains invalid characters', {
           field: 'input',
           value: error.message
         }), event);

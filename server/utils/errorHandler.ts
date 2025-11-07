@@ -210,7 +210,7 @@ export const handleError: ErrorHandler = (
 /**
  * Error factory for creating common errors
  */
-export const createError: ErrorFactory = {
+export const createAppError: ErrorFactory = {
   validation: (message: string, context?: Record<string, unknown>): AppError => ({
     code: ErrorCode.VALIDATION_ERROR,
     message,
