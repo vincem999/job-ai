@@ -1,5 +1,5 @@
 import { defineEventHandler, getRequestIP, getRequestURL } from 'h3'
-import { createError as createAppError } from './errorHandler'
+import { createError as createAppError } from '../utils/errorHandler'
 
 // In-memory store for rate limiting (for development)
 // In production, consider using Redis or another persistent store

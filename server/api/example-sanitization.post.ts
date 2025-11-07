@@ -3,13 +3,14 @@
  * This shows how to use the sanitization utility in a real Nuxt API endpoint
  */
 
+import { defineEventHandler, readBody } from 'h3'
 import {
   sanitizeInput,
   sanitizeForDatabase,
   sanitizeEmail,
   sanitizeUrl
 } from '../utils/validation/sanitize';
-import { handleError, createError } from '../middleware/errorHandler';
+import { handleError, createError } from '../utils/errorHandler';
 
 export default defineEventHandler(async (event) => {
   try {

@@ -1,5 +1,6 @@
+import { defineEventHandler } from 'h3'
 import { useMasterCV } from '../utils/cv/composable'
-import { handleError, createError } from '../middleware/errorHandler'
+import { handleError, createError } from '../utils/errorHandler'
 
 /**
  * API endpoint to serve the master CV data
