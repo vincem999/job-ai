@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-11-08T14:48:36.738Z",
+  "passed": false,
+  "summary": {
+    "totalTests": 2,
+    "passed": 0,
+    "failed": 2
+  },
+  "thresholds": {
+    "performance": 85,
+    "accessibility": 90,
+    "bestPractices": 90,
+    "seo": 90,
+    "firstContentfulPaint": 1500,
+    "timeToInteractive": 3000,
+    "largestContentfulPaint": 2500,
+    "cumulativeLayoutShift": 0.1
+  },
+  "results": [
+    {
+      "url": "http://localhost:3000",
+      "error": "ENOENT: no such file or directory, open '/Users/vmonneger/Developpement/perso/job-finder/reports/lighthouse-http---localhost-3000.json'",
+      "timestamp": "2025-11-08T14:48:17.248Z"
+    },
+    {
+      "url": "http://localhost:3000/dashboard",
+      "error": "ENOENT: no such file or directory, open '/Users/vmonneger/Developpement/perso/job-finder/reports/lighthouse-http---localhost-3000-dashboard.json'",
+      "timestamp": "2025-11-08T14:48:36.738Z"
+    }
+  ],
+  "failures": [
+    "http://localhost:3000: Test failed - ENOENT: no such file or directory, open '/Users/vmonneger/Developpement/perso/job-finder/reports/lighthouse-http---localhost-3000.json'",
+    "http://localhost:3000/dashboard: Test failed - ENOENT: no such file or directory, open '/Users/vmonneger/Developpement/perso/job-finder/reports/lighthouse-http---localhost-3000-dashboard.json'"
+  ]
+}
