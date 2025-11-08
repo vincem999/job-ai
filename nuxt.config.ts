@@ -64,5 +64,18 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true
+  },
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: 'vincent-9k',
+      project: 'javascript-nuxt'
+    },
+
+    autoInjectServerSentry: 'top-level-import'
+  },
+
+  sourcemap: {
+    client: 'hidden'
   }
 })

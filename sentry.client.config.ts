@@ -1,8 +1,9 @@
-import * as Sentry from '@sentry/nuxt'
+import * as Sentry from "@sentry/nuxt";
 
 Sentry.init({
-  // Replace with your actual DSN
-  dsn: process.env.SENTRY_DSN,
+  // If set up, you can use your runtime config here
+  // dsn: useRuntimeConfig().public.sentry.dsn,
+  dsn: "https://df26056365210943660cf4c8810e0649@o4510326609608704.ingest.de.sentry.io/4510326611574864",
 
   // Set environment to distinguish between dev/prod
   environment: process.env.NODE_ENV || 'development',
@@ -11,14 +12,26 @@ Sentry.init({
   // for finer control
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
 
-  // Capture Console API calls and session replays
-  integrations: [
-    Sentry.replayIntegration(),
-  ],
+  // This sets the sample rate to be 10%. You may want this to be 100% while
+  // in development and sample at a lower rate in production
+  replaysSessionSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0.1,
 
-  // Set sample rate for profiling
-  // This is relative to tracesSampleRate
-  profilesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
+  // If the entire session is not sampled, use the below sample rate to sample
+  // sessions when an error occurs.
+  replaysOnErrorSampleRate: 1.0,
+
+  // If you don't want to use Session Replay, just remove the line below:
+  integrations: [Sentry.replayIntegration()],
+
+  // Enable logs to be sent to Sentry
+  enableLogs: true,
+
+  // Enable sending of user PII (Personally Identifiable Information)
+  // https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#sendDefaultPii
+  sendDefaultPii: false, // Changed to false for better privacy
+
+  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  debug: process.env.NODE_ENV === 'development',
 
   // Filter out sensitive data and noise
   beforeSend(event) {
@@ -42,7 +55,4 @@ Sentry.init({
 
     return event
   },
-
-  // Enable debug mode in development
-  debug: process.env.NODE_ENV === 'development',
-})
+});
