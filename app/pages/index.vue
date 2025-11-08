@@ -52,24 +52,8 @@
       <!-- Demo Preview Section -->
       <LandingDemoPreview />
 
-      <!-- Developer Profile Section (Placeholder) -->
-      <section class="py-16 bg-white dark:bg-gray-800">
-        <UContainer>
-          <div class="text-center">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              About the Developer
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              Built by passionate developers for job seekers
-            </p>
-            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-8">
-              <p class="text-gray-500 dark:text-gray-400 italic">
-                👨‍💻 DeveloperProfile component coming soon - developer introduction, links, and background
-              </p>
-            </div>
-          </div>
-        </UContainer>
-      </section>
+      <!-- Developer Profile Section -->
+      <LandingDeveloperProfile />
     </main>
 
     <!-- Footer Section -->
