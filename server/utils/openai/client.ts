@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { retryWithBackoff } from './errorRecovery'
 
 /**
  * Singleton instance of the OpenAI client
@@ -75,4 +76,67 @@ export function getOpenAIClient(): OpenAI {
  */
 export function resetOpenAIClient(): void {
   openaiClient = null
+}
+
+/**
+ * Creates a chat completion with automatic retry logic for handling transient failures.
+ *
+ * This function wraps the OpenAI chat.completions.create method with comprehensive
+ * retry logic that handles rate limits, server errors, and network failures gracefully.
+ *
+ * Features:
+ * - Exponential backoff with jitter to prevent thundering herd
+ * - Respects rate limit retry-after headers
+ * - Configurable retry attempts and timing
+ * - Detailed logging for debugging and monitoring
+ * - Type-safe parameters and responses
+ *
+ * @param params - OpenAI chat completion parameters
+ * @param retryOptions - Optional retry configuration
+ * @returns Promise resolving to the chat completion response
+ *
+ * @example
+ * ```typescript
+ * const completion = await createChatCompletionWithRetry({
+ *   model: 'gpt-4o-mini',
+ *   messages: [{ role: 'user', content: 'Hello!' }],
+ *   temperature: 0.7,
+ *   max_tokens: 1000
+ * }, {
+ *   maxRetries: 5,
+ *   initialDelay: 1000
+ * })
+ * ```
+ */
+export async function createChatCompletionWithRetry(
+  params: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming,
+  retryOptions: {
+    /** Maximum number of retry attempts (default: 3) */
+    maxRetries?: number
+    /** Initial delay in milliseconds (default: 1000) */
+    initialDelay?: number
+    /** Maximum delay cap in milliseconds (default: 30000) */
+    maxDelay?: number
+    /** Enable jitter to prevent thundering herd (default: true) */
+    jitter?: boolean
+  } = {}
+): Promise<OpenAI.Chat.Completions.ChatCompletion> {
+  const client = getOpenAIClient()
+
+  return retryWithBackoff(
+    async () => {
+      console.log(`🤖 OpenAI: Creating chat completion with model ${params.model}...`)
+      const completion = await client.chat.completions.create(params) as OpenAI.Chat.Completions.ChatCompletion
+      console.log(`✅ OpenAI: Chat completion successful (${completion.usage?.total_tokens || 'unknown'} tokens)`)
+      return completion
+    },
+    {
+      maxRetries: 3,
+      initialDelay: 1000,
+      exponentialBase: 2,
+      maxDelay: 30000,
+      jitter: true,
+      ...retryOptions
+    }
+  )
 }

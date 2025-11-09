@@ -1,15 +1,14 @@
-import { defineEventHandler, readBody } from 'h3'
-import { getOpenAIClient } from '../utils/openai/client'
+import { defineEventHandler } from 'h3'
+import { createChatCompletionWithRetry } from '../utils/openai/client'
 import { generateJobAnalysisPrompt } from '../utils/openai/prompts'
 import { parseOpenAIResponse } from '../utils/openai/parser'
 import {
-  JobAnalysisRequestSchema,
   JobAnalysisResponseSchema,
   type JobAnalysisRequest,
   type JobAnalysisResponse
 } from '../utils/validation/schemas'
-import { handleError, createAppError } from '../utils/errorHandler'
-import { sanitizeForDisplay } from '../utils/validation/sanitize'
+import { handleError } from '../utils/errorHandler'
+import { validateJobAnalysisRequest } from '../utils/validation/middleware'
 
 /**
  * API endpoint to analyze job offers using OpenAI API
@@ -27,41 +26,18 @@ export default defineEventHandler(async (event) => {
   try {
     console.log('🔍 API: Starting job offer analysis...')
 
-    // Parse and validate request body
-    const body = await readBody(event)
-    const validationResult = JobAnalysisRequestSchema.safeParse(body)
+    // Validate and sanitize request body using middleware
+    const sanitizedRequest: JobAnalysisRequest = await validateJobAnalysisRequest(event)
 
-    if (!validationResult.success) {
-      console.error('❌ API: Invalid request data:', validationResult.error.issues)
-      throw createAppError.validation(
-        'Invalid request data',
-        { validationErrors: validationResult.error.issues }
-      )
-    }
-
-    const requestData: JobAnalysisRequest = validationResult.data
-
-    // Sanitize input text to prevent XSS and other issues
-    const sanitizedJobOffer = sanitizeForDisplay(requestData.jobOffer)
-    const sanitizedRequest: JobAnalysisRequest = {
-      ...requestData,
-      jobOffer: sanitizedJobOffer,
-      company: requestData.company ? sanitizeForDisplay(requestData.company) : undefined,
-      position: requestData.position ? sanitizeForDisplay(requestData.position) : undefined,
-      additionalContext: requestData.additionalContext ? sanitizeForDisplay(requestData.additionalContext) : undefined,
-    }
-
-    console.log(`📋 API: Analyzing job offer (${sanitizedJobOffer.length} characters)`)
+    console.log(`📋 API: Analyzing job offer (${sanitizedRequest.jobOffer.length} characters)`)
 
     // Generate prompt for OpenAI
     const prompt = generateJobAnalysisPrompt(sanitizedRequest)
     console.log('📝 API: Generated analysis prompt')
 
-    // Get OpenAI client and make API call
-    const openai = getOpenAIClient()
-
-    console.log('🤖 API: Calling OpenAI API...')
-    const completion = await openai.chat.completions.create({
+    // Make API call with retry logic
+    console.log('🤖 API: Calling OpenAI API with retry logic...')
+    const completion = await createChatCompletionWithRetry({
       model: 'gpt-4o-mini',
       messages: [
         {
@@ -76,9 +52,10 @@ export default defineEventHandler(async (event) => {
       temperature: 0.7,
       max_tokens: 1500,
       response_format: { type: 'json_object' }
+    }, {
+      maxRetries: 5, // Higher retry count for critical analysis
+      initialDelay: 1500
     })
-
-    console.log('✅ API: OpenAI API call successful')
 
     // Parse and validate the response using the existing parser
     const analysisData: JobAnalysisResponse = await parseOpenAIResponse(

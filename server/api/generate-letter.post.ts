@@ -1,13 +1,10 @@
-import { defineEventHandler, readBody } from 'h3'
-import { getOpenAIClient } from '../utils/openai/client'
+import { defineEventHandler } from 'h3'
+import { createChatCompletionWithRetry } from '../utils/openai/client'
 import { generateCoverLetterPrompt } from '../utils/openai/prompts'
 import { parseOpenAIResponse } from '../utils/openai/parser'
-import {
-  CoverLetterRequestSchema,
-  type CoverLetterRequest,
-} from '../utils/validation/schemas'
-import { handleError, createAppError } from '../utils/errorHandler'
-import { sanitizeForDisplay } from '../utils/validation/sanitize'
+import type { CoverLetterRequest } from '../utils/validation/schemas'
+import { handleError } from '../utils/errorHandler'
+import { validateCoverLetterRequest } from '../utils/validation/middleware'
 import { z } from 'zod'
 
 /**
@@ -54,77 +51,8 @@ export default defineEventHandler(async (event) => {
   try {
     console.log('💌 API: Starting cover letter generation...')
 
-    // Parse and validate request body
-    const body = await readBody(event)
-
-    // Transform date strings to Date objects for validation
-    const transformedBody = {
-      ...body,
-      cvData: {
-        ...body.cvData,
-        createdAt: new Date(body.cvData.createdAt),
-        updatedAt: new Date(body.cvData.updatedAt),
-        workExperience: body.cvData.workExperience?.map((exp: any) => ({
-          ...exp,
-          startDate: new Date(exp.startDate),
-          endDate: exp.endDate ? new Date(exp.endDate) : undefined,
-        })) || [],
-        education: body.cvData.education?.map((edu: any) => ({
-          ...edu,
-          startDate: new Date(edu.startDate),
-          endDate: edu.endDate ? new Date(edu.endDate) : undefined,
-        })) || [],
-        certifications: body.cvData.certifications?.map((cert: any) => ({
-          ...cert,
-          issueDate: new Date(cert.issueDate),
-          expiryDate: cert.expiryDate ? new Date(cert.expiryDate) : undefined,
-        })) || [],
-        projects: body.cvData.projects?.map((proj: any) => ({
-          ...proj,
-          startDate: new Date(proj.startDate),
-          endDate: proj.endDate ? new Date(proj.endDate) : undefined,
-        })) || [],
-      }
-    }
-
-    const validationResult = CoverLetterRequestSchema.safeParse(transformedBody)
-
-    if (!validationResult.success) {
-      console.error('❌ API: Invalid request data:', validationResult.error.issues)
-      throw createAppError.validation(
-        'Invalid request data',
-        { validationErrors: validationResult.error.issues }
-      )
-    }
-
-    const requestData: CoverLetterRequest = validationResult.data
-
-    // Sanitize text fields in CV data to prevent XSS
-    const sanitizedRequest: CoverLetterRequest = {
-      ...requestData,
-      cvData: {
-        ...requestData.cvData,
-        personalInfo: {
-          ...requestData.cvData.personalInfo,
-          firstName: sanitizeForDisplay(requestData.cvData.personalInfo.firstName),
-          lastName: sanitizeForDisplay(requestData.cvData.personalInfo.lastName),
-          email: sanitizeForDisplay(requestData.cvData.personalInfo.email),
-          summary: requestData.cvData.personalInfo.summary
-            ? sanitizeForDisplay(requestData.cvData.personalInfo.summary)
-            : undefined,
-        },
-        workExperience: requestData.cvData.workExperience.map(exp => ({
-          ...exp,
-          company: sanitizeForDisplay(exp.company),
-          position: sanitizeForDisplay(exp.position),
-          description: sanitizeForDisplay(exp.description),
-          achievements: exp.achievements.map(achievement => sanitizeForDisplay(achievement)),
-        })),
-      },
-      personalMessage: requestData.personalMessage
-        ? sanitizeForDisplay(requestData.personalMessage)
-        : undefined,
-    }
+    // Validate, transform, and sanitize request body using middleware
+    const sanitizedRequest: CoverLetterRequest = await validateCoverLetterRequest(event)
 
     console.log(`📝 API: Generating cover letter for ${sanitizedRequest.cvData.personalInfo.firstName} ${sanitizedRequest.cvData.personalInfo.lastName}`)
 
@@ -132,11 +60,9 @@ export default defineEventHandler(async (event) => {
     const prompt = generateCoverLetterPrompt(sanitizedRequest, { maxLength: 800 })
     console.log('📝 API: Generated cover letter prompt')
 
-    // Get OpenAI client and make API call
-    const openai = getOpenAIClient()
-
-    console.log('🤖 API: Calling OpenAI API for cover letter generation...')
-    const completion = await openai.chat.completions.create({
+    // Make API call with retry logic
+    console.log('🤖 API: Calling OpenAI API for cover letter generation with retry logic...')
+    const completion = await createChatCompletionWithRetry({
       model: 'gpt-4o-mini',
       messages: [
         {
@@ -151,9 +77,10 @@ export default defineEventHandler(async (event) => {
       temperature: 0.7,
       max_tokens: 2000,
       response_format: { type: 'json_object' }
+    }, {
+      maxRetries: 3, // Standard retry count for letter generation
+      initialDelay: 800
     })
-
-    console.log('✅ API: OpenAI API call successful')
 
     // Log the raw response for debugging
     if (process.env.NODE_ENV === 'development') {

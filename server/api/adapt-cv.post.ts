@@ -1,13 +1,10 @@
-import { defineEventHandler, readBody } from 'h3'
-import { getOpenAIClient } from '../utils/openai/client'
+import { defineEventHandler } from 'h3'
+import { createChatCompletionWithRetry } from '../utils/openai/client'
 import { generateCVAdaptationPrompt } from '../utils/openai/prompts'
 import { parseOpenAIResponse } from '../utils/openai/parser'
-import {
-  CVAdaptationRequestSchema,
-  type CVAdaptationRequest,
-} from '../utils/validation/schemas'
-import { handleError, createAppError } from '../utils/errorHandler'
-import { sanitizeForDisplay } from '../utils/validation/sanitize'
+import type { CVAdaptationRequest } from '../utils/validation/schemas'
+import { handleError } from '../utils/errorHandler'
+import { validateCVAdaptationRequest } from '../utils/validation/middleware'
 import { z } from 'zod'
 
 /**
@@ -62,75 +59,8 @@ export default defineEventHandler(async (event) => {
   try {
     console.log('🎯 API: Starting CV adaptation...')
 
-    // Parse and validate request body
-    const body = await readBody(event)
-
-    // Transform date strings to Date objects for validation
-    const transformedBody = {
-      ...body,
-      cvData: {
-        ...body.cvData,
-        createdAt: new Date(body.cvData.createdAt),
-        updatedAt: new Date(body.cvData.updatedAt),
-        workExperience: body.cvData.workExperience?.map((exp: any) => ({
-          ...exp,
-          startDate: new Date(exp.startDate),
-          endDate: exp.endDate ? new Date(exp.endDate) : undefined,
-        })) || [],
-        education: body.cvData.education?.map((edu: any) => ({
-          ...edu,
-          startDate: new Date(edu.startDate),
-          endDate: edu.endDate ? new Date(edu.endDate) : undefined,
-        })) || [],
-        certifications: body.cvData.certifications?.map((cert: any) => ({
-          ...cert,
-          issueDate: new Date(cert.issueDate),
-          expiryDate: cert.expiryDate ? new Date(cert.expiryDate) : undefined,
-        })) || [],
-        projects: body.cvData.projects?.map((proj: any) => ({
-          ...proj,
-          startDate: new Date(proj.startDate),
-          endDate: proj.endDate ? new Date(proj.endDate) : undefined,
-        })) || [],
-      }
-    }
-
-    const validationResult = CVAdaptationRequestSchema.safeParse(transformedBody)
-
-    if (!validationResult.success) {
-      console.error('❌ API: Invalid request data:', validationResult.error.issues)
-      throw createAppError.validation(
-        'Invalid request data',
-        { validationErrors: validationResult.error.issues }
-      )
-    }
-
-    const requestData: CVAdaptationRequest = validationResult.data
-
-    // Sanitize text fields in CV data to prevent XSS
-    const sanitizedRequest: CVAdaptationRequest = {
-      ...requestData,
-      cvData: {
-        ...requestData.cvData,
-        personalInfo: {
-          ...requestData.cvData.personalInfo,
-          firstName: sanitizeForDisplay(requestData.cvData.personalInfo.firstName),
-          lastName: sanitizeForDisplay(requestData.cvData.personalInfo.lastName),
-          email: sanitizeForDisplay(requestData.cvData.personalInfo.email),
-          summary: requestData.cvData.personalInfo.summary
-            ? sanitizeForDisplay(requestData.cvData.personalInfo.summary)
-            : undefined,
-        },
-        workExperience: requestData.cvData.workExperience.map(exp => ({
-          ...exp,
-          company: sanitizeForDisplay(exp.company),
-          position: sanitizeForDisplay(exp.position),
-          description: sanitizeForDisplay(exp.description),
-          achievements: exp.achievements.map(achievement => sanitizeForDisplay(achievement)),
-        })),
-      },
-      focusAreas: requestData.focusAreas?.map(area => sanitizeForDisplay(area)),
-    }
+    // Validate, transform, and sanitize request body using middleware
+    const sanitizedRequest: CVAdaptationRequest = await validateCVAdaptationRequest(event)
 
     console.log(`📋 API: Adapting CV for ${sanitizedRequest.cvData.personalInfo.firstName} ${sanitizedRequest.cvData.personalInfo.lastName}`)
 
@@ -143,11 +73,9 @@ export default defineEventHandler(async (event) => {
     )
     console.log('📝 API: Generated CV adaptation prompt')
 
-    // Get OpenAI client and make API call
-    const openai = getOpenAIClient()
-
-    console.log('🤖 API: Calling OpenAI API for CV adaptation...')
-    const completion = await openai.chat.completions.create({
+    // Make API call with retry logic
+    console.log('🤖 API: Calling OpenAI API for CV adaptation with retry logic...')
+    const completion = await createChatCompletionWithRetry({
       model: 'gpt-4o-mini',
       messages: [
         {
@@ -162,9 +90,10 @@ export default defineEventHandler(async (event) => {
       temperature: 0.7,
       max_tokens: 2500,
       response_format: { type: 'json_object' }
+    }, {
+      maxRetries: 4, // Medium retry count for CV adaptation
+      initialDelay: 1000
     })
-
-    console.log('✅ API: OpenAI API call successful')
 
     // Log the raw response for debugging
     if (process.env.NODE_ENV === 'development') {
