@@ -1,0 +1,91 @@
+{
+  "cvData": {
+    "id": "master-cv-template-001",
+    "personalInfo": {
+      "firstName": "Alex",
+      "lastName": "Johnson",
+      "email": "alex.johnson@email.com",
+      "phone": "+1 (555) 123-4567",
+      "summary": "Experienced Full Stack Developer with 8+ years of expertise in modern web technologies."
+    },
+    "workExperience": [
+      {
+        "id": "work-001",
+        "company": "TechCorp Inc.",
+        "position": "Senior Full Stack Developer",
+        "startDate": "2022-03-01T00:00:00.000Z",
+        "isCurrentPosition": true,
+        "location": "San Francisco, CA",
+        "description": "Lead development of enterprise web applications using modern JavaScript frameworks.",
+        "achievements": [
+          "Architected microservices reducing latency by 40%",
+          "Led team of 5 developers in agile process"
+        ],
+        "skills": ["Team Leadership", "System Architecture"],
+        "technologies": ["React", "Node.js", "TypeScript", "PostgreSQL"]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-001",
+        "institution": "UC Berkeley",
+        "degree": "Bachelor of Science",
+        "field": "Computer Science",
+        "startDate": "2013-08-01T00:00:00.000Z",
+        "endDate": "2017-05-15T00:00:00.000Z",
+        "isCurrentEducation": false,
+        "honors": ["Dean's List"],
+        "relevantCourses": ["Data Structures", "Web Development"]
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-001",
+        "name": "JavaScript",
+        "category": "technical",
+        "level": "expert",
+        "keywords": ["ES6+", "Async/Await"]
+      },
+      {
+        "id": "skill-002",
+        "name": "React",
+        "category": "framework",
+        "level": "expert",
+        "keywords": ["Hooks", "Context API"]
+      }
+    ],
+    "certifications": [],
+    "projects": [],
+    "languages": [],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-11-06T00:00:00.000Z",
+    "version": "1.0.0"
+  },
+  "jobAnalysis": {
+    "requiredSkills": ["JavaScript", "React", "Node.js", "TypeScript"],
+    "preferredSkills": ["AWS", "Docker", "PostgreSQL"],
+    "responsibilities": [
+      "Develop and maintain web applications",
+      "Work with backend APIs",
+      "Collaborate with design team",
+      "Write clean, maintainable code"
+    ],
+    "requirements": [
+      "5+ years experience in web development",
+      "Strong knowledge of JavaScript frameworks",
+      "Experience with database design",
+      "Bachelor's degree in Computer Science or related field"
+    ],
+    "benefits": ["Health insurance", "401k matching", "Remote work"],
+    "workLocation": "Remote",
+    "workType": "Remote",
+    "experienceLevel": "Senior",
+    "industryKeywords": ["fintech", "frontend", "web development", "saas"],
+    "suggestions": [
+      "Highlight experience with React and Node.js",
+      "Emphasize leadership and mentoring experience",
+      "Show quantifiable achievements"
+    ]
+  },
+  "focusAreas": ["technical skills", "leadership experience"]
+}

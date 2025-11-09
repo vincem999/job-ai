@@ -211,13 +211,6 @@ export function parseJobAnalysisRequest(data: unknown): { success: true; data: J
   return result
 }
 
-/**
- * Utility function to safely parse job analysis response
- */
-export function parseJobAnalysisResponse(data: unknown): { success: true; data: JobAnalysisResponse } | { success: false; error: z.ZodError } {
-  const result = JobAnalysisResponseSchema.safeParse(data)
-  return result
-}
 
 /**
  * Utility function to safely parse CV adaptation request

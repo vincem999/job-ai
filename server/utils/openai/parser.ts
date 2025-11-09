@@ -14,7 +14,7 @@ import {
 export class ParseError extends Error {
   constructor(
     message: string,
-    public readonly cause?: unknown,
+    public override readonly cause?: unknown,
     public readonly context?: Record<string, unknown>
   ) {
     super(message)
@@ -126,7 +126,7 @@ export async function parseClaudeJSON<T>(
     // Step 1: Extract JSON from markdown code blocks if present
     if (extractFromMarkdown) {
       const markdownMatch = extractedJson.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
-      if (markdownMatch) {
+      if (markdownMatch && markdownMatch[1]) {
         extractedJson = markdownMatch[1].trim()
         repairAttempts.push('Extracted from markdown code block')
       }
