@@ -160,7 +160,7 @@ export const JobAnalysisResponseSchema = z.object({
   workType: z.enum(['Remote', 'Hybrid', 'On-site']).optional(),
   experienceLevel: z.enum(['Entry', 'Junior', 'Mid', 'Senior', 'Lead', 'Executive']).optional(),
   industryKeywords: z.array(z.string()).default([]),
-  matchingScore: z.number().min(0).max(100).optional(),
+  matchingScore: z.number().min(0).max(100).nullable().optional(),
   suggestions: z.array(z.string()).default([]),
 })
 
