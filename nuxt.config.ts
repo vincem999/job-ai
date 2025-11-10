@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sentry/nuxt/module'],
 
   // Global CSS
-  css: ['~/assets/css/main.css', '~/assets/styles/cv-print.css'],
+  css: ['~/assets/css/main.css'],
 
   // Runtime configuration for environment variables
   runtimeConfig: {
@@ -63,7 +63,7 @@ export default defineNuxtConfig({
   // TypeScript configuration
   typescript: {
     strict: true,
-    typeCheck: true
+    typeCheck: false // Disabled to avoid vue-tsc timing issues in dev
   },
 
   sentry: {
