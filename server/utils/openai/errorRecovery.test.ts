@@ -23,24 +23,41 @@ afterEach(() => {
 describe('isRetryableError', () => {
   it('should identify retryable OpenAI API errors by status', () => {
     // Mock errors with the expected structure
+    const headers = new Headers()
+
     const rateLimitError = {
       ...new Error('Rate limit exceeded'),
       status: 429,
-      headers: {}
+      headers,
+      error: { message: 'Rate limit exceeded', type: 'rate_limit_exceeded' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
     const internalServerError = {
       ...new Error('Internal server error'),
       status: 500,
-      headers: {}
+      headers,
+      error: { message: 'Internal server error', type: 'internal_server_error' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'internal_server_error'
     }
     Object.setPrototypeOf(internalServerError, OpenAI.InternalServerError.prototype)
 
     const serviceUnavailableError = {
       ...new Error('Service unavailable'),
       status: 503,
-      headers: {}
+      headers,
+      error: { message: 'Service unavailable', type: 'service_unavailable' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'service_unavailable'
     }
     Object.setPrototypeOf(serviceUnavailableError, OpenAI.APIError.prototype)
 
@@ -50,17 +67,29 @@ describe('isRetryableError', () => {
   })
 
   it('should identify non-retryable OpenAI API errors', () => {
+    const headers = new Headers()
+
     const authError = {
       ...new Error('Invalid API key'),
       status: 401,
-      headers: {}
+      headers,
+      error: { message: 'Invalid API key', type: 'authentication_error' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'authentication_error'
     }
     Object.setPrototypeOf(authError, OpenAI.AuthenticationError.prototype)
 
     const badRequestError = {
       ...new Error('Bad request'),
       status: 400,
-      headers: {}
+      headers,
+      error: { message: 'Bad request', type: 'bad_request' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'bad_request'
     }
     Object.setPrototypeOf(badRequestError, OpenAI.BadRequestError.prototype)
 
@@ -127,10 +156,18 @@ describe('handleOpenAIError', () => {
   }
 
   it('should handle rate limit errors with retry-after header', () => {
+    const headers = new Headers()
+    headers.set('retry-after', '60')
+
     const rateLimitError = {
       ...new Error('Rate limit exceeded'),
       status: 429,
-      headers: { 'retry-after': '60' }
+      headers,
+      error: { message: 'Rate limit exceeded', type: 'rate_limit_exceeded' },
+      requestID: 'test-request-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
@@ -139,10 +176,17 @@ describe('handleOpenAIError', () => {
   })
 
   it('should handle rate limit errors without retry-after header', () => {
+    const headers = new Headers()
+
     const rateLimitError = {
       ...new Error('Rate limit exceeded'),
       status: 429,
-      headers: {}
+      headers,
+      error: { message: 'Rate limit exceeded', type: 'rate_limit_exceeded' },
+      requestID: 'test-request-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
@@ -151,10 +195,17 @@ describe('handleOpenAIError', () => {
   })
 
   it('should handle retryable server errors', () => {
+    const headers = new Headers()
+
     const serverError = {
       ...new Error('Internal server error'),
       status: 500,
-      headers: {}
+      headers,
+      error: { message: 'Internal server error', type: 'internal_server_error' },
+      requestID: 'test-request-id',
+      code: null,
+      param: null,
+      type: 'internal_server_error'
     }
     Object.setPrototypeOf(serverError, OpenAI.InternalServerError.prototype)
 
@@ -163,10 +214,17 @@ describe('handleOpenAIError', () => {
   })
 
   it('should reject non-retryable errors', () => {
+    const headers = new Headers()
+
     const authError = {
       ...new Error('Invalid API key'),
       status: 401,
-      headers: {}
+      headers,
+      error: { message: 'Invalid API key', type: 'authentication_error' },
+      requestID: 'test-request-id',
+      code: null,
+      param: null,
+      type: 'authentication_error'
     }
     Object.setPrototypeOf(authError, OpenAI.AuthenticationError.prototype)
 
@@ -194,17 +252,29 @@ describe('retryWithBackoff', () => {
   })
 
   it('should retry on retryable errors', async () => {
+    const headers = new Headers()
+
     const rateLimitError = {
       ...new Error('Rate limit'),
       status: 429,
-      headers: {}
+      headers,
+      error: { message: 'Rate limit', type: 'rate_limit_exceeded' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
     const serverError = {
       ...new Error('Server error'),
       status: 500,
-      headers: {}
+      headers,
+      error: { message: 'Server error', type: 'internal_server_error' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'internal_server_error'
     }
     Object.setPrototypeOf(serverError, OpenAI.InternalServerError.prototype)
 
@@ -229,10 +299,17 @@ describe('retryWithBackoff', () => {
   })
 
   it('should fail immediately on non-retryable errors', async () => {
+    const headers = new Headers()
+
     const authError = {
       ...new Error('Invalid API key'),
       status: 401,
-      headers: {}
+      headers,
+      error: { message: 'Invalid API key', type: 'authentication_error' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'authentication_error'
     }
     Object.setPrototypeOf(authError, OpenAI.AuthenticationError.prototype)
 
@@ -243,10 +320,17 @@ describe('retryWithBackoff', () => {
   })
 
   it('should exhaust retries and throw final error', async () => {
+    const headers = new Headers()
+
     const persistentError = {
       ...new Error('Rate limit'),
       status: 429,
-      headers: {}
+      headers,
+      error: { message: 'Rate limit', type: 'rate_limit_exceeded' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(persistentError, OpenAI.RateLimitError.prototype)
 
@@ -266,10 +350,18 @@ describe('retryWithBackoff', () => {
   })
 
   it('should handle rate limit with retry-after header', async () => {
+    const headers = new Headers()
+    headers.set('retry-after', '5')
+
     const rateLimitError = {
       ...new Error('Rate limit exceeded'),
       status: 429,
-      headers: { 'retry-after': '5' }
+      headers,
+      error: { message: 'Rate limit exceeded', type: 'rate_limit_exceeded' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
@@ -301,10 +393,17 @@ describe('withRetry', () => {
   })
 
   it('should create a wrapped function with retry logic', async () => {
+    const headers = new Headers()
+
     const rateLimitError = {
       ...new Error('Rate limit'),
       status: 429,
-      headers: {}
+      headers,
+      error: { message: 'Rate limit', type: 'rate_limit_exceeded' },
+      requestID: 'test-id',
+      code: null,
+      param: null,
+      type: 'rate_limit_exceeded'
     }
     Object.setPrototypeOf(rateLimitError, OpenAI.RateLimitError.prototype)
 
