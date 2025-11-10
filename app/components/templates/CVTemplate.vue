@@ -1,65 +1,75 @@
 <template>
-  <div class="cv-template">
+  <div class="cv-template w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8">
     <!-- Header Section -->
-    <header class="cv-header">
-      <div class="personal-info">
-        <h1 class="name">{{ cvData.personalInfo.name }}</h1>
-        <h2 class="title">{{ cvData.personalInfo.title }}</h2>
-
-        <div class="contact-info">
-          <div class="contact-item">
-            <span class="contact-label">Email:</span>
-            <span class="contact-value">{{ cvData.personalInfo.email }}</span>
-          </div>
-
-          <div class="contact-item">
-            <span class="contact-label">Téléphone:</span>
-            <span class="contact-value">{{ cvData.personalInfo.phone }}</span>
-          </div>
-
-          <div class="contact-item">
-            <span class="contact-label">Localisation:</span>
-            <span class="contact-value">{{ cvData.personalInfo.location }}</span>
-          </div>
-
-          <div v-if="cvData.personalInfo.linkedin" class="contact-item">
-            <span class="contact-label">LinkedIn:</span>
-            <span class="contact-value">{{ cvData.personalInfo.linkedin }}</span>
-          </div>
-
-          <div v-if="cvData.personalInfo.github" class="contact-item">
-            <span class="contact-label">GitHub:</span>
-            <span class="contact-value">{{ cvData.personalInfo.github }}</span>
-          </div>
+    <UCard class="cv-header shadow-lg" variant="subtle">
+      <template #header>
+        <div class="personal-info">
+          <h1 class="name">{{ cvData.personalInfo.name }}</h1>
+          <h2 class="title">{{ cvData.personalInfo.title }}</h2>
         </div>
+      </template>
+
+      <div class="contact-info flex flex-wrap gap-2 md:gap-3">
+        <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-mail" class="text-xs md:text-sm break-all">
+          {{ cvData.personalInfo.email }}
+        </UBadge>
+
+        <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-phone" class="text-xs md:text-sm">
+          {{ cvData.personalInfo.phone }}
+        </UBadge>
+
+        <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-map-pin" class="text-xs md:text-sm">
+          {{ cvData.personalInfo.location }}
+        </UBadge>
+
+        <UBadge v-if="cvData.personalInfo.linkedin" variant="outline" color="primary" size="sm" icon="i-lucide-linkedin" class="text-xs md:text-sm break-all">
+          {{ cvData.personalInfo.linkedin }}
+        </UBadge>
+
+        <UBadge v-if="cvData.personalInfo.github" variant="outline" color="neutral" size="sm" icon="i-lucide-github" class="text-xs md:text-sm break-all">
+          {{ cvData.personalInfo.github }}
+        </UBadge>
       </div>
-    </header>
+    </UCard>
 
     <!-- Summary Section -->
-    <section class="cv-section summary-section">
-      <h3 class="section-title">Résumé Professionnel</h3>
-      <div class="section-content">
-        <p class="summary-text">{{ cvData.summary }}</p>
-      </div>
-    </section>
+    <UCard class="cv-section summary-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Résumé Professionnel</h3>
+      </template>
+
+      <p class="summary-text">{{ cvData.summary }}</p>
+    </UCard>
 
     <!-- Experience Section -->
-    <section class="cv-section experience-section">
-      <h3 class="section-title">Expérience Professionnelle</h3>
-      <div class="section-content">
-        <div
+    <UCard class="cv-section experience-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Expérience Professionnelle</h3>
+      </template>
+
+      <div class="space-y-6">
+        <UCard
           v-for="(experience, index) in cvData.experiences"
           :key="experience.id || index"
-          class="experience-item"
+          class="experience-item hover:shadow-md transition-shadow duration-200"
+          variant="subtle"
         >
-          <div class="experience-header">
-            <h4 class="experience-title">{{ experience.title }}</h4>
-            <div class="experience-meta">
-              <span class="company">{{ experience.company }}</span>
-              <span class="location">{{ experience.location }}</span>
-              <span class="duration">{{ experience.startDate }} - {{ experience.endDate }}</span>
+          <template #header>
+            <div class="experience-header">
+              <h4 class="experience-title text-lg md:text-xl font-semibold">{{ experience.title }}</h4>
+              <div class="experience-meta flex flex-wrap gap-2 md:gap-3 mt-2">
+                <UBadge variant="soft" color="primary" size="sm" class="text-xs md:text-sm">
+                  {{ experience.company }}
+                </UBadge>
+                <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-map-pin" class="text-xs md:text-sm">
+                  {{ experience.location }}
+                </UBadge>
+                <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm">
+                  {{ experience.startDate }} - {{ experience.endDate }}
+                </UBadge>
+              </div>
             </div>
-          </div>
+          </template>
 
           <div class="experience-description">
             <p v-if="experience.description" class="description-text">{{ experience.description }}</p>
@@ -75,133 +85,212 @@
             </ul>
 
             <div v-if="experience.skills && experience.skills.length > 0" class="experience-skills">
-              <strong>Technologies utilisées:</strong>
-              <span class="skills-list">{{ experience.skills.join(', ') }}</span>
+              <div class="mb-2">
+                <strong>Technologies utilisées:</strong>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <UBadge
+                  v-for="skill in experience.skills"
+                  :key="skill"
+                  variant="solid"
+                  color="primary"
+                  size="xs"
+                >
+                  {{ skill }}
+                </UBadge>
+              </div>
             </div>
           </div>
-        </div>
+        </UCard>
       </div>
-    </section>
+    </UCard>
 
     <!-- Education Section -->
-    <section class="cv-section education-section">
-      <h3 class="section-title">Formation</h3>
-      <div class="section-content">
-        <div
+    <UCard class="cv-section education-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Formation</h3>
+      </template>
+
+      <div class="space-y-4">
+        <UCard
           v-for="(education, index) in cvData.education"
           :key="education.id || index"
-          class="education-item"
+          class="education-item hover:shadow-md transition-shadow duration-200"
+          variant="subtle"
         >
-          <div class="education-header">
-            <h4 class="education-degree">{{ education.degree }}</h4>
-            <div class="education-meta">
-              <span class="institution">{{ education.institution }}</span>
-              <span class="education-date">{{ education.year }}</span>
+          <template #header>
+            <div class="education-header">
+              <h4 class="education-degree text-lg md:text-xl font-semibold">{{ education.degree }}</h4>
+              <div class="education-meta flex flex-wrap gap-2 md:gap-3 mt-2">
+                <UBadge variant="soft" color="primary" size="sm" icon="i-lucide-graduation-cap" class="text-xs md:text-sm">
+                  {{ education.institution }}
+                </UBadge>
+                <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm">
+                  {{ education.year }}
+                </UBadge>
+              </div>
             </div>
-          </div>
+          </template>
 
           <p v-if="education.description" class="education-description">
             {{ education.description }}
           </p>
-        </div>
+        </UCard>
       </div>
-    </section>
+    </UCard>
 
     <!-- Skills Section -->
-    <section class="cv-section skills-section">
-      <h3 class="section-title">Compétences</h3>
-      <div class="section-content">
+    <UCard class="cv-section skills-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Compétences</h3>
+      </template>
+
+      <div class="space-y-6">
         <div v-if="cvData.skills.technical && cvData.skills.technical.length > 0" class="skill-category">
-          <h4 class="skill-category-title">Compétences Techniques</h4>
-          <div class="skills-grid">
-            <span
+          <h4 class="skill-category-title">
+            <UBadge variant="soft" color="primary" icon="i-lucide-code" size="md">
+              Compétences Techniques
+            </UBadge>
+          </h4>
+          <div class="skills-grid flex flex-wrap gap-2 md:gap-3">
+            <UBadge
               v-for="(skill, index) in cvData.skills.technical"
               :key="index"
-              class="skill-tag"
+              variant="outline"
+              color="primary"
+              size="sm"
+              class="text-xs md:text-sm"
             >
               {{ skill }}
-            </span>
+            </UBadge>
           </div>
         </div>
 
         <div v-if="cvData.skills.languages && cvData.skills.languages.length > 0" class="skill-category">
-          <h4 class="skill-category-title">Langues</h4>
-          <div class="skills-grid">
-            <span
+          <h4 class="skill-category-title">
+            <UBadge variant="soft" color="neutral" icon="i-lucide-globe" size="md">
+              Langues
+            </UBadge>
+          </h4>
+          <div class="skills-grid flex flex-wrap gap-2 md:gap-3">
+            <UBadge
               v-for="(language, index) in cvData.skills.languages"
               :key="index"
-              class="skill-tag"
+              variant="outline"
+              color="neutral"
+              size="sm"
+              class="text-xs md:text-sm"
             >
               {{ language }}
-            </span>
+            </UBadge>
           </div>
         </div>
 
         <div v-if="cvData.skills.soft && cvData.skills.soft.length > 0" class="skill-category">
-          <h4 class="skill-category-title">Compétences Transversales</h4>
-          <div class="skills-grid">
-            <span
+          <h4 class="skill-category-title">
+            <UBadge variant="soft" color="neutral" icon="i-lucide-users" size="md">
+              Compétences Transversales
+            </UBadge>
+          </h4>
+          <div class="skills-grid flex flex-wrap gap-2 md:gap-3">
+            <UBadge
               v-for="(soft, index) in cvData.skills.soft"
               :key="index"
-              class="skill-tag"
+              variant="outline"
+              color="neutral"
+              size="sm"
+              class="text-xs md:text-sm"
             >
               {{ soft }}
-            </span>
+            </UBadge>
           </div>
         </div>
       </div>
-    </section>
+    </UCard>
 
     <!-- Certifications Section (Optional) -->
-    <section v-if="cvData.certifications && cvData.certifications.length > 0" class="cv-section certifications-section">
-      <h3 class="section-title">Certifications</h3>
-      <div class="section-content">
-        <div
+    <UCard v-if="cvData.certifications && cvData.certifications.length > 0" class="cv-section certifications-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Certifications</h3>
+      </template>
+
+      <div class="space-y-4">
+        <UCard
           v-for="(certification, index) in cvData.certifications"
           :key="certification.id || index"
-          class="certification-item"
+          class="certification-item hover:shadow-md transition-shadow duration-200"
+          variant="subtle"
         >
-          <div class="certification-header">
-            <h4 class="certification-name">{{ certification.name }}</h4>
-            <div class="certification-meta">
-              <span class="issuer">{{ certification.issuer }}</span>
-              <span v-if="certification.date" class="certification-date">{{ certification.date }}</span>
+          <template #header>
+            <div class="certification-header">
+              <h4 class="certification-name text-lg md:text-xl font-semibold">{{ certification.name }}</h4>
+              <div class="certification-meta flex flex-wrap gap-2 md:gap-3 mt-2">
+                <UBadge variant="soft" color="primary" size="sm" icon="i-lucide-award" class="text-xs md:text-sm">
+                  {{ certification.issuer }}
+                </UBadge>
+                <UBadge v-if="certification.date" variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm">
+                  {{ certification.date }}
+                </UBadge>
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </UCard>
       </div>
-    </section>
+    </UCard>
 
     <!-- Projects Section (Optional) -->
-    <section v-if="cvData.projects && cvData.projects.length > 0" class="cv-section projects-section">
-      <h3 class="section-title">Projets</h3>
-      <div class="section-content">
-        <div
+    <UCard v-if="cvData.projects && cvData.projects.length > 0" class="cv-section projects-section shadow-md hover:shadow-lg transition-shadow duration-200" variant="outline">
+      <template #header>
+        <h3 class="section-title">Projets</h3>
+      </template>
+
+      <div class="space-y-4">
+        <UCard
           v-for="(project, index) in cvData.projects"
           :key="project.id || index"
-          class="project-item"
+          class="project-item hover:shadow-md transition-shadow duration-200"
+          variant="subtle"
         >
-          <div class="project-header">
-            <h4 class="project-name">{{ project.name }}</h4>
-            <span v-if="project.date" class="project-date">{{ project.date }}</span>
-          </div>
+          <template #header>
+            <div class="project-header flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+              <h4 class="project-name text-lg md:text-xl font-semibold">{{ project.name }}</h4>
+              <UBadge v-if="project.date" variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm self-start">
+                {{ project.date }}
+              </UBadge>
+            </div>
+          </template>
 
-          <p v-if="project.description" class="project-description">
-            {{ project.description }}
-          </p>
+          <div class="space-y-3">
+            <p v-if="project.description" class="project-description">
+              {{ project.description }}
+            </p>
 
-          <div v-if="project.technologies && project.technologies.length > 0" class="project-technologies">
-            <strong>Technologies:</strong>
-            <span class="technologies-list">{{ project.technologies.join(', ') }}</span>
-          </div>
+            <div v-if="project.technologies && project.technologies.length > 0" class="project-technologies">
+              <div class="mb-2">
+                <strong>Technologies:</strong>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <UBadge
+                  v-for="tech in project.technologies"
+                  :key="tech"
+                  variant="solid"
+                  color="primary"
+                  size="xs"
+                >
+                  {{ tech }}
+                </UBadge>
+              </div>
+            </div>
 
-          <div v-if="project.url" class="project-url">
-            <strong>URL:</strong>
-            <span class="url-link">{{ project.url }}</span>
+            <div v-if="project.url" class="project-url">
+              <UBadge variant="outline" color="primary" size="sm" icon="i-lucide-external-link">
+                {{ project.url }}
+              </UBadge>
+            </div>
           </div>
-        </div>
+        </UCard>
       </div>
-    </section>
+    </UCard>
   </div>
 </template>
 
@@ -215,283 +304,64 @@ defineProps<{
 </script>
 
 <style scoped>
-.cv-template {
-  max-width: 210mm; /* A4 width */
-  margin: 0 auto;
-  padding: 20mm;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
-  color: #1f2937;
-  background: white;
-}
+@reference "~/assets/css/main.css";
 
-/* Header Section */
-.cv-header {
-  margin-bottom: 2rem;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 1.5rem;
+/* Use Tailwind utilities with scoped override capability */
+.cv-template {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  @apply bg-gradient-to-br from-gray-50 to-white text-gray-800 leading-relaxed;
 }
 
 .name {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: #111827;
+  @apply text-3xl md:text-4xl font-bold mb-2;
+  background: linear-gradient(135deg, #1f2937, #374151);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .title {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin: 0 0 1rem 0;
-  color: #6b7280;
-}
-
-.contact-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.5rem;
-}
-
-.contact-item {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.contact-label {
-  font-weight: 600;
-  color: #374151;
-}
-
-.contact-value {
-  color: #6b7280;
-}
-
-/* Section Styles */
-.cv-section {
-  margin-bottom: 2rem;
-  page-break-inside: avoid;
+  @apply text-lg md:text-xl font-medium text-gray-600 mb-4;
 }
 
 .section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  color: #111827;
-  border-bottom: 1px solid #d1d5db;
-  padding-bottom: 0.5rem;
+  @apply text-xl md:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-2;
 }
 
-.section-content {
-  margin-left: 0;
-}
-
-/* Summary */
 .summary-text {
-  font-size: 1rem;
-  line-height: 1.7;
-  margin: 0;
-  text-align: justify;
-}
-
-/* Experience */
-.experience-item {
-  margin-bottom: 1.5rem;
-  page-break-inside: avoid;
-}
-
-.experience-header {
-  margin-bottom: 0.75rem;
-}
-
-.experience-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem 0;
-  color: #111827;
-}
-
-.experience-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.company {
-  font-weight: 600;
-  color: #374151;
+  @apply text-sm md:text-base leading-relaxed text-justify;
 }
 
 .description-text {
-  margin: 0 0 0.75rem 0;
-  font-style: italic;
+  @apply text-sm md:text-base italic text-gray-700 mb-3;
+}
+
+.education-description,
+.project-description {
+  @apply text-sm md:text-base text-gray-700;
 }
 
 .bullets-list {
-  margin: 0 0 0.75rem 0;
-  padding-left: 1.25rem;
+  @apply ml-5 mb-3 space-y-1;
 }
 
 .bullet-item {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
+  @apply text-sm md:text-base leading-relaxed;
 }
 
-.experience-skills {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.skills-list {
-  margin-left: 0.5rem;
-}
-
-/* Education */
-.education-item {
-  margin-bottom: 1rem;
-  page-break-inside: avoid;
-}
-
-.education-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.education-degree {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0;
-  color: #111827;
-}
-
-.education-meta {
-  text-align: right;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.institution {
-  font-weight: 600;
-  color: #374151;
-  display: block;
-}
-
-.education-description {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-/* Skills */
 .skill-category {
-  margin-bottom: 1.5rem;
+  @apply mb-6;
 }
 
 .skill-category-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.75rem 0;
-  color: #374151;
-}
-
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.skill-tag {
-  background: #f3f4f6;
-  color: #374151;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: 1px solid #e5e7eb;
-}
-
-/* Certifications */
-.certification-item {
-  margin-bottom: 1rem;
-  page-break-inside: avoid;
-}
-
-.certification-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.certification-name {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-  color: #111827;
-}
-
-.certification-meta {
-  text-align: right;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.issuer {
-  font-weight: 600;
-  color: #374151;
-  display: block;
-}
-
-/* Projects */
-.project-item {
-  margin-bottom: 1.5rem;
-  page-break-inside: avoid;
-}
-
-.project-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.project-name {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-  color: #111827;
-}
-
-.project-date {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.project-description {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.875rem;
-}
-
-.project-technologies,
-.project-url {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.25rem;
-}
-
-.technologies-list,
-.url-link {
-  margin-left: 0.5rem;
+  @apply mb-3;
 }
 
 /* Print optimizations */
 @media print {
   .cv-template {
-    padding: 15mm;
+    @apply p-6 text-xs max-w-none;
     font-size: 11pt;
-    max-width: none;
   }
 
   .name {
@@ -506,10 +376,7 @@ defineProps<{
     font-size: 16pt;
   }
 
-  .cv-section {
-    page-break-inside: avoid;
-  }
-
+  .cv-section,
   .experience-item,
   .education-item,
   .certification-item,
