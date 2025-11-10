@@ -1,6 +1,8 @@
 import * as Sentry from '@sentry/nuxt'
+import { defineEventHandler } from 'h3'
+import { handleError, createAppError } from '../utils/errorHandler'
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   try {
     // Simulate a server-side error
     throw new Error('Test server-side error for Sentry monitoring')
@@ -8,10 +10,12 @@ export default defineEventHandler(async () => {
     // Capture the error with Sentry
     Sentry.captureException(error)
 
-    // Re-throw to send proper error response
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Internal Server Error - Sentry Test'
-    })
+    // Use standardized error handling
+    const appError = createAppError.server(
+      'Internal Server Error - Sentry Test',
+      error instanceof Error ? error : undefined
+    )
+
+    return handleError(appError, event)
   }
 })
