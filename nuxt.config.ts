@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sentry/nuxt/module'],
 
   // Global CSS
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/styles/cv-print.css'],
 
   // Runtime configuration for environment variables
   runtimeConfig: {

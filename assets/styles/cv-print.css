@@ -1,0 +1,429 @@
+/* CV Print Styles */
+@media print {
+  /* Page setup */
+  @page {
+    margin: 15mm;
+    size: A4;
+  }
+
+  /* Global print styles */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Base typography for print */
+  body {
+    font-family: 'Arial', sans-serif;
+    font-size: 11pt;
+    line-height: 1.3;
+    color: #000 !important;
+    background: white !important;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-top: 8pt;
+    margin-bottom: 4pt;
+    page-break-after: avoid;
+  }
+
+  /* Paragraph spacing */
+  p {
+    margin-bottom: 6pt;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin-bottom: 8pt;
+    padding-left: 20pt;
+  }
+
+  li {
+    margin-bottom: 2pt;
+  }
+
+  /* Ensure text is black and readable */
+  .text-gray-600,
+  .text-gray-500,
+  .text-gray-400 {
+    color: #333 !important;
+  }
+
+  /* Make sure important content is visible */
+  .text-primary,
+  .text-blue-600 {
+    color: #000 !important;
+    font-weight: 600;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure sections don't break awkwardly */
+  .cv-section {
+    page-break-inside: avoid;
+    margin-bottom: 12pt;
+  }
+
+  /* Contact information styling */
+  .cv-contact {
+    text-align: center;
+    margin-bottom: 16pt;
+    padding-bottom: 8pt;
+    border-bottom: 1pt solid #000;
+  }
+
+  /* Experience and education entries */
+  .cv-entry {
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+  }
+
+  .cv-entry-title {
+    font-weight: bold;
+    font-size: 12pt;
+  }
+
+  .cv-entry-company {
+    font-style: italic;
+    margin-bottom: 2pt;
+  }
+
+  .cv-entry-date {
+    font-size: 10pt;
+    color: #666 !important;
+  }
+
+  /* Skills section */
+  .cv-skills {
+    columns: 2;
+    column-gap: 20pt;
+    column-fill: balance;
+  }
+
+  .cv-skill-item {
+    break-inside: avoid;
+    margin-bottom: 4pt;
+  }
+
+  /* Hide non-print elements */
+  .no-print,
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Hide navigation elements */
+  nav,
+  .navigation,
+  .navbar,
+  .nav-menu {
+    display: none !important;
+  }
+
+  /* Hide interactive elements */
+  button:not(.print-keep),
+  .btn:not(.print-keep),
+  input,
+  textarea,
+  select,
+  .form-control {
+    display: none !important;
+  }
+
+  /* Hide UI elements */
+  .sidebar,
+  .header,
+  .footer:not(.print-keep),
+  .menu,
+  .toolbar,
+  .action-bar {
+    display: none !important;
+  }
+
+  /* Hide edit/action buttons */
+  .edit-btn,
+  .delete-btn,
+  .action-btn,
+  .dropdown,
+  .modal,
+  .popup,
+  .tooltip {
+    display: none !important;
+  }
+
+  /* Hide social media and sharing buttons */
+  .social-share,
+  .share-btn,
+  .social-media,
+  .follow-btn {
+    display: none !important;
+  }
+
+  /* Hide advertising and promotional content */
+  .ad,
+  .advertisement,
+  .promo,
+  .banner:not(.print-keep) {
+    display: none !important;
+  }
+
+  /* Hide pagination and navigation aids */
+  .pagination,
+  .page-nav,
+  .breadcrumb:not(.print-keep),
+  .back-btn,
+  .next-btn {
+    display: none !important;
+  }
+
+  /* Hide loading and status indicators */
+  .loading,
+  .spinner,
+  .progress-bar,
+  .status-indicator {
+    display: none !important;
+  }
+
+  /* Hide scroll indicators */
+  .scroll-indicator,
+  .scroll-top {
+    display: none !important;
+  }
+
+  /* Hide video and interactive media controls */
+  video,
+  audio,
+  iframe:not(.print-keep),
+  .video-controls,
+  .media-controls {
+    display: none !important;
+  }
+
+  /* Ensure print-specific elements are shown */
+  .print-only {
+    display: block !important;
+  }
+
+  .print-inline {
+    display: inline !important;
+  }
+
+  .print-inline-block {
+    display: inline-block !important;
+  }
+
+  /* Layout optimizations for print */
+
+  /* Maximize content area */
+  .cv-container,
+  .cv-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Optimize spacing */
+  .cv-section + .cv-section {
+    margin-top: 16pt;
+  }
+
+  /* Contact section optimization */
+  .cv-header {
+    text-align: center;
+    margin-bottom: 20pt;
+    padding-bottom: 10pt;
+    border-bottom: 2pt solid #000;
+  }
+
+  .cv-name {
+    font-size: 18pt;
+    font-weight: bold;
+    margin-bottom: 6pt;
+  }
+
+  .cv-title {
+    font-size: 14pt;
+    margin-bottom: 8pt;
+    font-style: italic;
+  }
+
+  .cv-contact-info {
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* Two-column layout for better space utilization */
+  .cv-two-column {
+    display: flex;
+    gap: 20pt;
+  }
+
+  .cv-main-column {
+    flex: 2;
+  }
+
+  .cv-side-column {
+    flex: 1;
+  }
+
+  /* Experience section */
+  .cv-experience-item {
+    margin-bottom: 12pt;
+    page-break-inside: avoid;
+  }
+
+  .cv-job-title {
+    font-weight: bold;
+    font-size: 12pt;
+    margin-bottom: 2pt;
+  }
+
+  .cv-company {
+    font-style: italic;
+    margin-bottom: 2pt;
+  }
+
+  .cv-date-range {
+    font-size: 10pt;
+    color: #666 !important;
+    margin-bottom: 4pt;
+  }
+
+  .cv-description {
+    margin-bottom: 6pt;
+  }
+
+  .cv-achievements {
+    margin-left: 15pt;
+  }
+
+  .cv-achievements li {
+    margin-bottom: 3pt;
+  }
+
+  /* Education section */
+  .cv-education-item {
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+  }
+
+  .cv-degree {
+    font-weight: bold;
+    font-size: 12pt;
+  }
+
+  .cv-school {
+    font-style: italic;
+    margin-bottom: 2pt;
+  }
+
+  /* Skills optimization */
+  .cv-skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    margin-bottom: 12pt;
+  }
+
+  .cv-skill-category {
+    page-break-inside: avoid;
+    margin-bottom: 8pt;
+  }
+
+  .cv-skill-title {
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 1pt solid #ccc;
+  }
+
+  .cv-skill-list {
+    font-size: 10pt;
+    line-height: 1.3;
+  }
+
+  /* Compact list styling */
+  .cv-compact-list {
+    margin: 0;
+    padding-left: 15pt;
+  }
+
+  .cv-compact-list li {
+    margin-bottom: 1pt;
+  }
+
+  /* Links styling for print */
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  a[href]:after {
+    content: "";
+  }
+
+  /* Email and phone specific styling */
+  .cv-email,
+  .cv-phone {
+    font-weight: normal;
+  }
+
+  /* Ensure proper line breaks */
+  .cv-break-word {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Compact margins for better space usage */
+  .cv-compact {
+    margin-top: 8pt !important;
+    margin-bottom: 8pt !important;
+  }
+
+  .cv-tight {
+    margin-top: 4pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  /* Professional border for sections */
+  .cv-section-divider {
+    border-bottom: 1pt solid #ddd;
+    margin: 12pt 0 8pt 0;
+    padding-bottom: 4pt;
+  }
+}

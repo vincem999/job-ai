@@ -1,15 +1,15 @@
 <template>
-  <div class="cv-template w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8">
+  <div class="cv-template cv-container w-full max-w-4xl mx-auto p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8">
     <!-- Header Section -->
     <UCard class="cv-header shadow-lg" variant="subtle">
       <template #header>
         <div class="personal-info">
-          <h1 class="name">{{ cvData.personalInfo.name }}</h1>
-          <h2 class="title">{{ cvData.personalInfo.title }}</h2>
+          <h1 class="name cv-name">{{ cvData.personalInfo.name }}</h1>
+          <h2 class="title cv-title">{{ cvData.personalInfo.title }}</h2>
         </div>
       </template>
 
-      <div class="contact-info flex flex-wrap gap-2 md:gap-3">
+      <div class="contact-info cv-contact-info flex flex-wrap gap-2 md:gap-3">
         <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-mail" class="text-xs md:text-sm break-all">
           {{ cvData.personalInfo.email }}
         </UBadge>
@@ -51,20 +51,20 @@
         <UCard
           v-for="(experience, index) in cvData.experiences"
           :key="experience.id || index"
-          class="experience-item hover:shadow-md transition-shadow duration-200"
+          class="experience-item cv-experience-item hover:shadow-md transition-shadow duration-200"
           variant="subtle"
         >
           <template #header>
             <div class="experience-header">
-              <h4 class="experience-title text-lg md:text-xl font-semibold">{{ experience.title }}</h4>
+              <h4 class="experience-title cv-job-title text-lg md:text-xl font-semibold">{{ experience.title }}</h4>
               <div class="experience-meta flex flex-wrap gap-2 md:gap-3 mt-2">
-                <UBadge variant="soft" color="primary" size="sm" class="text-xs md:text-sm">
+                <UBadge variant="soft" color="primary" size="sm" class="text-xs md:text-sm cv-company">
                   {{ experience.company }}
                 </UBadge>
                 <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-map-pin" class="text-xs md:text-sm">
                   {{ experience.location }}
                 </UBadge>
-                <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm">
+                <UBadge variant="outline" color="neutral" size="sm" icon="i-lucide-calendar" class="text-xs md:text-sm cv-date-range">
                   {{ experience.startDate }} - {{ experience.endDate }}
                 </UBadge>
               </div>
@@ -309,7 +309,7 @@ defineProps<{
 /* Use Tailwind utilities with scoped override capability */
 .cv-template {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  @apply bg-gradient-to-br from-gray-50 to-white text-gray-800 leading-relaxed;
+  @apply bg-linear-to-br from-gray-50 to-white text-gray-800 leading-relaxed;
 }
 
 .name {
