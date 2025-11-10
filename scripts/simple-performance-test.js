@@ -80,7 +80,7 @@ async function runSimplePerformanceTest() {
   }
 }
 
-function analyzeResults(report) {
+const analyzeResults = (report) => {
   console.log('\n' + '='.repeat(60));
   console.log('📈 PERFORMANCE ANALYSIS');
   console.log('='.repeat(60));
@@ -163,13 +163,13 @@ function analyzeResults(report) {
   return failures.length === 0;
 }
 
-function displayScore(name, score, threshold) {
+const displayScore = (name, score, threshold) => {
   const icon = score >= threshold ? '✅' : '❌';
   const status = score >= threshold ? 'PASS' : 'FAIL';
   console.log(`   ${icon} ${name}: ${score}/100 (threshold: ${threshold}) - ${status}`);
 }
 
-function displayMetric(name, value, threshold, unit) {
+const displayMetric = (name, value, threshold, unit) => {
   const icon = value <= threshold ? '✅' : '❌';
   const status = value <= threshold ? 'PASS' : 'FAIL';
   const displayValue = unit === '' ? value.toFixed(3) : value;

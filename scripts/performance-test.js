@@ -103,7 +103,7 @@ async function runLighthouseTests() {
   return results;
 }
 
-function validateResults(results) {
+const validateResults = (results) => {
   console.log('🔍 Validating Performance Results...\n');
 
   let allPassed = true;
@@ -164,7 +164,7 @@ function validateResults(results) {
   return { allPassed, failures };
 }
 
-function generateReport(results, validation) {
+const generateReport = (results, validation) => {
   const reportData = {
     timestamp: new Date().toISOString(),
     passed: validation.allPassed,

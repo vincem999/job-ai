@@ -30,7 +30,7 @@ export interface ValidationOptions {
  * Safely converts date strings to Date objects
  * Handles undefined, null, and invalid date strings gracefully
  */
-function safeParseDate(dateString: any): Date | undefined {
+const safeParseDate = (dateString: any): Date | undefined => {
   if (!dateString || dateString === null) {
     return undefined
   }
@@ -57,7 +57,7 @@ function safeParseDate(dateString: any): Date | undefined {
  * Transforms date strings to Date objects for CV data validation
  * This handles the complex nested structure of CV schemas
  */
-function transformCVDates(body: any): any {
+const transformCVDates = (body: any): any => {
   if (!body.cvData) {
     return body
   }
@@ -96,7 +96,7 @@ function transformCVDates(body: any): any {
  * Recursively sanitizes string fields in an object
  * Preserves the structure while sanitizing text content
  */
-function deepSanitize(obj: any, sanitizer: (value: string) => string): any {
+const deepSanitize = (obj: any, sanitizer: (value: string) => string): any => {
   if (typeof obj === 'string') {
     return sanitizer(obj)
   }

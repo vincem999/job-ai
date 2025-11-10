@@ -27,7 +27,7 @@ import * as Sentry from '@sentry/nuxt'
 
 const error = ref('')
 
-function throwClientError() {
+const throwClientError = () => {
   try {
     throw new Error('Test client-side error for Sentry monitoring')
   } catch (err) {

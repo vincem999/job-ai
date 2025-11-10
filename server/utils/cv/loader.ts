@@ -107,7 +107,7 @@ export async function loadMasterCVWithValidation(options: LoadCVOptions = {}): P
  * @param data Raw CV data from JSON
  * @returns CV with properly typed dates
  */
-function parseCV(data: any): CV {
+const parseCV = (data: any): CV => {
   // Parse dates in work experience
   if (data.workExperience) {
     data.workExperience = data.workExperience.map((exp: any) => ({

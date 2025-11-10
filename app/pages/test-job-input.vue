@@ -18,12 +18,12 @@
 <script setup lang="ts">
 const submittedData = ref(null)
 
-function handleSubmit(data: any) {
+const handleSubmit = (data: any) => {
   console.log('Job offer submitted:', data)
   submittedData.value = data
 }
 
-function handleClear() {
+const handleClear = () => {
   console.log('Form cleared')
   submittedData.value = null
 }

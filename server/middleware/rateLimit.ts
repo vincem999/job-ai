@@ -100,7 +100,7 @@ export default defineEventHandler(async (event) => {
 })
 
 // Cleanup function to remove expired entries
-function cleanupExpiredEntries() {
+const cleanupExpiredEntries = () => {
   const now = Date.now()
   const keysToDelete: string[] = []
 

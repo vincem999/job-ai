@@ -217,10 +217,10 @@ export async function parseClaudeJSON<T>(
  * @param jsonStr - The malformed JSON string
  * @returns Object containing repaired content and list of repair attempts
  */
-function repairCommonJSONIssues(jsonStr: string): {
+const repairCommonJSONIssues = (jsonStr: string): {
   content: string
   attempts: string[]
-} {
+} => {
   let content = jsonStr.trim()
   const attempts: string[] = []
 

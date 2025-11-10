@@ -101,7 +101,7 @@ export function validateCVStructure(cv: unknown): CVValidationResult {
 /**
  * Validate personal information completeness
  */
-function validatePersonalInfo(cv: any, result: CVValidationResult): void {
+const validatePersonalInfo = (cv: any, result: CVValidationResult): void => {
   const personalInfo = cv.personalInfo
 
   if (!personalInfo) {
@@ -144,7 +144,7 @@ function validatePersonalInfo(cv: any, result: CVValidationResult): void {
 /**
  * Validate that CV has minimum content
  */
-function validateMinimumContent(cv: any, result: CVValidationResult): void {
+const validateMinimumContent = (cv: any, result: CVValidationResult): void => {
   const hasWorkExperience = cv.workExperience && cv.workExperience.length > 0
   const hasEducation = cv.education && cv.education.length > 0
   const hasProjects = cv.projects && cv.projects.length > 0
@@ -190,7 +190,7 @@ function validateMinimumContent(cv: any, result: CVValidationResult): void {
 /**
  * Validate CV metadata
  */
-function validateMetadata(cv: any, result: CVValidationResult): void {
+const validateMetadata = (cv: any, result: CVValidationResult): void => {
   // These are typically set by the system, but validate if present
   if ('id' in cv && !cv.id?.trim()) {
     result.warnings.push('CV ID should be set')
@@ -212,7 +212,7 @@ function validateMetadata(cv: any, result: CVValidationResult): void {
 /**
  * Add warnings for recommended fields
  */
-function addRecommendationWarnings(cv: any, result: CVValidationResult): void {
+const addRecommendationWarnings = (cv: any, result: CVValidationResult): void => {
   if (!cv.personalInfo?.summary?.trim()) {
     result.warnings.push(RECOMMENDED_CV_FIELDS.personalInfo.summary)
   }
@@ -229,7 +229,7 @@ function addRecommendationWarnings(cv: any, result: CVValidationResult): void {
 /**
  * Validate business logic constraints
  */
-function validateBusinessLogic(cv: any, result: CVValidationResult): void {
+const validateBusinessLogic = (cv: any, result: CVValidationResult): void => {
   // Validate date logic in work experiences
   if (cv.workExperience) {
     cv.workExperience.forEach((exp: any, index: number) => {

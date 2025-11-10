@@ -135,7 +135,7 @@ import LoadingSpinner from '~/components/dashboard/LoadingSpinner.vue'
 
 const isDemo = ref(false)
 
-function toggleDemo() {
+const toggleDemo = () => {
   isDemo.value = true
   setTimeout(() => {
     isDemo.value = false

@@ -66,14 +66,14 @@ const DANGEROUS_PATTERNS = [
 /**
  * Encode HTML entities to prevent XSS
  */
-function encodeHtmlEntities(input: string): string {
+const encodeHtmlEntities = (input: string): string => {
   return input.replace(/[&<>"'`=/]/g, (match) => HTML_ENTITIES[match] || match);
 }
 
 /**
  * Remove dangerous script patterns
  */
-function removeDangerousPatterns(input: string): string {
+const removeDangerousPatterns = (input: string): string => {
   let cleaned = input;
 
   for (const pattern of DANGEROUS_PATTERNS) {
@@ -86,7 +86,7 @@ function removeDangerousPatterns(input: string): string {
 /**
  * Validate input against allowlist patterns
  */
-function validateInput(input: string, config: SanitizeConfig): boolean {
+const validateInput = (input: string, config: SanitizeConfig): boolean => {
   if (config.strictMode) {
     // In strict mode, only allow alphanumeric, spaces, and basic safe punctuation
     // Note: We exclude dangerous characters like <> but this validation happens AFTER dangerous pattern removal
@@ -100,7 +100,7 @@ function validateInput(input: string, config: SanitizeConfig): boolean {
 /**
  * Remove or encode SQL injection patterns
  */
-function sanitizeSqlPatterns(input: string): string {
+const sanitizeSqlPatterns = (input: string): string => {
   // Remove SQL comment patterns
   let cleaned = input.replace(/--.*$/gm, '');
   cleaned = cleaned.replace(/\/\*.*?\*\//gs, '');

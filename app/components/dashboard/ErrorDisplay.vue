@@ -155,7 +155,7 @@ const actions = computed(() => {
   return actionsList.length > 0 ? actionsList : undefined
 })
 
-function getErrorType(): 'error' | 'warning' | 'info' {
+const getErrorType = (): 'error' | 'warning' | 'info' => {
   if (props.type) return props.type
 
   if (props.error && typeof props.error === 'object' && 'type' in props.error) {
@@ -165,7 +165,7 @@ function getErrorType(): 'error' | 'warning' | 'info' {
   return 'error'
 }
 
-function getDefaultTitle(type: 'error' | 'warning' | 'info'): string {
+const getDefaultTitle = (type: 'error' | 'warning' | 'info'): string => {
   switch (type) {
     case 'warning':
       return 'Warning'
@@ -177,7 +177,7 @@ function getDefaultTitle(type: 'error' | 'warning' | 'info'): string {
   }
 }
 
-function getDefaultDescription(type: 'error' | 'warning' | 'info'): string {
+const getDefaultDescription = (type: 'error' | 'warning' | 'info'): string => {
   switch (type) {
     case 'warning':
       return 'Please review the information below.'
@@ -189,7 +189,7 @@ function getDefaultDescription(type: 'error' | 'warning' | 'info'): string {
   }
 }
 
-function handleDismiss() {
+const handleDismiss = () => {
   emit('dismiss')
 }
 </script>

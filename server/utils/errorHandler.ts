@@ -27,7 +27,7 @@ const DEFAULT_OPTIONS: Required<ErrorHandlerOptions> = {
 /**
  * Default logger function
  */
-function defaultLogger(error: AppError, event: H3Event): void {
+const defaultLogger = (error: AppError, event: H3Event): void => {
   const method = event.node.req.method
   const url = event.node.req.url
   const userAgent = event.node.req.headers['user-agent']
@@ -49,14 +49,14 @@ function defaultLogger(error: AppError, event: H3Event): void {
 /**
  * Generate a simple request ID
  */
-function generateRequestId(_event: H3Event): string {
+const generateRequestId = (_event: H3Event): string => {
   return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }
 
 /**
  * Convert unknown error to standardized AppError
  */
-function normalizeError(error: unknown): AppError {
+const normalizeError = (error: unknown): AppError => {
   // Already an AppError
   if (isAppError(error)) {
     return error
@@ -111,7 +111,7 @@ function normalizeError(error: unknown): AppError {
 /**
  * Check if error is already an AppError
  */
-function isAppError(error: unknown): error is AppError {
+const isAppError = (error: unknown): error is AppError => {
   return (
     error !== null &&
     typeof error === 'object' &&
@@ -125,7 +125,7 @@ function isAppError(error: unknown): error is AppError {
 /**
  * Map HTTP status code to error code
  */
-function getErrorCodeFromStatus(statusCode: number): ErrorCode {
+const getErrorCodeFromStatus = (statusCode: number): ErrorCode => {
   switch (statusCode) {
     case 400:
       return ErrorCode.INVALID_INPUT
@@ -150,7 +150,7 @@ function getErrorCodeFromStatus(statusCode: number): ErrorCode {
 /**
  * Map HTTP status code to error severity
  */
-function getSeverityFromStatus(statusCode: number): ErrorSeverity {
+const getSeverityFromStatus = (statusCode: number): ErrorSeverity => {
   if (statusCode >= 500) return ErrorSeverity.HIGH
   if (statusCode >= 400) return ErrorSeverity.MEDIUM
   return ErrorSeverity.LOW

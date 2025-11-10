@@ -353,11 +353,11 @@ const demoSteps = [
   }
 ] as const
 
-function setActiveStep(step: number) {
+const setActiveStep = (step: number) => {
   activeStep.value = step
 }
 
-function nextStep() {
+const nextStep = () => {
   if (activeStep.value < 3) {
     activeStep.value++
   } else if (isAutoPlay.value) {
@@ -365,13 +365,13 @@ function nextStep() {
   }
 }
 
-function previousStep() {
+const previousStep = () => {
   if (activeStep.value > 1) {
     activeStep.value--
   }
 }
 
-function toggleAutoPlay() {
+const toggleAutoPlay = () => {
   isAutoPlay.value = !isAutoPlay.value
 
   if (isAutoPlay.value) {
@@ -381,13 +381,13 @@ function toggleAutoPlay() {
   }
 }
 
-function startAutoPlay() {
+const startAutoPlay = () => {
   autoPlayInterval.value = setInterval(() => {
     nextStep()
   }, 4000) // Change step every 4 seconds
 }
 
-function stopAutoPlay() {
+const stopAutoPlay = () => {
   if (autoPlayInterval.value) {
     clearInterval(autoPlayInterval.value)
     autoPlayInterval.value = null

@@ -68,7 +68,7 @@ const isButtonDisabled = computed(() => {
   return props.disabled || props.loading || !props.hasValidInput
 })
 
-function handleGenerate() {
+const handleGenerate = () => {
   if (!isButtonDisabled.value) {
     emit('generate')
   }

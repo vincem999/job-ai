@@ -133,7 +133,7 @@ const retryCount = ref(0)
 const jsError = new Error('This is a JavaScript Error object')
 jsError.name = 'ValidationError'
 
-function handleRetry() {
+const handleRetry = () => {
   retryCount.value++
   console.log(`Retry attempt #${retryCount.value}`)
 }

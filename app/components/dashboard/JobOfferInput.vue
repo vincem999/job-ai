@@ -162,7 +162,7 @@ watch(
   }
 )
 
-function showFeedback(type: 'success' | 'error' | 'warning', title: string, message: string) {
+const showFeedback = (type: 'success' | 'error' | 'warning', title: string, message: string) => {
   feedback.value = { type, title, message }
 }
 
@@ -182,13 +182,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 }
 
-function onError(event: FormErrorEvent) {
+const onError = (event: FormErrorEvent) => {
   console.log('Validation errors:', event.errors)
   const errorCount = event.errors.length
   showFeedback('error', `${errorCount} error${errorCount > 1 ? 's' : ''} found`, 'Please correct the highlighted fields')
 }
 
-function clearForm() {
+const clearForm = () => {
   state.title = ''
   state.company = ''
   state.description = ''
