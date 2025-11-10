@@ -1,0 +1,128 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - alert [ref=e3]: Dashboard - CV Optimizer
+    - generic [ref=e4]:
+      - banner [ref=e5]:
+        - generic [ref=e7]:
+          - generic [ref=e10]:
+            - heading "CV Optimizer" [level=1] [ref=e11]
+            - paragraph [ref=e12]: Tableau de bord
+          - generic [ref=e13]:
+            - link "Accueil" [ref=e14] [cursor=pointer]:
+              - /url: /
+              - text: Accueil
+            - button "Switch to dark mode" [ref=e16]
+      - main [ref=e18]:
+        - generic [ref=e19]:
+          - heading "Générer des documents optimisés" [level=2] [ref=e20]
+          - paragraph [ref=e21]: Analysez une offre d'emploi et générez un CV adapté avec une lettre de motivation personnalisée
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: "1"
+            - generic [ref=e26]: Analyser l'offre
+          - generic [ref=e28]:
+            - generic [ref=e29]: "2"
+            - generic [ref=e30]: Générer les documents
+          - generic [ref=e32]:
+            - generic [ref=e33]: "3"
+            - generic [ref=e34]: Télécharger
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - heading "Analyser l'offre d'emploi" [level=3] [ref=e39]
+                - paragraph [ref=e40]: Saisissez les détails de l'offre d'emploi pour commencer l'analyse
+              - generic [ref=e41]:
+                - generic [ref=e42]:
+                  - heading "Analyze Job Offer" [level=2] [ref=e43]
+                  - paragraph [ref=e44]: Paste the job offer details below to get started
+                - generic [ref=e45]:
+                  - generic [ref=e46]:
+                    - generic [ref=e49]: Job Title*
+                    - textbox "Job Title*" [ref=e52]:
+                      - /placeholder: e.g. Senior Frontend Developer
+                  - generic [ref=e53]:
+                    - generic [ref=e56]: Company*
+                    - textbox "Company*" [ref=e59]:
+                      - /placeholder: e.g. Tech Corp Inc.
+                  - generic [ref=e60]:
+                    - generic [ref=e63]: Job Description*
+                    - textbox "Job Description*" [ref=e66]:
+                      - /placeholder: Paste the complete job description here...
+                  - generic [ref=e67]:
+                    - generic [ref=e70]: Location
+                    - textbox "Location" [ref=e73]:
+                      - /placeholder: e.g. San Francisco, CA / Remote
+                  - generic [ref=e74]:
+                    - generic [ref=e77]: Salary Range
+                    - textbox "Salary Range" [ref=e80]:
+                      - /placeholder: e.g. $80,000 - $120,000
+                  - generic [ref=e81]:
+                    - button "Clear" [ref=e82]
+                    - button "Analyze Job Offer" [disabled] [ref=e83]
+            - generic [ref=e84]:
+              - generic [ref=e85]:
+                - heading "Générer les documents" [level=3] [ref=e86]
+                - paragraph [ref=e87]: Créez votre CV adapté et votre lettre de motivation
+              - generic [ref=e88]:
+                - generic [ref=e89]:
+                  - button "Generate Documents" [disabled] [ref=e90]: Generate Documents
+                  - generic [ref=e94]:
+                    - generic [ref=e95]: Input Required
+                    - generic [ref=e96]: Please fill in the job title, company, and description (at least 50 characters) before generating documents.
+                - generic [ref=e97]:
+                  - button "Generate Documents" [disabled] [ref=e98]: Generate Documents
+                  - generic [ref=e102]:
+                    - generic [ref=e103]: Input Required
+                    - generic [ref=e104]: Please fill in the job title, company, and description (at least 50 characters) before generating documents.
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - heading "Aperçu du CV" [level=3] [ref=e108]
+                - paragraph [ref=e109]: Prévisualisez votre CV avant de le télécharger
+              - paragraph [ref=e112]: Générez d'abord un CV pour voir l'aperçu
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - heading "Télécharger les documents" [level=3] [ref=e115]
+                - paragraph [ref=e116]: Téléchargez vos documents dans différents formats
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - heading "Télécharger les documents" [level=3] [ref=e119]
+                  - paragraph [ref=e120]: Téléchargez votre CV adapté et votre lettre de motivation dans différents formats
+                - generic [ref=e121]:
+                  - generic [ref=e122]:
+                    - generic [ref=e125]:
+                      - heading "CV Adapté" [level=4] [ref=e126]
+                      - paragraph [ref=e127]: Aucun CV généré
+                    - paragraph [ref=e130]: Générez d'abord un CV pour pouvoir le télécharger
+                  - generic [ref=e131]:
+                    - generic [ref=e134]:
+                      - heading "Lettre de Motivation" [level=4] [ref=e135]
+                      - paragraph [ref=e136]: Aucune lettre générée
+                    - paragraph [ref=e139]: Générez d'abord une lettre pour pouvoir la télécharger
+        - paragraph [ref=e141]:
+          - text: Optimisez vos candidatures avec l'IA •
+          - link "Retour à l'accueil" [ref=e142] [cursor=pointer]:
+            - /url: /
+  - generic:
+    - img
+  - generic:
+    - generic:
+      - generic:
+        - button "Go to parent" [disabled]
+        - button "Open in editor"
+        - button "Close"
+  - generic [ref=e143]:
+    - button "Toggle Nuxt DevTools" [ref=e144] [cursor=pointer]:
+      - img [ref=e145]
+    - generic "Page load time" [ref=e148]:
+      - generic [ref=e149]: "195"
+      - generic [ref=e150]: ms
+    - button "Toggle Component Inspector" [ref=e152] [cursor=pointer]:
+      - img [ref=e153]
+  - region "Notifications (F8)":
+    - list
+```

@@ -18,7 +18,10 @@
     "perf:ci": "lhci autorun",
     "perf:open": "lhci open",
     "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=lighthouse-report.html --chrome-flags=\"--no-sandbox --disable-dev-shm-usage\"",
-    "lighthouse:ci": "lhci autorun --upload.target=temporary-public-storage"
+    "lighthouse:ci": "lhci autorun --upload.target=temporary-public-storage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
     "@nuxt/eslint": "1.10.0",
@@ -41,10 +44,12 @@
     "@iconify-json/lucide": "^1.2.72",
     "@lhci/cli": "^0.15.1",
     "@lhci/viewer": "^0.15.1",
+    "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.0",
     "@vitest/ui": "^4.0.7",
     "dotenv": "^17.2.3",
     "lighthouse": "^13.0.1",
+    "playwright": "^1.56.1",
     "vitest": "^4.0.7",
     "vue-tsc": "^3.1.3"
   },

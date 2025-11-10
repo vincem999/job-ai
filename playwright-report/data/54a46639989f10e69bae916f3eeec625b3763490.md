@@ -1,0 +1,107 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e9]:
+        - heading "CV Optimizer" [level=1] [ref=e10]
+        - paragraph [ref=e11]: Tableau de bord
+      - generic [ref=e12]:
+        - link "Accueil" [ref=e13] [cursor=pointer]:
+          - /url: /
+          - text: Accueil
+        - button "Switch to dark mode" [ref=e15]
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - heading "Générer des documents optimisés" [level=2] [ref=e19]
+      - paragraph [ref=e20]: Analysez une offre d'emploi et générez un CV adapté avec une lettre de motivation personnalisée
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]: "1"
+        - generic [ref=e25]: Analyser l'offre
+      - generic [ref=e27]:
+        - generic [ref=e28]: "2"
+        - generic [ref=e29]: Générer les documents
+      - generic [ref=e31]:
+        - generic [ref=e32]: "3"
+        - generic [ref=e33]: Télécharger
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - heading "Analyser l'offre d'emploi" [level=3] [ref=e38]
+            - paragraph [ref=e39]: Saisissez les détails de l'offre d'emploi pour commencer l'analyse
+          - generic [ref=e40]:
+            - generic [ref=e41]:
+              - heading "Analyze Job Offer" [level=2] [ref=e42]
+              - paragraph [ref=e43]: Paste the job offer details below to get started
+            - generic [ref=e44]:
+              - generic [ref=e45]:
+                - generic [ref=e48]: Job Title*
+                - textbox "Job Title*" [ref=e51]:
+                  - /placeholder: e.g. Senior Frontend Developer
+              - generic [ref=e52]:
+                - generic [ref=e55]: Company*
+                - textbox "Company*" [ref=e58]:
+                  - /placeholder: e.g. Tech Corp Inc.
+              - generic [ref=e59]:
+                - generic [ref=e62]: Job Description*
+                - textbox "Job Description*" [ref=e65]:
+                  - /placeholder: Paste the complete job description here...
+              - generic [ref=e66]:
+                - generic [ref=e69]: Location
+                - textbox "Location" [ref=e72]:
+                  - /placeholder: e.g. San Francisco, CA / Remote
+              - generic [ref=e73]:
+                - generic [ref=e76]: Salary Range
+                - textbox "Salary Range" [ref=e79]:
+                  - /placeholder: e.g. $80,000 - $120,000
+              - generic [ref=e80]:
+                - button "Clear" [ref=e81]
+                - button "Analyze Job Offer" [disabled] [ref=e82]
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - heading "Générer les documents" [level=3] [ref=e85]
+            - paragraph [ref=e86]: Créez votre CV adapté et votre lettre de motivation
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - button "Generate Documents" [disabled] [ref=e89]: Generate Documents
+              - generic [ref=e93]:
+                - generic [ref=e94]: Input Required
+                - generic [ref=e95]: Please fill in the job title, company, and description (at least 50 characters) before generating documents.
+            - generic [ref=e96]:
+              - button "Generate Documents" [disabled] [ref=e97]: Generate Documents
+              - generic [ref=e101]:
+                - generic [ref=e102]: Input Required
+                - generic [ref=e103]: Please fill in the job title, company, and description (at least 50 characters) before generating documents.
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - heading "Aperçu du CV" [level=3] [ref=e107]
+            - paragraph [ref=e108]: Prévisualisez votre CV avant de le télécharger
+          - paragraph [ref=e111]: Générez d'abord un CV pour voir l'aperçu
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - heading "Télécharger les documents" [level=3] [ref=e114]
+            - paragraph [ref=e115]: Téléchargez vos documents dans différents formats
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - heading "Télécharger les documents" [level=3] [ref=e118]
+              - paragraph [ref=e119]: Téléchargez votre CV adapté et votre lettre de motivation dans différents formats
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - generic [ref=e124]:
+                  - heading "CV Adapté" [level=4] [ref=e125]
+                  - paragraph [ref=e126]: Aucun CV généré
+                - paragraph [ref=e129]: Générez d'abord un CV pour pouvoir le télécharger
+              - generic [ref=e130]:
+                - generic [ref=e133]:
+                  - heading "Lettre de Motivation" [level=4] [ref=e134]
+                  - paragraph [ref=e135]: Aucune lettre générée
+                - paragraph [ref=e138]: Générez d'abord une lettre pour pouvoir la télécharger
+    - paragraph [ref=e140]:
+      - text: Optimisez vos candidatures avec l'IA •
+      - link "Retour à l'accueil" [ref=e141] [cursor=pointer]:
+        - /url: /
+```
