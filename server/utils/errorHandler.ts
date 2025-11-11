@@ -15,16 +15,6 @@ import {
 } from '../types/errors'
 
 /**
- * Default error handler options
- */
-const DEFAULT_OPTIONS: Required<ErrorHandlerOptions> = {
-  includeStack: process.env.NODE_ENV === 'development',
-  includeContext: process.env.NODE_ENV === 'development',
-  logger: defaultLogger,
-  requestIdGenerator: generateRequestId
-}
-
-/**
  * Default logger function
  */
 const defaultLogger = (error: AppError, event: H3Event): void => {
@@ -52,6 +42,16 @@ const defaultLogger = (error: AppError, event: H3Event): void => {
 const generateRequestId = (_event: H3Event): string => {
   return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 }
+
+/**
+ * Get default error handler options
+ */
+const getDefaultOptions = (): Required<ErrorHandlerOptions> => ({
+  includeStack: process.env.NODE_ENV === 'development',
+  includeContext: process.env.NODE_ENV === 'development',
+  logger: defaultLogger,
+  requestIdGenerator: generateRequestId
+})
 
 /**
  * Convert unknown error to standardized AppError
@@ -164,7 +164,7 @@ export const handleError: ErrorHandler = (
   event: H3Event,
   options?: ErrorHandlerOptions
 ): ErrorResponse => {
-  const opts = { ...DEFAULT_OPTIONS, ...options }
+  const opts = { ...getDefaultOptions(), ...options }
   const normalizedError = normalizeError(error)
 
   // Add request ID if not present

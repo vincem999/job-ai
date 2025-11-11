@@ -26,7 +26,8 @@ export default defineNuxtConfig({
     public: {
       appName: 'CV Optimizer',
       appVersion: '1.0.0',
-      appDescription: 'AI-powered CV and cover letter generator'
+      appDescription: 'AI-powered CV and cover letter generator',
+      sentryDsn: process.env.SENTRY_DSN || ''
     }
   },
 
@@ -66,13 +67,11 @@ export default defineNuxtConfig({
     typeCheck: false // Disabled to avoid vue-tsc timing issues in dev
   },
 
+  // Sentry configuration
   sentry: {
-    sourceMapsUploadOptions: {
-      org: 'vincent-9k',
-      project: 'javascript-nuxt'
-    },
-
-    autoInjectServerSentry: 'top-level-import'
+    org: 'vincent-9k',
+    project: 'javascript-nuxt',
+    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
 
   sourcemap: {

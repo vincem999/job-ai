@@ -1,58 +1,64 @@
 import * as Sentry from "@sentry/nuxt";
+import { useRuntimeConfig } from '#imports';
 
-Sentry.init({
-  // If set up, you can use your runtime config here
-  // dsn: useRuntimeConfig().public.sentry.dsn,
-  dsn: "https://df26056365210943660cf4c8810e0649@o4510326609608704.ingest.de.sentry.io/4510326611574864",
+// Initialize Sentry using runtime config for DSN
+const config = useRuntimeConfig();
+const sentryDsn = config.public.sentryDsn || process.env.SENTRY_DSN;
 
-  // Set environment to distinguish between dev/prod
-  environment: process.env.NODE_ENV || 'development',
+if (sentryDsn) {
+  Sentry.init({
+    // If set up, you can use your runtime config here
+    dsn: sentryDsn,
 
-  // We recommend adjusting this value in production, or using tracesSampler
-  // for finer control
-  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
+    // Set environment to distinguish between dev/prod
+    environment: process.env.NODE_ENV || 'development',
 
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
-  replaysSessionSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0.1,
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
 
-  // If the entire session is not sampled, use the below sample rate to sample
-  // sessions when an error occurs.
-  replaysOnErrorSampleRate: 1.0,
+    // This sets the sample rate to be 10%. You may want this to be 100% while
+    // in development and sample at a lower rate in production
+    replaysSessionSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0.1,
 
-  // If you don't want to use Session Replay, just remove the line below:
-  integrations: [Sentry.replayIntegration()],
+    // If the entire session is not sampled, use the below sample rate to sample
+    // sessions when an error occurs.
+    replaysOnErrorSampleRate: 1.0,
 
-  // Enable logs to be sent to Sentry
-  enableLogs: true,
+    // If you don't want to use Session Replay, just remove the line below:
+    integrations: [Sentry.replayIntegration()],
 
-  // Enable sending of user PII (Personally Identifiable Information)
-  // https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#sendDefaultPii
-  sendDefaultPii: false, // Changed to false for better privacy
+    // Enable logs to be sent to Sentry
+    enableLogs: true,
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: process.env.NODE_ENV === 'development',
+    // Enable sending of user PII (Personally Identifiable Information)
+    // https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#sendDefaultPii
+    sendDefaultPii: false, // Changed to false for better privacy
 
-  // Filter out sensitive data and noise
-  beforeSend(event) {
-    // Don't send events in development unless explicitly testing
-    if (process.env.NODE_ENV === 'development' && !event.request?.url?.includes('test-error')) {
-      return null
-    }
+    // Setting this option to true will print useful information to the console while you're setting up Sentry.
+    debug: process.env.NODE_ENV === 'development',
 
-    // Filter out common noise
-    if (event.exception) {
-      const error = event.exception.values?.[0]
-      if (error?.value?.includes('Non-Error promise rejection captured')) {
+    // Filter out sensitive data and noise
+    beforeSend(event) {
+      // Don't send events in development unless explicitly testing
+      if (process.env.NODE_ENV === 'development' && !event.request?.url?.includes('test-error')) {
         return null
       }
-    }
 
-    // Remove sensitive data from URLs and request data
-    if (event.request?.url) {
-      event.request.url = event.request.url.replace(/[?&](api_key|token|password)=[^&]*/gi, '&$1=***')
-    }
+      // Filter out common noise
+      if (event.exception) {
+        const error = event.exception.values?.[0]
+        if (error?.value?.includes('Non-Error promise rejection captured')) {
+          return null
+        }
+      }
 
-    return event
-  },
-});
+      // Remove sensitive data from URLs and request data
+      if (event.request?.url) {
+        event.request.url = event.request.url.replace(/[?&](api_key|token|password)=[^&]*/gi, '&$1=***')
+      }
+
+      return event
+    },
+  });
+}
