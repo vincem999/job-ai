@@ -98,7 +98,7 @@ export function resetOpenAIClient(): void {
  * @example
  * ```typescript
  * const completion = await createChatCompletionWithRetry({
- *   model: 'gpt-4o-mini',
+ *   model: 'gpt-4o',
  *   messages: [{ role: 'user', content: 'Hello!' }],
  *   temperature: 0.7,
  *   max_tokens: 1000

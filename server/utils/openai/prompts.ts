@@ -43,13 +43,14 @@ export function generateJobAnalysisPrompt(
   const { jobOffer, company, position, additionalContext } = request
   const { context } = config
 
-  const basePrompt = `You are an expert HR analyst and career consultant. Your task is to analyze a job offer and extract comprehensive information about the role requirements.
+  const basePrompt = `Vous êtes un analyste RH expert et consultant en carrière. Votre tâche est d'analyser une offre d'emploi et d'extraire des informations complètes sur les exigences du poste.
 
-**IMPORTANT INSTRUCTIONS:**
-- Provide a thorough analysis in valid JSON format only
-- Be precise and specific in your categorization
-- Include both explicitly mentioned and implied requirements
-- Focus on actionable insights for CV optimization
+**INSTRUCTIONS IMPORTANTES :**
+- Fournissez une analyse complète uniquement au format JSON valide
+- Soyez précis et spécifique dans votre catégorisation
+- Incluez les exigences explicitement mentionnées et implicites
+- Concentrez-vous sur des insights actionnables pour l'optimisation de CV
+- **RÉPONDEZ EN FRANÇAIS dans tous les champs de texte**
 
 **JOB OFFER TO ANALYZE:**
 ${jobOffer}
@@ -75,20 +76,20 @@ ${context ? `**EXTRA CONTEXT:** ${context}` : ''}
   "suggestions": ["suggestion1", "suggestion2"]
 }
 
-**ANALYSIS GUIDELINES:**
-1. **Required Skills:** Technical and soft skills explicitly mentioned as mandatory
-2. **Preferred Skills:** Skills that would be advantageous but not essential
-3. **Responsibilities:** Main duties and tasks of the role
-4. **Requirements:** Education, experience, certifications, and other qualifications
-5. **Benefits:** Compensation package, perks, and company benefits
-6. **Salary Range:** Extract exact figures if mentioned, format consistently
-7. **Work Location:** Specific location or remote work arrangements
-8. **Work Type:** Classify as Remote, Hybrid, or On-site based on description
-9. **Experience Level:** Determine level based on years of experience and responsibilities
-10. **Industry Keywords:** Important terms specific to the industry/domain
-11. **Suggestions:** Actionable advice for candidates applying to this role
+**DIRECTIVES D'ANALYSE :**
+1. **Required Skills:** Compétences techniques et relationnelles explicitement mentionnées comme obligatoires
+2. **Preferred Skills:** Compétences qui seraient avantageuses mais pas essentielles
+3. **Responsibilities:** Principales missions et tâches du poste
+4. **Requirements:** Formation, expérience, certifications et autres qualifications
+5. **Benefits:** Package de rémunération, avantages et bénéfices entreprise
+6. **Salary Range:** Extraire les chiffres exacts si mentionnés, format cohérent
+7. **Work Location:** Lieu spécifique ou arrangements de travail à distance
+8. **Work Type:** Classer comme Remote, Hybrid ou On-site selon la description
+9. **Experience Level:** Déterminer le niveau selon années d'expérience et responsabilités
+10. **Industry Keywords:** Termes importants spécifiques à l'industrie/domaine
+11. **Suggestions:** Conseils actionnables pour les candidats postulant à ce poste
 
-Return ONLY the JSON object without any additional text or formatting.`
+Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
 
   return basePrompt
 }
@@ -122,16 +123,17 @@ export function generateCVAdaptationPrompt(
 ): string {
   const { maxLength = 2000, context } = config
 
-  const basePrompt = `You are an expert CV writer and career consultant. Your task is to adapt an existing CV to better match a specific job opportunity while maintaining truthfulness and authenticity.
+  const basePrompt = `Vous êtes un rédacteur de CV expert et consultant en carrière. Votre tâche est d'adapter un CV existant pour mieux correspondre à une opportunité d'emploi spécifique tout en maintenant la véracité et l'authenticité.
 
-**IMPORTANT INSTRUCTIONS:**
-- Maintain all factual information - never fabricate experience or skills
-- Reorganize and emphasize relevant experiences for the target role
-- Use industry-appropriate keywords naturally
-- Optimize section order and content focus
-- Provide specific, actionable recommendations
-- Keep the adapted CV concise but comprehensive
-- Maximum recommended length: ${maxLength} characters per section
+**INSTRUCTIONS IMPORTANTES :**
+- Maintenez toutes les informations factuelles - ne jamais inventer d'expérience ou de compétences
+- Réorganisez et mettez l'accent sur les expériences pertinentes pour le poste ciblé
+- Utilisez naturellement des mots-clés appropriés à l'industrie
+- Optimisez l'ordre des sections et le focus du contenu
+- Fournissez des recommandations spécifiques et actionnables
+- Gardez le CV adapté concis mais complet
+- Longueur maximale recommandée : ${maxLength} caractères par section
+- **RÉPONDEZ EN FRANÇAIS dans tous les champs de texte**
 
 **CURRENT CV DATA:**
 ${JSON.stringify(cvData, null, 2)}
@@ -142,31 +144,31 @@ ${JSON.stringify(jobAnalysis, null, 2)}
 ${focusAreas.length > 0 ? `**FOCUS AREAS:** ${focusAreas.join(', ')}` : ''}
 ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
 
-**ADAPTATION STRATEGY:**
+**STRATÉGIE D'ADAPTATION :**
 
-1. **Personal Summary Optimization:**
-   - Rewrite the summary to align with the job requirements
-   - Highlight relevant achievements and skills
-   - Use keywords from the job analysis naturally
+1. **Optimisation du Résumé Personnel :**
+   - Réécrire le résumé pour s'aligner avec les exigences du poste
+   - Mettre en avant les réalisations et compétences pertinentes
+   - Utiliser naturellement les mots-clés de l'analyse du poste
 
-2. **Experience Section Enhancement:**
-   - Reorder work experiences by relevance to target role
-   - Emphasize achievements that match job responsibilities
-   - Quantify impact where possible (percentages, numbers, results)
-   - Add relevant technologies/skills used in each role
+2. **Amélioration de la Section Expérience :**
+   - Réorganiser les expériences professionnelles par pertinence au poste ciblé
+   - Mettre l'accent sur les réalisations qui correspondent aux responsabilités du poste
+   - Quantifier l'impact quand possible (pourcentages, chiffres, résultats)
+   - Ajouter les technologies/compétences pertinentes utilisées dans chaque poste
 
-3. **Skills Section Optimization:**
-   - Prioritize required and preferred skills from job analysis
-   - Group skills by category (technical, soft skills, tools)
-   - Match skill level descriptions to job requirements
+3. **Optimisation de la Section Compétences :**
+   - Prioriser les compétences requises et préférées de l'analyse du poste
+   - Grouper les compétences par catégorie (techniques, relationnelles, outils)
+   - Adapter les descriptions de niveau de compétence aux exigences du poste
 
-4. **Education and Certifications:**
-   - Highlight relevant education and certifications
-   - Emphasize coursework or projects related to job requirements
+4. **Formation et Certifications :**
+   - Mettre en avant la formation et certifications pertinentes
+   - Souligner les cours ou projets liés aux exigences du poste
 
-5. **Projects Section Enhancement:**
-   - Feature projects that demonstrate relevant skills
-   - Connect project outcomes to job responsibilities
+5. **Amélioration de la Section Projets :**
+   - Présenter les projets qui démontrent les compétences pertinentes
+   - Connecter les résultats des projets aux responsabilités du poste
 
 **REQUIRED OUTPUT FORMAT (JSON):**
 {
@@ -216,7 +218,7 @@ ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
   "gapsToAddress": ["gap1", "gap2"]
 }
 
-Return ONLY the JSON object without any additional text or formatting.`
+Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
 
   return basePrompt
 }
@@ -249,23 +251,24 @@ export function generateCoverLetterPrompt(
   const { maxLength = 800, context } = config
 
   const toneInstructions = {
-    Professional: 'Use formal business language, focus on qualifications and achievements',
-    Friendly: 'Use warm, approachable language while maintaining professionalism',
-    Enthusiastic: 'Show genuine excitement and passion for the role and company',
-    Formal: 'Use traditional, conservative language appropriate for formal organizations'
+    Professional: 'Utilisez un langage d\'affaires formel, concentrez-vous sur les qualifications et réalisations',
+    Friendly: 'Utilisez un langage chaleureux et accessible tout en maintenant le professionnalisme',
+    Enthusiastic: 'Montrez un véritable enthousiasme et une passion pour le rôle et l\'entreprise',
+    Formal: 'Utilisez un langage traditionnel et conservateur approprié aux organisations formelles'
   }
 
-  const basePrompt = `You are an expert career counselor and professional writer. Your task is to create a compelling, personalized cover letter that effectively connects the candidate's background to the target job opportunity.
+  const basePrompt = `Vous êtes un conseiller en carrière expert et rédacteur professionnel. Votre tâche est de créer une lettre de motivation convaincante et personnalisée qui connecte efficacement le parcours du candidat à l'opportunité d'emploi ciblée.
 
-**IMPORTANT INSTRUCTIONS:**
-- Write in ${tone.toLowerCase()} tone: ${toneInstructions[tone]}
-- Maximum length: ${maxLength} words
-- Follow standard business letter structure
-- Be specific and avoid generic statements
-- Connect candidate's experience to job requirements
-- Show understanding of the company and role
-- Include a strong opening and compelling closing
-- Maintain authenticity - never fabricate experiences
+**INSTRUCTIONS IMPORTANTES :**
+- Rédigez dans un ton ${tone.toLowerCase()} : ${toneInstructions[tone]}
+- Longueur maximale : ${maxLength} mots
+- Suivez la structure standard d'une lettre d'affaires
+- Soyez spécifique et évitez les déclarations génériques
+- Connectez l'expérience du candidat aux exigences du poste
+- Montrez une compréhension de l'entreprise et du rôle
+- Incluez une ouverture forte et une conclusion convaincante
+- Maintenez l'authenticité - ne jamais inventer d'expériences
+- **RÉDIGEZ EN FRANÇAIS**
 
 **CANDIDATE CV DATA:**
 ${JSON.stringify({
@@ -282,27 +285,27 @@ ${JSON.stringify(jobAnalysis, null, 2)}
 ${personalMessage ? `**PERSONAL MESSAGE FROM CANDIDATE:** ${personalMessage}` : ''}
 ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
 
-**COVER LETTER STRUCTURE:**
+**STRUCTURE DE LA LETTRE DE MOTIVATION :**
 
-1. **Opening Paragraph (2-3 sentences):**
-   - Express interest in the specific position
-   - Briefly mention most relevant qualification or achievement
-   - Show knowledge of the company/role
+1. **Paragraphe d'ouverture (2-3 phrases) :**
+   - Exprimer l'intérêt pour le poste spécifique
+   - Mentionner brièvement la qualification ou réalisation la plus pertinente
+   - Montrer la connaissance de l'entreprise/du rôle
 
-2. **Body Paragraph 1 (3-4 sentences):**
-   - Highlight most relevant work experience
-   - Connect specific achievements to job requirements
-   - Use quantifiable results when possible
+2. **Paragraphe principal 1 (3-4 phrases) :**
+   - Mettre en avant l'expérience professionnelle la plus pertinente
+   - Connecter des réalisations spécifiques aux exigences du poste
+   - Utiliser des résultats quantifiables quand possible
 
-3. **Body Paragraph 2 (3-4 sentences):**
-   - Emphasize key skills that match job requirements
-   - Mention relevant projects or additional qualifications
-   - Show understanding of role challenges and how you can address them
+3. **Paragraphe principal 2 (3-4 phrases) :**
+   - Souligner les compétences clés qui correspondent aux exigences du poste
+   - Mentionner des projets pertinents ou qualifications additionnelles
+   - Montrer la compréhension des défis du rôle et comment vous pouvez les adresser
 
-4. **Closing Paragraph (2-3 sentences):**
-   - Reiterate interest and fit for the role
-   - Suggest next steps (interview, portfolio review, etc.)
-   - Professional closing statement
+4. **Paragraphe de conclusion (2-3 phrases) :**
+   - Réitérer l'intérêt et l'adéquation pour le rôle
+   - Suggérer les prochaines étapes (entretien, révision de portfolio, etc.)
+   - Déclaration de clôture professionnelle
 
 **REQUIRED OUTPUT FORMAT (JSON):**
 {
@@ -337,10 +340,10 @@ ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
   ]
 }
 
-**TONE-SPECIFIC GUIDELINES FOR ${tone.toUpperCase()}:**
+**DIRECTIVES SPÉCIFIQUES AU TON ${tone.toUpperCase()} :**
 ${toneInstructions[tone]}
 
-Return ONLY the JSON object without any additional text or formatting.`
+Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
 
   return basePrompt
 }

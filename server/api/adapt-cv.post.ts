@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
     // Make API call with retry logic
     console.log('🤖 API: Calling OpenAI API for CV adaptation with retry logic...')
     const completion = await createChatCompletionWithRetry({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
