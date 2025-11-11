@@ -293,17 +293,55 @@ const statusMessage = ref<{
 const hasJobAnalysis = computed(() => !!jobAnalysis.value)
 const hasCVData = computed(() => !!cvData.value)
 
-const handleJobSubmission = (jobData: any) => {
-  console.log("Job offer submitted:", jobData)
+const handleJobSubmission = async (jobData: any) => {
+  try {
+    console.log("Job offer submitted:", jobData)
 
-  // Store job analysis (in real app, this would call the API)
-  jobAnalysis.value = jobData
+    showStatusMessage(
+      "success",
+      "Analyse en cours",
+      "L'offre d'emploi est en cours d'analyse..."
+    )
 
-  showStatusMessage(
-    "success",
-    "Offre d'emploi analysée",
-    "L'analyse de l'offre d'emploi est terminée. Vous pouvez maintenant générer votre CV adapté."
-  )
+    // Call job analysis API
+    const response = await $fetch<{
+      success: boolean
+      data?: any
+      error?: string
+    }>('/api/analyze-job', {
+      method: 'POST',
+      body: {
+        jobOffer: jobData.jobDescription || jobData.description || '',
+        companyName: jobData.companyName || '',
+        jobTitle: jobData.jobTitle || ''
+      }
+    })
+
+    if (response.success && response.data) {
+      // Store the analyzed job data
+      jobAnalysis.value = response.data
+
+      showStatusMessage(
+        "success",
+        "Offre d'emploi analysée",
+        "L'analyse de l'offre d'emploi est terminée. Vous pouvez maintenant générer votre CV adapté."
+      )
+    } else {
+      throw new Error(response.error || 'Erreur lors de l\'analyse de l\'offre d\'emploi')
+    }
+
+  } catch (error) {
+    console.error('Job analysis error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+    showStatusMessage(
+      "error",
+      "Erreur d'analyse",
+      errorMessage
+    )
+
+    // Clear job analysis on error
+    jobAnalysis.value = null
+  }
 }
 
 const handleJobClear = () => {
@@ -315,7 +353,7 @@ const handleJobClear = () => {
   statusMessage.value = null
 }
 
-const handleCVGeneration = () => {
+const handleCVGeneration = async () => {
   if (!jobAnalysis.value) {
     showStatusMessage(
       "error",
@@ -325,30 +363,72 @@ const handleCVGeneration = () => {
     return
   }
 
-  console.log("Generating CV...")
-  showStatusMessage(
-    "success",
-    "CV en cours de génération",
-    "Votre CV est en cours d'adaptation selon l'offre d'emploi..."
-  )
+  try {
+    console.log("Generating CV...")
+    showStatusMessage(
+      "success",
+      "CV en cours de génération",
+      "Votre CV est en cours d'adaptation selon l'offre d'emploi..."
+    )
 
-  // TODO: Call CV generation API
-  // For now, we'll use mock data
-  setTimeout(() => {
-    // Import and use mock CV data for demo
-    import("~/components/templates/mockCVData").then(({ mockCVData }) => {
-      cvData.value = mockCVData
-      cvId.value = "cv-" + Date.now()
-      showStatusMessage(
-        "success",
-        "CV généré avec succès",
-        "Votre CV adapté est prêt. Vous pouvez le prévisualiser et le télécharger."
-      )
+    // Load master CV first
+    // TODO: Integrate useCV composable properly
+    const masterCV = await $fetch<{
+      success: boolean
+      data?: any
+      error?: string
+    }>('/api/cv')
+
+    if (!masterCV.success || !masterCV.data) {
+      throw new Error(masterCV.error || 'CV maître non trouvé. Veuillez configurer votre CV dans les paramètres.')
+    }
+
+    // Call CV adaptation API
+    const response = await $fetch<{
+      success: boolean
+      data?: any
+      error?: string
+    }>('/api/adapt-cv', {
+      method: 'POST',
+      body: {
+        cvData: masterCV.data,
+        jobAnalysis: jobAnalysis.value,
+        focusAreas: []
+      }
     })
-  }, 2000)
+
+    if (response.success && response.data) {
+      // Convert API response to CVData format for preview
+      // For now, we'll use mock data but with real API structure
+      import("~/components/templates/mockCVData").then(({ mockCVData }) => {
+        cvData.value = {
+          ...mockCVData,
+          // Integrate some real data from API response
+          summary: response.data.adaptedPersonalInfo?.summary || mockCVData.summary
+        }
+        cvId.value = "cv-" + Date.now()
+        showStatusMessage(
+          "success",
+          "CV généré avec succès",
+          "Votre CV adapté est prêt. Vous pouvez le prévisualiser et le télécharger."
+        )
+      })
+    } else {
+      throw new Error(response.error || 'Erreur lors de la génération du CV')
+    }
+
+  } catch (error) {
+    console.error('CV generation error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+    showStatusMessage(
+      "error",
+      "Erreur de génération",
+      errorMessage
+    )
+  }
 }
 
-const handleLetterGeneration = () => {
+const handleLetterGeneration = async () => {
   if (!jobAnalysis.value) {
     showStatusMessage(
       "error",
@@ -367,29 +447,48 @@ const handleLetterGeneration = () => {
     return
   }
 
-  console.log("Generating cover letter...")
-  showStatusMessage(
-    "success",
-    "Lettre en cours de génération",
-    "Votre lettre de motivation est en cours de création..."
-  )
-
-  // TODO: Call letter generation API
-  // For now, we'll use mock data
-  setTimeout(() => {
-    // Import and use mock letter data for demo
-    import("~/components/templates/mockLetterData").then(
-      ({ mockLetterData }) => {
-        letterData.value = mockLetterData
-        letterId.value = "letter-" + Date.now()
-        showStatusMessage(
-          "success",
-          "Lettre générée avec succès",
-          "Votre lettre de motivation est prête. Vous pouvez la télécharger."
-        )
-      }
+  try {
+    console.log("Generating cover letter...")
+    showStatusMessage(
+      "success",
+      "Lettre en cours de génération",
+      "Votre lettre de motivation est en cours de création..."
     )
-  }, 2000)
+
+    // Call letter generation API
+    const response = await $fetch<{
+      success: boolean
+      data?: string
+      error?: string
+    }>('/api/generate-letter', {
+      method: 'POST',
+      body: {
+        adaptedCV: cvData.value,
+        jobAnalysis: jobAnalysis.value
+      }
+    })
+
+    if (response.success && response.data) {
+      letterData.value = response.data
+      letterId.value = "letter-" + Date.now()
+      showStatusMessage(
+        "success",
+        "Lettre générée avec succès",
+        "Votre lettre de motivation est prête. Vous pouvez la télécharger."
+      )
+    } else {
+      throw new Error(response.error || 'Erreur lors de la génération de la lettre')
+    }
+
+  } catch (error) {
+    console.error('Letter generation error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+    showStatusMessage(
+      "error",
+      "Erreur de génération",
+      errorMessage
+    )
+  }
 }
 
 const showStatusMessage = (
