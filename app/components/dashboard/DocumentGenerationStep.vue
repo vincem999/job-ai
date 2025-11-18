@@ -1,0 +1,340 @@
+<template>
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <!-- Left Column: Generation Controls -->
+    <div class="space-y-6">
+      <!-- Generation Controls -->
+      <div
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+      >
+        <div class="mb-6">
+          <h3
+            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+          >
+            <UIcon
+              name="i-heroicons-cog-6-tooth"
+              class="w-5 h-5 inline mr-2"
+            />
+            Générer les documents
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            Créez votre CV adapté et votre lettre de motivation
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <GenerateButton
+            :disabled="!jobAnalysis"
+            :has-valid-input="!!jobAnalysis"
+            :loading="loadingCVGeneration"
+            type="cv"
+            @generate="handleCVGeneration"
+          >
+            Générer le CV adapté
+          </GenerateButton>
+
+          <GenerateButton
+            :disabled="!jobAnalysis || !hasCVData"
+            type="letter"
+            :loading="loadingLetterGeneration"
+            @generate="handleLetterGeneration"
+          >
+            Générer la lettre de motivation
+          </GenerateButton>
+        </div>
+
+        <!-- Status Messages -->
+        <div v-if="statusMessage" class="mt-4">
+          <UAlert
+            :color="
+              statusMessage.type === 'error'
+                ? 'error'
+                : statusMessage.type === 'warning'
+                ? 'warning'
+                : 'success'
+            "
+            :title="statusMessage.title"
+            :description="statusMessage.message"
+            :close-button="{ 'aria-label': 'Close' }"
+            @close="statusMessage = null"
+          />
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-6 flex justify-between">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-heroicons-arrow-left"
+            @click="$emit('back')"
+          >
+            Retour à l'analyse
+          </UButton>
+
+          <UButton
+            v-if="hasCVData && hasLetterData"
+            color="blue"
+            size="lg"
+            icon="i-heroicons-arrow-right"
+            trailing
+            @click="$emit('next')"
+          >
+            Télécharger les documents
+          </UButton>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Preview -->
+    <div class="space-y-6">
+      <!-- CV Preview Section -->
+      <div
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+      >
+        <div class="mb-6">
+          <h3
+            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+          >
+            <UIcon name="i-heroicons-eye" class="w-5 h-5 inline mr-2" />
+            Aperçu du CV
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            Prévisualisez votre CV avant de le télécharger
+          </p>
+        </div>
+
+        <div v-if="cvData">
+          <CVPreview :cv-data="cvData" />
+        </div>
+        <div v-else class="text-center py-12">
+          <UIcon
+            name="i-heroicons-document-text"
+            class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4"
+          />
+          <p class="text-gray-500 dark:text-gray-400">
+            Générez d'abord un CV pour voir l'aperçu
+          </p>
+        </div>
+      </div>
+
+      <!-- Letter Preview Section (if generated) -->
+      <div
+        v-if="letterData"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+      >
+        <div class="mb-6">
+          <h3
+            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+          >
+            <UIcon name="i-heroicons-document-text" class="w-5 h-5 inline mr-2" />
+            Aperçu de la lettre de motivation
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            Prévisualisez votre lettre de motivation
+          </p>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-md p-4 max-h-96 overflow-y-auto">
+          <pre class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{{ letterData }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import GenerateButton from "~/components/dashboard/GenerateButton.vue"
+import CVPreview from "~/components/dashboard/CVPreview.vue"
+import type { CVData } from "~/components/templates/mockCVData"
+
+interface StatusMessage {
+  type: "success" | "error" | "warning"
+  title: string
+  message: string
+}
+
+const props = defineProps<{
+  jobAnalysis: any
+}>()
+
+const emit = defineEmits<{
+  back: []
+  next: []
+  documentsGenerated: [data: { cvData: any; letterData: any; cvId: string; letterId: string }]
+}>()
+
+const cvData = ref<CVData | undefined>(undefined)
+const letterData = ref<any | undefined>(undefined)
+const cvId = ref<string | undefined>(undefined)
+const letterId = ref<string | undefined>(undefined)
+const statusMessage = ref<StatusMessage | null>(null)
+const loadingCVGeneration = ref(false)
+const loadingLetterGeneration = ref(false)
+
+const hasCVData = computed(() => !!cvData.value)
+const hasLetterData = computed(() => !!letterData.value)
+
+const handleCVGeneration = async () => {
+  if (!props.jobAnalysis) {
+    showStatusMessage(
+      "error",
+      "Erreur",
+      "Vous devez d'abord analyser une offre d'emploi."
+    )
+    return
+  }
+
+  try {
+    console.log("Generating CV...")
+    loadingCVGeneration.value = true
+    showStatusMessage(
+      "success",
+      "CV en cours de génération",
+      "Votre CV est en cours d'adaptation selon l'offre d'emploi..."
+    )
+
+    // Load master CV first
+    const masterCV = await $fetch<{
+      success: boolean
+      data?: any
+      error?: string
+    }>("/api/cv")
+
+    if (!masterCV.success || !masterCV.data) {
+      throw new Error(
+        masterCV.error ||
+          "CV maître non trouvé. Veuillez configurer votre CV dans les paramètres."
+      )
+    }
+
+    // Call CV adaptation API
+    const response = await $fetch<{
+      success: boolean
+      data?: any
+      error?: string
+    }>("/api/adapt-cv", {
+      method: "POST",
+      body: {
+        cvData: masterCV.data,
+        jobAnalysis: props.jobAnalysis,
+        focusAreas: [],
+      },
+    })
+
+    if (response.success && response.data) {
+      // Convert API response to CVData format for preview
+      const { mockCVData } = await import("~/components/templates/mockCVData")
+      cvData.value = {
+        ...mockCVData,
+        // Integrate some real data from API response
+        summary:
+          response.data.adaptedPersonalInfo?.summary || mockCVData.summary,
+      }
+      cvId.value = "cv-" + Date.now()
+      showStatusMessage(
+        "success",
+        "CV généré avec succès",
+        "Votre CV adapté est prêt. Vous pouvez le prévisualiser."
+      )
+
+      emitDocumentsUpdate()
+    } else {
+      throw new Error(response.error || "Erreur lors de la génération du CV")
+    }
+  } catch (error) {
+    console.error("CV generation error:", error)
+    const errorMessage =
+      error instanceof Error ? error.message : "Erreur inconnue"
+    showStatusMessage("error", "Erreur de génération", errorMessage)
+  }
+  loadingCVGeneration.value = false
+}
+
+const handleLetterGeneration = async () => {
+  if (!props.jobAnalysis) {
+    showStatusMessage(
+      "error",
+      "Erreur",
+      "Vous devez d'abord analyser une offre d'emploi."
+    )
+    return
+  }
+
+  if (!cvData.value) {
+    showStatusMessage(
+      "error",
+      "Erreur",
+      "Vous devez d'abord générer un CV adapté."
+    )
+    return
+  }
+
+  try {
+    console.log("Generating cover letter...")
+    loadingLetterGeneration.value = true
+    showStatusMessage(
+      "success",
+      "Lettre en cours de génération",
+      "Votre lettre de motivation est en cours de création..."
+    )
+
+    // Call letter generation API
+    const response = await $fetch<{
+      success: boolean
+      data?: string
+      error?: string
+    }>("/api/generate-letter", {
+      method: "POST",
+      body: {
+        adaptedCV: cvData.value,
+        jobAnalysis: props.jobAnalysis,
+      },
+    })
+
+    if (response.success && response.data) {
+      letterData.value = response.data
+      letterId.value = "letter-" + Date.now()
+      showStatusMessage(
+        "success",
+        "Lettre générée avec succès",
+        "Votre lettre de motivation est prête."
+      )
+
+      emitDocumentsUpdate()
+    } else {
+      throw new Error(
+        response.error || "Erreur lors de la génération de la lettre"
+      )
+    }
+  } catch (error) {
+    console.error("Letter generation error:", error)
+    const errorMessage =
+      error instanceof Error ? error.message : "Erreur inconnue"
+    showStatusMessage("error", "Erreur de génération", errorMessage)
+  }
+  loadingLetterGeneration.value = false
+}
+
+const emitDocumentsUpdate = () => {
+  emit('documentsGenerated', {
+    cvData: cvData.value,
+    letterData: letterData.value,
+    cvId: cvId.value || '',
+    letterId: letterId.value || ''
+  })
+}
+
+const showStatusMessage = (
+  type: "success" | "error" | "warning",
+  title: string,
+  message: string
+) => {
+  statusMessage.value = { type, title, message }
+
+  // Auto-dismiss success and info messages
+  if (type === "success") {
+    setTimeout(() => {
+      statusMessage.value = null
+    }, 5000)
+  }
+}
+</script>
