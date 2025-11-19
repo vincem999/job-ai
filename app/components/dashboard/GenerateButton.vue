@@ -11,11 +11,11 @@
       @click="handleGenerate"
     >
       <template v-if="!loading">
-        <Icon name="i-lucide-file-text" class="mr-2" />
-        Generate Documents
+        <Icon :name="icon" class="mr-2" />
+        <slot>Générer le document</slot>
       </template>
       <template v-else>
-        Generating your documents...
+        {{ loadingText }}
       </template>
     </UButton>
 
@@ -49,6 +49,9 @@ interface Props {
   loading?: boolean
   hasValidInput?: boolean
   showValidationMessage?: boolean
+  type?: 'cv' | 'letter' | 'general'
+  loadingText?: string
+  icon?: string
 }
 
 interface Emits {
@@ -59,7 +62,10 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   loading: false,
   hasValidInput: false,
-  showValidationMessage: true
+  showValidationMessage: true,
+  type: 'general',
+  loadingText: 'Génération en cours...',
+  icon: 'i-lucide-file-text'
 })
 
 const emit = defineEmits<Emits>()

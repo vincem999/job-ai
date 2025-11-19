@@ -23,11 +23,14 @@
 
         <div class="space-y-4">
           <!-- Auto-generation status or manual button -->
-          <div v-if="loadingCVGeneration" class="flex items-center justify-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-            <div class="flex items-center space-x-3">
-              <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 text-blue-500 animate-spin" />
-              <span class="text-blue-600 dark:text-blue-400 font-medium">Génération automatique du CV en cours...</span>
-            </div>
+          <div v-if="loadingCVGeneration" class="border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+            <LoadingSpinner
+              text="Génération automatique du CV en cours..."
+              color="text-blue-600 dark:text-blue-400"
+              size="md"
+              :show-text="true"
+              container-class="p-6"
+            />
           </div>
           <GenerateButton
             v-else-if="!hasCVData"
@@ -35,6 +38,8 @@
             :has-valid-input="!!jobAnalysis"
             :loading="false"
             type="cv"
+            loading-text="Génération du CV en cours..."
+            icon="i-heroicons-document-text"
             @generate="handleCVGeneration"
           >
             Régénérer le CV adapté
@@ -48,8 +53,11 @@
 
           <GenerateButton
             :disabled="!jobAnalysis || !hasCVData"
+            :has-valid-input="!!jobAnalysis && !!hasCVData"
             type="letter"
             :loading="loadingLetterGeneration"
+            loading-text="Génération de la lettre en cours..."
+            icon="i-heroicons-envelope"
             @generate="handleLetterGeneration"
           >
             Générer la lettre de motivation
@@ -158,6 +166,7 @@
 <script setup lang="ts">
 import GenerateButton from "~/components/dashboard/GenerateButton.vue"
 import CVPreview from "~/components/dashboard/CVPreview.vue"
+import LoadingSpinner from "~/components/dashboard/LoadingSpinner.vue"
 import type { CVData } from "~/components/templates/mockCVData"
 
 interface StatusMessage {
