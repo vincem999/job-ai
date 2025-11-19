@@ -19,6 +19,20 @@
 
       <JobOfferInput @submit="handleJobSubmission" @clear="handleJobClear" />
 
+      <!-- Loading State -->
+      <div v-if="isAnalyzing" class="mt-6">
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6">
+          <LoadingSpinner
+            text="Analyse en cours de l'offre d'emploi..."
+            color="text-blue-600 dark:text-blue-400"
+            size="md"
+          />
+          <p class="text-sm text-blue-600 dark:text-blue-300 mt-3 text-center">
+            Extraction des compétences requises et analyse des critères de sélection
+          </p>
+        </div>
+      </div>
+
       <!-- Status Messages -->
       <div v-if="statusMessage" class="mt-4">
         <UAlert
@@ -49,6 +63,7 @@
 
 <script setup lang="ts">
 import JobOfferInput from "~/components/dashboard/JobOfferInput.vue"
+import LoadingSpinner from "~/components/dashboard/LoadingSpinner.vue"
 
 interface StatusMessage {
   type: "success" | "error" | "warning"
@@ -63,6 +78,7 @@ const emit = defineEmits<{
 
 const jobAnalysis = ref(null)
 const statusMessage = ref<StatusMessage | null>(null)
+const isAnalyzing = ref(false)
 
 const hasJobAnalysis = computed(() => !!jobAnalysis.value)
 
@@ -70,11 +86,9 @@ const handleJobSubmission = async (jobData: any) => {
   try {
     console.log("Job offer submitted:", jobData)
 
-    showStatusMessage(
-      "success",
-      "Analyse en cours",
-      "L'offre d'emploi est en cours d'analyse..."
-    )
+    // Start analyzing state
+    isAnalyzing.value = true
+    statusMessage.value = null // Clear any previous status messages
 
     // Call job analysis API
     const response = await $fetch<{
@@ -93,6 +107,9 @@ const handleJobSubmission = async (jobData: any) => {
     if (response.success && response.data) {
       // Store the analyzed job data
       jobAnalysis.value = response.data
+
+      // Stop analyzing state
+      isAnalyzing.value = false
 
       showStatusMessage(
         "success",
@@ -116,6 +133,10 @@ const handleJobSubmission = async (jobData: any) => {
     console.error("Job analysis error:", error)
     const errorMessage =
       error instanceof Error ? error.message : "Erreur inconnue"
+
+    // Stop analyzing state
+    isAnalyzing.value = false
+
     showStatusMessage("error", "Erreur d'analyse", errorMessage)
 
     // Clear job analysis on error
@@ -126,6 +147,7 @@ const handleJobSubmission = async (jobData: any) => {
 const handleJobClear = () => {
   jobAnalysis.value = null
   statusMessage.value = null
+  isAnalyzing.value = false
 }
 
 const showStatusMessage = (
