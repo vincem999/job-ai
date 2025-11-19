@@ -85,14 +85,14 @@
           </UButton>
 
           <UButton
-            v-if="hasCVData"
-            color="blue"
+            v-if="hasCVData && !loadingCVGeneration"
+            color="primary"
             size="lg"
             icon="i-heroicons-arrow-right"
             trailing
             @click="$emit('next')"
           >
-            Télécharger les documents
+            Aller au téléchargement
           </UButton>
         </div>
       </div>
@@ -260,6 +260,11 @@ const handleCVGeneration = async () => {
       )
 
       emitDocumentsUpdate()
+
+      // Auto-navigate to next step after successful CV generation
+      setTimeout(() => {
+        emit('next')
+      }, 1000) // Short delay to show success message
     } else {
       throw new Error(response.error || "Erreur lors de la génération du CV")
     }
