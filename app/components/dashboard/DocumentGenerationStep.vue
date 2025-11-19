@@ -22,15 +22,29 @@
         </div>
 
         <div class="space-y-4">
+          <!-- Auto-generation status or manual button -->
+          <div v-if="loadingCVGeneration" class="flex items-center justify-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 text-blue-500 animate-spin" />
+              <span class="text-blue-600 dark:text-blue-400 font-medium">Génération automatique du CV en cours...</span>
+            </div>
+          </div>
           <GenerateButton
+            v-else-if="!hasCVData"
             :disabled="!jobAnalysis"
             :has-valid-input="!!jobAnalysis"
-            :loading="loadingCVGeneration"
+            :loading="false"
             type="cv"
             @generate="handleCVGeneration"
           >
-            Générer le CV adapté
+            Régénérer le CV adapté
           </GenerateButton>
+          <div v-else class="flex items-center justify-center p-4 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20">
+            <div class="flex items-center space-x-3">
+              <UIcon name="i-heroicons-check-circle" class="w-5 h-5 text-green-500" />
+              <span class="text-green-600 dark:text-green-400 font-medium">CV adapté généré automatiquement</span>
+            </div>
+          </div>
 
           <GenerateButton
             :disabled="!jobAnalysis || !hasCVData"
@@ -71,7 +85,7 @@
           </UButton>
 
           <UButton
-            v-if="hasCVData && hasLetterData"
+            v-if="hasCVData"
             color="blue"
             size="lg"
             icon="i-heroicons-arrow-right"
@@ -171,7 +185,16 @@ const loadingCVGeneration = ref(false)
 const loadingLetterGeneration = ref(false)
 
 const hasCVData = computed(() => !!cvData.value)
-const hasLetterData = computed(() => !!letterData.value)
+
+// Auto-start CV generation when jobAnalysis becomes available
+watch(() => props.jobAnalysis, (newJobAnalysis, oldJobAnalysis) => {
+  if (newJobAnalysis && !oldJobAnalysis && !cvData.value && !loadingCVGeneration.value) {
+    // Small delay to allow UI to settle
+    setTimeout(() => {
+      handleCVGeneration()
+    }, 500)
+  }
+}, { immediate: true })
 
 const handleCVGeneration = async () => {
   if (!props.jobAnalysis) {
