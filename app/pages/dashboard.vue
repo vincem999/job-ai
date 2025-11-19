@@ -68,6 +68,7 @@
         <UStepper
           :model-value="currentStep"
           :items="workflowSteps"
+          disabled
           color="primary"
           size="sm"
         />
@@ -153,18 +154,18 @@ const workflowSteps = [
   {
     title: "Analyser l'offre",
     description: "Analyse de l'offre d'emploi",
-    icon: "i-heroicons-document-magnifying-glass"
+    icon: "i-heroicons-document-magnifying-glass",
   },
   {
     title: "Générer les documents",
     description: "Création du CV et lettre de motivation",
-    icon: "i-heroicons-document-text"
+    icon: "i-heroicons-document-text",
   },
   {
     title: "Télécharger",
     description: "Récupération des fichiers générés",
-    icon: "i-heroicons-arrow-down-tray"
-  }
+    icon: "i-heroicons-arrow-down-tray",
+  },
 ]
 
 // Navigation functions

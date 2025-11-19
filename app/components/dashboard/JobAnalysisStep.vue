@@ -5,9 +5,7 @@
       class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
     >
       <div class="mb-6">
-        <h3
-          class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
-        >
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           <UIcon
             name="i-heroicons-clipboard-document-list"
             class="w-5 h-5 inline mr-2"
@@ -15,15 +13,11 @@
           Analyser l'offre d'emploi
         </h3>
         <p class="text-gray-600 dark:text-gray-300 text-sm">
-          Saisissez les détails de l'offre d'emploi pour commencer
-          l'analyse
+          Saisissez les détails de l'offre d'emploi pour commencer l'analyse
         </p>
       </div>
 
-      <JobOfferInput
-        @submit="handleJobSubmission"
-        @clear="handleJobClear"
-      />
+      <JobOfferInput @submit="handleJobSubmission" @clear="handleJobClear" />
 
       <!-- Status Messages -->
       <div v-if="statusMessage" class="mt-4">
@@ -42,17 +36,12 @@
         />
       </div>
 
-      <!-- Next Step Button -->
-      <div v-if="hasJobAnalysis" class="mt-6 flex justify-end">
-        <UButton
-          color="blue"
-          size="lg"
-          icon="i-heroicons-arrow-right"
-          trailing
-          @click="$emit('next')"
-        >
-          Continuer vers la génération
-        </UButton>
+      <!-- Auto-transition notification -->
+      <div v-if="hasJobAnalysis" class="mt-6 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          <UIcon name="i-heroicons-check-circle" class="w-4 h-4 inline text-green-500 mr-1" />
+          Transition automatique vers l'étape suivante...
+        </p>
       </div>
     </div>
   </div>
@@ -108,11 +97,16 @@ const handleJobSubmission = async (jobData: any) => {
       showStatusMessage(
         "success",
         "Offre d'emploi analysée",
-        "L'analyse de l'offre d'emploi est terminée. Cliquez sur 'Continuer' pour passer à l'étape suivante."
+        "L'analyse de l'offre d'emploi est terminée. Transition automatique vers l'étape suivante..."
       )
 
       // Emit analysis completion
-      emit('analysisComplete', response.data)
+      emit("analysisComplete", response.data)
+
+      // Auto-transition to next step
+      setTimeout(() => {
+        emit("next")
+      }, 1500) // Petite pause pour permettre à l'utilisateur de voir le message de succès
     } else {
       throw new Error(
         response.error || "Erreur lors de l'analyse de l'offre d'emploi"
