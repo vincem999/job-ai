@@ -14,10 +14,10 @@
               name="i-heroicons-cog-6-tooth"
               class="w-5 h-5 inline mr-2"
             />
-            Générer les documents
+            Générer le CV adapté
           </h3>
           <p class="text-gray-600 dark:text-gray-300 text-sm">
-            Créez votre CV adapté et votre lettre de motivation
+            Créez votre CV adapté à l'offre d'emploi
           </p>
         </div>
 
@@ -51,6 +51,8 @@
             </div>
           </div>
 
+          <!-- Letter generation temporarily disabled -->
+          <!--
           <GenerateButton
             :disabled="!jobAnalysis || !hasCVData"
             :has-valid-input="!!jobAnalysis && !!hasCVData"
@@ -62,6 +64,7 @@
           >
             Générer la lettre de motivation
           </GenerateButton>
+          -->
         </div>
 
         <!-- Status Messages -->
@@ -138,7 +141,8 @@
         </div>
       </div>
 
-      <!-- Letter Preview Section (if generated) -->
+      <!-- Letter Preview Section temporarily disabled -->
+      <!--
       <div
         v-if="letterData"
         class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
@@ -159,6 +163,7 @@
           <pre class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{{ letterData }}</pre>
         </div>
       </div>
+      -->
     </div>
   </div>
 </template>
@@ -286,7 +291,7 @@ const handleCVGeneration = async () => {
   loadingCVGeneration.value = false
 }
 
-const handleLetterGeneration = async () => {
+const _handleLetterGeneration = async () => {
   if (!props.jobAnalysis) {
     showStatusMessage(
       "error",
