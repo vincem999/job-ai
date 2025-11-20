@@ -9,6 +9,7 @@ export interface PersonalInfo {
   location: string
   linkedin?: string
   github?: string
+  photo?: string
 }
 
 export interface Experience {
@@ -67,124 +68,121 @@ export interface CVData {
 
 export const mockCVData = {
   personalInfo: {
-    name: "Jean Dupont",
-    title: "Développeur Full Stack Senior",
-    email: "jean.dupont@email.com",
-    phone: "+33 6 12 34 56 78",
-    location: "Paris, France",
-    linkedin: "linkedin.com/in/jeandupont",
-    github: "github.com/jeandupont"
+    name: "Vincent MONNEGER",
+    title: "Développeur Front-end Vue.js",
+    email: "vincentmonneger@gmail.com",
+    phone: "06 51 89 31 49",
+    location: "Louveciennes, France",
+    linkedin: "linkedin.com/in/vincent-monneger",
+    github: "github.com/vincentmonneger",
+    photo: "/profile.jpg"
   },
-  summary: "Développeur Full Stack passionné avec 8 ans d'expérience dans le développement d'applications web modernes. Expert en React, Node.js et TypeScript, avec une forte expérience en architecture microservices et DevOps. Capable de mener des projets de bout en bout, de la conception à la mise en production, avec un focus sur la qualité du code et l'expérience utilisateur.",
+  summary: "Développeur front-end spécialisé Vue.js, avec un fort esprit d'initiative et une curiosité naturelle. Polyvalent, je possède également des compétences en backend, DevOps et cloud, ce qui me permet de contribuer efficacement à différents aspects du développement applicatif.",
   experiences: [
     {
       id: "exp-1",
-      title: "Lead Developer Full Stack",
-      company: "TechCorp Innovation",
+      title: "Développeur Full Stack",
+      company: "Vincent Monneger (Freelance)",
       location: "Paris, France",
-      startDate: "2022-03",
+      startDate: "10/2025",
       endDate: "Present",
-      description: "Encadrement d'une équipe de 5 développeurs sur un projet de refonte complète d'une plateforme e-commerce.",
+      description: "Création d'un SaaS (en cours) avec l'API Open AI. Mettre à disposition le deep research",
       bullets: [
-        "Conception et développement d'une architecture microservices gérant 100k+ utilisateurs quotidiens",
-        "Mise en place d'un pipeline CI/CD avec Docker et Kubernetes réduisant le temps de déploiement de 75%",
-        "Optimisation des performances API résultant en une amélioration de 40% du temps de réponse",
-        "Formation et mentorat de l'équipe sur les bonnes pratiques React et TypeScript"
+        "Utilisation de Claude Code avec context engineering pour le développement",
+        "Backend Node.js/Express avec architecture microservices",
+        "Cache & Queue : Redis + BullMQ pour traitement asynchrone",
+        "Déploiement sur Railway (backend) et Vercel (frontend)"
       ],
-      skills: ["React", "TypeScript", "Node.js", "MongoDB", "Kubernetes", "AWS"]
+      skills: ["Node.js", "Express", "Redis", "BullMQ", "Supabase", "Nuxt 4", "OpenAI API"]
     },
     {
       id: "exp-2",
-      title: "Développeur Full Stack",
-      company: "StartupLab",
-      location: "Lyon, France",
-      startDate: "2019-06",
-      endDate: "2022-02",
-      description: "Développement d'applications web innovantes pour des clients variés dans l'écosystème startup.",
+      title: "Développeur web",
+      company: "Vincent Monneger (Freelance)",
+      location: "Paris, France",
+      startDate: "11/2024",
+      endDate: "Present",
+      description: "Création site Webflow avec du custom code et autres projets avec technologies modernes",
       bullets: [
-        "Développement de 12 applications web from scratch avec React et Vue.js",
-        "Création d'APIs REST avec Node.js et Express, gestion de bases de données PostgreSQL",
-        "Intégration de solutions de paiement (Stripe, PayPal) et services tiers",
-        "Collaboration étroite avec les équipes design et product pour l'UX/UI"
+        "Création du site https://www.re-nesens.com avec Webflow",
+        "Développement de projets avec Astro.js",
+        "Intégration d'animations GSAP",
+        "Développement WordPress personnalisé"
       ],
-      skills: ["React", "Vue.js", "Node.js", "PostgreSQL", "Stripe API", "Docker"]
+      skills: ["Webflow", "Astro.js", "GSAP", "WordPress", "JavaScript"]
     },
     {
       id: "exp-3",
-      title: "Développeur Frontend Junior",
-      company: "Digital Agency Pro",
-      location: "Marseille, France",
-      startDate: "2017-09",
-      endDate: "2019-05",
-      description: "Premier poste en développement web, spécialisé en développement frontend moderne.",
+      title: "Développeur front",
+      company: "Jobpass",
+      location: "Paris, France",
+      startDate: "10/2021",
+      endDate: "09/2024",
+      description: "Arrivé à la création de l'entreprise, développement complet de l'application frontend",
       bullets: [
-        "Développement de sites web responsive avec HTML5, CSS3 et JavaScript ES6+",
-        "Création de composants réutilisables avec React et styled-components",
-        "Intégration de maquettes Figma pixel-perfect",
-        "Optimisation SEO et performances web (Lighthouse scores > 90)"
+        "Développement de l'application en Vue 2, puis migration vers Vue 3 avec Typescript",
+        "Passage de VueX à Pinia pour le state management",
+        "Configuration du framework Quasar et personnalisation des composants",
+        "Intégration de GraphQL avec le client Apollo pour les requêtes API",
+        "Mise en place de l'authentification via Firebase, puis migration vers Auth0",
+        "Réalisation de tests automatisés avec Cypress pour garantir la qualité du code"
       ],
-      skills: ["HTML5", "CSS3", "JavaScript", "React", "Sass", "Webpack"]
+      skills: ["Vue.js", "TypeScript", "Pinia", "Quasar", "GraphQL", "Apollo", "Cypress"]
     }
   ],
   education: [
     {
       id: "edu-1",
-      degree: "Master en Informatique",
-      institution: "École Supérieure d'Informatique de Paris",
-      year: "2017",
-      description: "Spécialisation en développement web et ingénierie logicielle. Projet de fin d'études sur une application mobile React Native."
+      degree: "Bachelor Développeur Web",
+      institution: "Hetic",
+      year: "2021-2023",
+      description: "Formation complète en développement web avec spécialisation frontend et backend : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web"
     },
     {
       id: "edu-2",
-      degree: "Licence en Informatique",
-      institution: "Université de Marseille",
-      year: "2015",
-      description: "Formation généraliste en informatique avec focus sur la programmation et les bases de données."
+      degree: "Développeur web junior RNCP niveau 5 (BAC +2)",
+      institution: "OpenClassrooms",
+      year: "2020-2021",
+      description: "Formation en développement web : HTML, CSS, JavaScript, Vue.js, Node.js, Express, MongoDB, Accessibilité web"
     }
   ],
   skills: {
     technical: [
-      "TypeScript", "JavaScript", "React", "Vue.js", "Node.js", "Express",
-      "MongoDB", "PostgreSQL", "Docker", "Kubernetes", "AWS", "Git",
-      "Jest", "Cypress", "Webpack", "Vite", "HTML5", "CSS3", "Sass"
+      "Vue.js", "TypeScript", "JavaScript", "Nuxt.js", "Node.js", "React",
+      "Svelte", "GraphQL", "Docker", "Cloud", "Cypress", "Storybook", "Webflow",
+      "Express", "Redis", "BullMQ", "Supabase", "GSAP", "Astro.js", "Pinia"
     ],
     languages: [
-      "Français (natif)", "Anglais (courant)", "Espagnol (intermédiaire)"
+      "Français (natif)", "Anglais (conversationnel)"
     ],
     soft: [
-      "Leadership", "Travail en équipe", "Communication", "Résolution de problèmes",
-      "Gestion de projet", "Mentorat", "Pensée critique", "Adaptabilité"
+      "Initiative", "Curiosité", "Polyvalence", "Adaptabilité",
+      "Collaboration", "Résolution de problèmes", "Innovation", "Autonomie"
     ]
   },
-  certifications: [
-    {
-      id: "cert-1",
-      name: "AWS Certified Developer - Associate",
-      issuer: "Amazon Web Services",
-      date: "2023-06"
-    },
-    {
-      id: "cert-2",
-      name: "React Developer Certification",
-      issuer: "Meta",
-      date: "2022-11"
-    }
-  ],
+  certifications: [],
   projects: [
     {
       id: "proj-1",
-      name: "TaskMaster Pro",
-      description: "Application de gestion de tâches collaborative avec temps réel, notifications push et tableau de bord analytique.",
-      technologies: ["React", "TypeScript", "Node.js", "Socket.io", "MongoDB"],
-      url: "https://taskmaster-pro.com",
-      date: "2023"
+      name: "SaaS Deep Research",
+      description: "Création d'un SaaS utilisant l'API OpenAI pour fournir des services de deep research avec architecture microservices.",
+      technologies: ["Node.js", "Express", "Redis", "BullMQ", "Supabase", "Nuxt 4", "OpenAI API"],
+      date: "2025"
     },
     {
       id: "proj-2",
-      name: "E-Commerce Platform",
-      description: "Plateforme e-commerce complète avec gestion des stocks, paiements sécurisés et interface d'administration.",
-      technologies: ["Vue.js", "Nuxt.js", "Stripe API", "PostgreSQL"],
-      date: "2022"
+      name: "Re-Nesens Website",
+      description: "Site web moderne créé avec Webflow et du code personnalisé, intégrant des animations et un design responsive.",
+      technologies: ["Webflow", "JavaScript", "Custom Code"],
+      url: "https://www.re-nesens.com",
+      date: "2024"
+    },
+    {
+      id: "proj-3",
+      name: "Jobpass Application",
+      description: "Application de gestion de candidatures développée from scratch avec Vue.js, migration complète de Vue 2 vers Vue 3.",
+      technologies: ["Vue.js", "TypeScript", "Pinia", "Quasar", "GraphQL", "Apollo"],
+      date: "2021-2024"
     }
   ]
 }

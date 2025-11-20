@@ -157,13 +157,13 @@ const workflowSteps = [
     icon: "i-heroicons-document-magnifying-glass",
   },
   {
-    title: "Générer les documents",
-    description: "Création du CV et lettre de motivation",
+    title: "Générer le document",
+    description: "Création du CV",
     icon: "i-heroicons-document-text",
   },
   {
     title: "Télécharger",
-    description: "Récupération des fichiers générés",
+    description: "Récupération du fichier généré",
     icon: "i-heroicons-arrow-down-tray",
   },
 ]

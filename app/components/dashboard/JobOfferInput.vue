@@ -35,24 +35,6 @@
         />
       </UFormField>
 
-      <UFormField name="location" label="Location">
-        <UInput
-          v-model="state.location"
-          class="w-full"
-          placeholder="e.g. San Francisco, CA / Remote"
-          :disabled="loading"
-        />
-      </UFormField>
-
-      <UFormField name="salary" label="Salary Range">
-        <UInput
-          v-model="state.salary"
-          class="w-full"
-          placeholder="e.g. $80,000 - $120,000"
-          :disabled="loading"
-        />
-      </UFormField>
-
       <div class="flex justify-end space-x-3 pt-4">
         <UButton
           type="button"
@@ -106,8 +88,6 @@ const schema = z.object({
     .string()
     .min(50, "Job description must be at least 50 characters")
     .max(5000, "Job description is too long"),
-  location: z.string().max(100, "Location is too long").optional(),
-  salary: z.string().max(100, "Salary range is too long").optional(),
 })
 
 type Schema = z.infer<typeof schema>
@@ -117,8 +97,6 @@ const state = reactive({
   title: "",
   company: "",
   description: "",
-  location: "",
-  salary: "",
 })
 
 const loading = ref(false)
@@ -240,8 +218,6 @@ const clearForm = () => {
   state.title = ""
   state.company = ""
   state.description = ""
-  state.location = ""
-  state.salary = ""
   feedback.value = null
   emit("clear")
 }

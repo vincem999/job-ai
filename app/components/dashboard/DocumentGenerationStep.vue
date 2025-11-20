@@ -7,13 +7,8 @@
         class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
       >
         <div class="mb-6">
-          <h3
-            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
-          >
-            <UIcon
-              name="i-heroicons-cog-6-tooth"
-              class="w-5 h-5 inline mr-2"
-            />
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5 inline mr-2" />
             Générer le CV adapté
           </h3>
           <p class="text-gray-600 dark:text-gray-300 text-sm">
@@ -23,7 +18,10 @@
 
         <div class="space-y-4">
           <!-- Auto-generation status or manual button -->
-          <div v-if="loadingCVGeneration" class="border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+          <div
+            v-if="loadingCVGeneration"
+            class="border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20"
+          >
             <LoadingSpinner
               text="Génération automatique du CV en cours..."
               color="text-blue-600 dark:text-blue-400"
@@ -44,27 +42,20 @@
           >
             Régénérer le CV adapté
           </GenerateButton>
-          <div v-else class="flex items-center justify-center p-4 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20">
+          <div
+            v-else
+            class="flex items-center justify-center p-4 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20"
+          >
             <div class="flex items-center space-x-3">
-              <UIcon name="i-heroicons-check-circle" class="w-5 h-5 text-green-500" />
-              <span class="text-green-600 dark:text-green-400 font-medium">CV adapté généré automatiquement</span>
+              <UIcon
+                name="i-heroicons-check-circle"
+                class="w-5 h-5 text-green-500"
+              />
+              <span class="text-green-600 dark:text-green-400 font-medium"
+                >CV adapté généré automatiquement</span
+              >
             </div>
           </div>
-
-          <!-- Letter generation temporarily disabled -->
-          <!--
-          <GenerateButton
-            :disabled="!jobAnalysis || !hasCVData"
-            :has-valid-input="!!jobAnalysis && !!hasCVData"
-            type="letter"
-            :loading="loadingLetterGeneration"
-            loading-text="Génération de la lettre en cours..."
-            icon="i-heroicons-envelope"
-            @generate="handleLetterGeneration"
-          >
-            Générer la lettre de motivation
-          </GenerateButton>
-          -->
         </div>
 
         <!-- Status Messages -->
@@ -116,9 +107,7 @@
         class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
       >
         <div class="mb-6">
-          <h3
-            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
-          >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             <UIcon name="i-heroicons-eye" class="w-5 h-5 inline mr-2" />
             Aperçu du CV
           </h3>
@@ -140,30 +129,6 @@
           </p>
         </div>
       </div>
-
-      <!-- Letter Preview Section temporarily disabled -->
-      <!--
-      <div
-        v-if="letterData"
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
-      >
-        <div class="mb-6">
-          <h3
-            class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
-          >
-            <UIcon name="i-heroicons-document-text" class="w-5 h-5 inline mr-2" />
-            Aperçu de la lettre de motivation
-          </h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm">
-            Prévisualisez votre lettre de motivation
-          </p>
-        </div>
-
-        <div class="bg-gray-50 dark:bg-gray-700 rounded-md p-4 max-h-96 overflow-y-auto">
-          <pre class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{{ letterData }}</pre>
-        </div>
-      </div>
-      -->
     </div>
   </div>
 </template>
@@ -187,7 +152,9 @@ const props = defineProps<{
 const emit = defineEmits<{
   back: []
   next: []
-  documentsGenerated: [data: { cvData: any; letterData: any; cvId: string; letterId: string }]
+  documentsGenerated: [
+    data: { cvData: any; letterData: any; cvId: string; letterId: string }
+  ]
 }>()
 
 const cvData = ref<CVData | undefined>(undefined)
@@ -201,14 +168,23 @@ const loadingLetterGeneration = ref(false)
 const hasCVData = computed(() => !!cvData.value)
 
 // Auto-start CV generation when jobAnalysis becomes available
-watch(() => props.jobAnalysis, (newJobAnalysis, oldJobAnalysis) => {
-  if (newJobAnalysis && !oldJobAnalysis && !cvData.value && !loadingCVGeneration.value) {
-    // Small delay to allow UI to settle
-    setTimeout(() => {
-      handleCVGeneration()
-    }, 500)
-  }
-}, { immediate: true })
+watch(
+  () => props.jobAnalysis,
+  (newJobAnalysis, oldJobAnalysis) => {
+    if (
+      newJobAnalysis &&
+      !oldJobAnalysis &&
+      !cvData.value &&
+      !loadingCVGeneration.value
+    ) {
+      // Small delay to allow UI to settle
+      setTimeout(() => {
+        handleCVGeneration()
+      }, 500)
+    }
+  },
+  { immediate: true }
+)
 
 const handleCVGeneration = async () => {
   if (!props.jobAnalysis) {
@@ -277,7 +253,7 @@ const handleCVGeneration = async () => {
 
       // Auto-navigate to next step after successful CV generation
       setTimeout(() => {
-        emit('next')
+        emit("next")
       }, 1000) // Short delay to show success message
     } else {
       throw new Error(response.error || "Erreur lors de la génération du CV")
@@ -357,11 +333,11 @@ const _handleLetterGeneration = async () => {
 }
 
 const emitDocumentsUpdate = () => {
-  emit('documentsGenerated', {
+  emit("documentsGenerated", {
     cvData: cvData.value,
     letterData: letterData.value,
-    cvId: cvId.value || '',
-    letterId: letterId.value || ''
+    cvId: cvId.value || "",
+    letterId: letterId.value || "",
   })
 }
 
