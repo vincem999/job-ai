@@ -5,9 +5,7 @@
       class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
     >
       <div class="mb-6">
-        <h3
-          class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
-        >
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           <UIcon
             name="i-heroicons-arrow-down-tray"
             class="w-5 h-5 inline mr-2"
@@ -19,10 +17,7 @@
         </p>
       </div>
 
-      <DocumentDownload
-        :cv-data="cvData"
-        :letter-data="letterData"
-      />
+      <DocumentDownload :cv-data="cvData" :letter-data="letterData" />
 
       <!-- Navigation Buttons -->
       <div class="mt-8 flex justify-between">
@@ -56,7 +51,9 @@
           class="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
         />
         <div>
-          <h4 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-2">
+          <h4
+            class="text-lg font-semibold text-green-900 dark:text-green-100 mb-2"
+          >
             Processus terminé avec succès !
           </h4>
           <p class="text-green-800 dark:text-green-200 text-sm mb-4">
@@ -66,12 +63,13 @@
           <!-- Document Status -->
           <div class="space-y-2">
             <div v-if="cvData" class="flex items-center space-x-2 text-sm">
-              <UIcon name="i-heroicons-document-text" class="w-4 h-4 text-green-600 dark:text-green-400" />
-              <span class="text-green-800 dark:text-green-200">CV adapté généré</span>
-            </div>
-            <div v-if="letterData" class="flex items-center space-x-2 text-sm">
-              <UIcon name="i-heroicons-document-text" class="w-4 h-4 text-green-600 dark:text-green-400" />
-              <span class="text-green-800 dark:text-green-200">Lettre de motivation générée</span>
+              <UIcon
+                name="i-heroicons-document-text"
+                class="w-4 h-4 text-green-600 dark:text-green-400"
+              />
+              <span class="text-green-800 dark:text-green-200"
+                >CV adapté généré</span
+              >
             </div>
           </div>
         </div>
@@ -88,14 +86,18 @@
           class="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
         />
         <div>
-          <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
+          <h4
+            class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2"
+          >
             Conseils pour votre candidature
           </h4>
           <ul class="text-blue-800 dark:text-blue-200 text-sm space-y-1">
             <li>• Relisez attentivement votre CV adapté avant l'envoi</li>
             <li>• Personnalisez encore plus votre lettre si nécessaire</li>
             <li>• Vérifiez les coordonnées du recruteur</li>
-            <li>• Préparez-vous aux questions d'entretien basées sur l'offre</li>
+            <li>
+              • Préparez-vous aux questions d'entretien basées sur l'offre
+            </li>
           </ul>
         </div>
       </div>
@@ -121,6 +123,6 @@ const emit = defineEmits<{
 }>()
 
 const handleRestart = () => {
-  emit('restart')
+  emit("restart")
 }
 </script>

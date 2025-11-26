@@ -1,30 +1,24 @@
-import jsPDF from 'jspdf'
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx'
 import type { AdaptedCV } from '../types/cv'
 import type { CoverLetter, ExportFormat, ExportResult } from '../types/api'
 
 /**
- * Export document to PDF or DOCX format
+ * Export document to DOCX format (server-side)
  */
 export async function exportDocument(
   document: AdaptedCV | CoverLetter | string,
   documentType: 'cv' | 'letter',
-  format: 'pdf' | 'docx'
+  format: 'docx'
 ): Promise<ExportResult> {
   const timestamp = new Date().toISOString().slice(0, 10)
   const docTypeLabel = documentType === 'cv' ? 'CV' : 'Lettre'
   const filename = `${docTypeLabel}_${timestamp}.${format}`
 
-  let blob: Blob
-
-  if (format === 'pdf') {
-    blob = await generatePDF(document, documentType)
-  } else if (format === 'docx') {
-    blob = await generateDOCX(document, documentType)
-  } else {
-    throw new Error(`Format non supporté: ${format}`)
+  if (format !== 'docx') {
+    throw new Error(`Format non supporté côté serveur: ${format}. Utilisez le composable côté client pour le PDF.`)
   }
 
+  const blob = await generateDOCX(document, documentType)
   const size = blob.size
   const downloadUrl = URL.createObjectURL(blob)
 
@@ -42,152 +36,6 @@ export async function exportDocument(
   }
 }
 
-/**
- * Generate PDF document using jsPDF
- */
-async function generatePDF(
-  document: AdaptedCV | CoverLetter | string,
-  documentType: 'cv' | 'letter'
-): Promise<Blob> {
-  const pdf = new jsPDF()
-  const pageWidth = pdf.internal.pageSize.getWidth()
-  const margin = 20
-  let yPosition = margin
-
-  // Helper function to add text with line wrapping
-  const addText = (text: string, fontSize = 12, isBold = false, isTitle = false) => {
-    pdf.setFontSize(fontSize)
-    pdf.setFont('helvetica', isBold ? 'bold' : 'normal')
-
-    if (isTitle) {
-      const textWidth = pdf.getTextWidth(text)
-      const xPosition = (pageWidth - textWidth) / 2
-      pdf.text(text, xPosition, yPosition)
-    } else {
-      const lines = pdf.splitTextToSize(text, pageWidth - 2 * margin)
-      pdf.text(lines, margin, yPosition)
-      return lines.length
-    }
-    return 1
-  }
-
-  // Helper function to check if we need a new page
-  const checkNewPage = (requiredSpace = 20) => {
-    if (yPosition + requiredSpace > pdf.internal.pageSize.getHeight() - margin) {
-      pdf.addPage()
-      yPosition = margin
-    }
-  }
-
-  if (documentType === 'cv' && typeof document === 'object' && 'personalInfo' in document) {
-    const cv = document as AdaptedCV
-
-    // Header - Personal Info
-    if (cv.personalInfo) {
-      const fullName = `${cv.personalInfo.firstName} ${cv.personalInfo.lastName}`
-      addText(fullName, 20, true, true)
-      yPosition += 15
-
-      addText(cv.personalInfo.email, 12)
-      yPosition += 8
-
-      if (cv.personalInfo.phone) {
-        addText(cv.personalInfo.phone, 12)
-        yPosition += 8
-      }
-
-      if (cv.personalInfo.address) {
-        addText(`${cv.personalInfo.address.city}, ${cv.personalInfo.address.country}`, 12)
-        yPosition += 8
-      }
-
-      yPosition += 10
-
-      // Add line separator
-      pdf.setDrawColor(0, 0, 0)
-      pdf.line(margin, yPosition, pageWidth - margin, yPosition)
-      yPosition += 15
-    }
-
-    // Work Experience
-    if (cv.workExperience?.length) {
-      checkNewPage(30)
-      addText('EXPÉRIENCE PROFESSIONNELLE', 16, true)
-      yPosition += 12
-
-      cv.workExperience.forEach((exp, index) => {
-        checkNewPage(40)
-
-        addText(`${exp.position} - ${exp.company}`, 14, true)
-        yPosition += 10
-
-        addText(`${exp.startDate} - ${exp.endDate || 'Présent'}`, 10)
-        yPosition += 8
-
-        if (exp.description) {
-          const lines = addText(exp.description, 12)
-          yPosition += lines * 6
-        }
-
-        if (index < cv.workExperience.length - 1) {
-          yPosition += 10
-        }
-      })
-      yPosition += 15
-    }
-
-    // Skills
-    if (cv.skills?.length) {
-      checkNewPage(30)
-      addText('COMPÉTENCES', 16, true)
-      yPosition += 12
-
-      const skillsText = cv.skills.join(', ')
-      const lines = addText(skillsText, 12)
-      yPosition += lines * 6 + 15
-    }
-
-    // Education
-    if (cv.education?.length) {
-      checkNewPage(30)
-      addText('FORMATION', 16, true)
-      yPosition += 12
-
-      cv.education.forEach((edu, index) => {
-        checkNewPage(30)
-
-        addText(`${edu.degree} - ${edu.institution}`, 14, true)
-        yPosition += 10
-
-        if (edu.graduationYear) {
-          addText(`Diplômé en ${edu.graduationYear}`, 12)
-          yPosition += 8
-        }
-
-        if (index < cv.education.length - 1) {
-          yPosition += 10
-        }
-      })
-    }
-
-  } else {
-    // Letter content
-    const content = typeof document === 'string' ? document : (document as CoverLetter).content
-    const lines = content.split('\n')
-
-    lines.forEach((line) => {
-      checkNewPage(15)
-      if (line.trim()) {
-        const textLines = addText(line, 12)
-        yPosition += textLines * 6
-      } else {
-        yPosition += 6 // Empty line spacing
-      }
-    })
-  }
-
-  return new Blob([pdf.output('blob')], { type: 'application/pdf' })
-}
 
 /**
  * Generate DOCX document
@@ -347,12 +195,12 @@ async function generateDOCX(
           })
         )
 
-        if (edu.graduationYear) {
+        if (edu.endDate) {
           paragraphs.push(
             new Paragraph({
               children: [
                 new TextRun({
-                  text: `Diplômé en ${edu.graduationYear}`,
+                  text: `Diplômé en ${new Date(edu.endDate).getFullYear()}`,
                   size: 24
                 })
               ],

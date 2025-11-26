@@ -1,12 +1,5 @@
 <template>
   <div class="document-download">
-    <div class="download-header">
-      <h3 class="download-title">Télécharger les documents</h3>
-      <p class="download-description">
-        Téléchargez votre CV adapté et votre lettre de motivation dans différents formats
-      </p>
-    </div>
-
     <div class="download-sections">
       <!-- CV Download Section -->
       <div class="download-section cv-section">
@@ -15,7 +8,7 @@
           <div>
             <h4 class="section-title">CV Adapté</h4>
             <p class="section-subtitle">
-              {{ cvData ? 'CV prêt pour téléchargement' : 'Aucun CV généré' }}
+              {{ cvData ? "CV prêt pour téléchargement" : "Aucun CV généré" }}
             </p>
           </div>
         </div>
@@ -39,7 +32,7 @@
               icon="i-heroicons-arrow-down-tray"
               @click="downloadCV"
             >
-              {{ isDownloadingCV ? 'Téléchargement...' : 'Télécharger CV' }}
+              {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
             </UButton>
 
             <UButton
@@ -47,7 +40,12 @@
               variant="outline"
               icon="i-heroicons-arrow-path"
               size="sm"
-              @click="downloadFromUrl(lastCVDownload.downloadUrl, lastCVDownload.filename)"
+              @click="
+                downloadFromUrl(
+                  lastCVDownload.downloadUrl,
+                  lastCVDownload.filename
+                )
+              "
             >
               Retélécharger
             </UButton>
@@ -57,114 +55,6 @@
         <div v-else class="no-document">
           <UIcon name="i-heroicons-exclamation-triangle" class="warning-icon" />
           <p>Générez d'abord un CV pour pouvoir le télécharger</p>
-        </div>
-      </div>
-
-      <!-- Cover Letter Download Section -->
-      <div class="download-section letter-section">
-        <div class="section-header">
-          <UIcon name="i-heroicons-envelope" class="section-icon" />
-          <div>
-            <h4 class="section-title">Lettre de Motivation</h4>
-            <p class="section-subtitle">
-              {{ letterData ? 'Lettre prête pour téléchargement' : 'Aucune lettre générée' }}
-            </p>
-          </div>
-        </div>
-
-        <div v-if="letterData" class="download-options">
-          <div class="format-selection">
-            <label class="format-label">Format de téléchargement :</label>
-            <USelectMenu
-              v-model="selectedLetterFormat"
-              :options="formatOptions"
-              placeholder="Choisir un format"
-              class="format-select"
-            />
-          </div>
-
-          <div class="download-actions">
-            <UButton
-              :loading="isDownloadingLetter"
-              :disabled="!selectedLetterFormat || isDownloadingLetter"
-              class="download-btn"
-              icon="i-heroicons-arrow-down-tray"
-              @click="downloadLetter"
-            >
-              {{ isDownloadingLetter ? 'Téléchargement...' : 'Télécharger Lettre' }}
-            </UButton>
-
-            <UButton
-              v-if="lastLetterDownload"
-              variant="outline"
-              icon="i-heroicons-arrow-path"
-              size="sm"
-              @click="downloadFromUrl(lastLetterDownload.downloadUrl, lastLetterDownload.filename)"
-            >
-              Retélécharger
-            </UButton>
-          </div>
-        </div>
-
-        <div v-else class="no-document">
-          <UIcon name="i-heroicons-exclamation-triangle" class="warning-icon" />
-          <p>Générez d'abord une lettre pour pouvoir la télécharger</p>
-        </div>
-      </div>
-
-      <!-- Bulk Download Section -->
-      <div v-if="cvData && letterData" class="download-section bulk-section">
-        <div class="section-header">
-          <UIcon name="i-heroicons-archive-box" class="section-icon" />
-          <div>
-            <h4 class="section-title">Téléchargement Groupé</h4>
-            <p class="section-subtitle">Téléchargez CV et lettre en une seule archive</p>
-          </div>
-        </div>
-
-        <div class="download-actions">
-          <UButton
-            :loading="isDownloadingBulk"
-            :disabled="isDownloadingBulk"
-            class="download-btn bulk-btn"
-            icon="i-heroicons-archive-box-arrow-down"
-            variant="outline"
-            @click="downloadBulk"
-          >
-            {{ isDownloadingBulk ? 'Création de l\'archive...' : 'Télécharger Archive ZIP' }}
-          </UButton>
-        </div>
-      </div>
-    </div>
-
-    <!-- Download History -->
-    <div v-if="downloadHistory.length > 0" class="download-history">
-      <h4 class="history-title">Historique des téléchargements</h4>
-      <div class="history-list">
-        <div
-          v-for="download in downloadHistory"
-          :key="download.id"
-          class="history-item"
-        >
-          <div class="history-info">
-            <UIcon :name="getDocumentIcon(download.type)" class="history-icon" />
-            <div>
-              <p class="history-filename">{{ download.filename }}</p>
-              <p class="history-meta">
-                {{ formatFileSize(download.size) }} • {{ formatDate(download.downloadedAt) }}
-              </p>
-            </div>
-          </div>
-          <UButton
-            v-if="!isExpired(download.expiresAt)"
-            variant="ghost"
-            size="sm"
-            icon="i-heroicons-arrow-down-tray"
-            @click="downloadFromUrl(download.downloadUrl, download.filename)"
-          >
-            Télécharger
-          </UButton>
-          <span v-else class="expired-badge">Expiré</span>
         </div>
       </div>
     </div>
@@ -192,9 +82,13 @@
 </template>
 
 <script setup lang="ts">
-import type { AdaptedCV } from '../../../types/cv'
-import type { CoverLetter, ExportFormat, ExportResult } from '../../../types/api'
-import { exportDocument, downloadFile } from '../../../utils/documentExport'
+import type { AdaptedCV } from "../../../types/cv"
+import type {
+  CoverLetter,
+  ExportFormat,
+  ExportResult,
+} from "../../../types/api"
+import { exportDocument, downloadFile } from "../../../utils/documentExport"
 
 interface Props {
   cvData?: AdaptedCV
@@ -207,31 +101,19 @@ const props = defineProps<Props>()
 const selectedCVFormat = ref<ExportFormat>()
 const selectedLetterFormat = ref<ExportFormat>()
 const isDownloadingCV = ref(false)
-const isDownloadingLetter = ref(false)
-const isDownloadingBulk = ref(false)
 const errorMessage = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
 const lastCVDownload = ref<ExportResult | null>(null)
-const lastLetterDownload = ref<ExportResult | null>(null)
-
-// Download history
-const downloadHistory = ref<Array<{
-  id: string
-  type: 'cv' | 'letter'
-  filename: string
-  downloadUrl: string
-  size: number
-  expiresAt: Date
-  downloadedAt: Date
-}>>([])
 
 // Format options (only PDF and DOCX)
 const formatOptions = [
-  { label: 'PDF', value: 'pdf' as ExportFormat },
-  { label: 'Word (.docx)', value: 'docx' as ExportFormat }
+  { label: "PDF", value: "pdf" as ExportFormat },
+  { label: "Word (.docx)", value: "docx" as ExportFormat },
 ]
 
 // Methods
+const { generatePDF } = usePDFExport()
+
 const downloadCV = async () => {
   if (!props.cvData || !selectedCVFormat.value) return
 
@@ -239,118 +121,50 @@ const downloadCV = async () => {
   errorMessage.value = null
 
   try {
-    // Use client-side export
-    const result = await exportDocument(
-      props.cvData,
-      'cv',
-      selectedCVFormat.value as 'pdf' | 'docx'
-    )
+    if (selectedCVFormat.value === 'pdf') {
+      // Use client-side PDF generation with html2pdf.js
+      const pdfBlob = await generatePDF(props.cvData)
 
-    lastCVDownload.value = result
+      // Create download result manually
+      const timestamp = new Date().toISOString().slice(0, 10)
+      const filename = `CV_${timestamp}.pdf`
+      const downloadUrl = URL.createObjectURL(pdfBlob)
 
-    // Add to history
-    downloadHistory.value.unshift({
-      id: `cv-${Date.now()}`,
-      type: 'cv',
-      filename: result.filename,
-      downloadUrl: result.downloadUrl,
-      size: result.size,
-      expiresAt: result.expiresAt,
-      downloadedAt: new Date()
-    })
+      const result = {
+        downloadUrl,
+        filename,
+        format: 'pdf' as ExportFormat,
+        size: pdfBlob.size,
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        metadata: {
+          pages: 1, // Estimate
+          wordCount: 500, // Estimate
+          generatedAt: new Date()
+        }
+      }
 
-    // Trigger download
-    downloadFile(result.downloadUrl, result.filename)
+      lastCVDownload.value = result
+      downloadFile(result.downloadUrl, result.filename)
 
-    successMessage.value = `CV téléchargé avec succès (${result.filename})`
+    } else {
+      // Use server-side export for DOCX
+      const result = await exportDocument(
+        props.cvData,
+        "cv",
+        selectedCVFormat.value as "docx"
+      )
+
+      lastCVDownload.value = result
+      downloadFile(result.downloadUrl, result.filename)
+    }
+
+    successMessage.value = `CV téléchargé avec succès`
   } catch (error) {
-    console.error('Erreur lors du téléchargement du CV:', error)
-    errorMessage.value = 'Erreur lors du téléchargement du CV. Veuillez réessayer.'
+    console.error("Erreur lors du téléchargement du CV:", error)
+    errorMessage.value =
+      "Erreur lors du téléchargement du CV. Veuillez réessayer."
   } finally {
     isDownloadingCV.value = false
-  }
-}
-
-const downloadLetter = async () => {
-  if (!props.letterData || !selectedLetterFormat.value) return
-
-  isDownloadingLetter.value = true
-  errorMessage.value = null
-
-  try {
-    // Use client-side export
-    const result = await exportDocument(
-      props.letterData,
-      'letter',
-      selectedLetterFormat.value as 'pdf' | 'docx'
-    )
-
-    lastLetterDownload.value = result
-
-    // Add to history
-    downloadHistory.value.unshift({
-      id: `letter-${Date.now()}`,
-      type: 'letter',
-      filename: result.filename,
-      downloadUrl: result.downloadUrl,
-      size: result.size,
-      expiresAt: result.expiresAt,
-      downloadedAt: new Date()
-    })
-
-    // Trigger download
-    downloadFile(result.downloadUrl, result.filename)
-
-    successMessage.value = `Lettre téléchargée avec succès (${result.filename})`
-  } catch (error) {
-    console.error('Erreur lors du téléchargement de la lettre:', error)
-    errorMessage.value = 'Erreur lors du téléchargement de la lettre. Veuillez réessayer.'
-  } finally {
-    isDownloadingLetter.value = false
-  }
-}
-
-const downloadBulk = async () => {
-  if (!props.cvData || !props.letterData) return
-
-  isDownloadingBulk.value = true
-  errorMessage.value = null
-
-  try {
-    // Generate both documents in PDF format
-    const [cvResult, letterResult] = await Promise.all([
-      exportDocument(props.cvData, 'cv', 'pdf'),
-      exportDocument(props.letterData, 'letter', 'pdf')
-    ])
-
-    // Create a simple ZIP-like archive (for now, just download both files)
-    // TODO: Implement proper ZIP creation if needed
-
-    // Download CV first
-    downloadFile(cvResult.downloadUrl, cvResult.filename)
-
-    // Download letter with a small delay
-    setTimeout(() => {
-      downloadFile(letterResult.downloadUrl, letterResult.filename)
-    }, 500)
-
-    // Add to history (using CV result as representative)
-    downloadHistory.value.unshift({
-      id: `bulk-${Date.now()}`,
-      type: 'cv',
-      filename: 'CV + Lettre (fichiers séparés)',
-      downloadUrl: cvResult.downloadUrl,
-      size: cvResult.size + letterResult.size,
-      expiresAt: cvResult.expiresAt,
-      downloadedAt: new Date()
-    })
-
-    successMessage.value = 'Documents téléchargés avec succès (CV + Lettre)'
-  } catch (error) {
-    console.error('Erreur lors du téléchargement groupé:', error)
-    errorMessage.value = 'Erreur lors du téléchargement groupé. Veuillez réessayer.'
-  } finally {
-    isDownloadingBulk.value = false
   }
 }
 
@@ -358,42 +172,15 @@ const downloadFromUrl = async (url: string, filename: string) => {
   try {
     downloadFile(url, filename)
   } catch (error) {
-    console.error('Erreur lors du téléchargement:', error)
+    console.error("Erreur lors du téléchargement:", error)
     throw error
   }
 }
 
-// Utility functions
-const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 B'
-  const k = 1024
-  const sizes = ['B', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`
-}
-
-const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat('fr-FR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date(date))
-}
-
-const isExpired = (expiresAt: Date): boolean => {
-  return new Date() > new Date(expiresAt)
-}
-
-const getDocumentIcon = (type: 'cv' | 'letter'): string => {
-  return type === 'cv' ? 'i-heroicons-document-text' : 'i-heroicons-envelope'
-}
-
 // Set default formats
 onMounted(() => {
-  selectedCVFormat.value = 'pdf' as ExportFormat
-  selectedLetterFormat.value = 'pdf' as ExportFormat
+  selectedCVFormat.value = "pdf" as ExportFormat
+  selectedLetterFormat.value = "pdf" as ExportFormat
 })
 
 // Auto-dismiss messages
