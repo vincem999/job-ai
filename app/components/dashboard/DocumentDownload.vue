@@ -193,13 +193,12 @@
 
 <script setup lang="ts">
 import type { AdaptedCV } from '../../../types/cv'
-import type { CoverLetter, ExportFormat, ExportResult, ExportDocumentRequest } from '../../../types/api'
+import type { CoverLetter, ExportFormat, ExportResult } from '../../../types/api'
+import { exportDocument, downloadFile } from '../../../utils/documentExport'
 
 interface Props {
   cvData?: AdaptedCV
   letterData?: CoverLetter
-  cvId?: string
-  letterId?: string
 }
 
 const props = defineProps<Props>()
@@ -226,54 +225,44 @@ const downloadHistory = ref<Array<{
   downloadedAt: Date
 }>>([])
 
-// Format options
+// Format options (only PDF and DOCX)
 const formatOptions = [
   { label: 'PDF', value: 'pdf' as ExportFormat },
-  { label: 'Word (.docx)', value: 'docx' as ExportFormat },
-  { label: 'HTML', value: 'html' as ExportFormat },
-  { label: 'Texte (.txt)', value: 'txt' as ExportFormat }
+  { label: 'Word (.docx)', value: 'docx' as ExportFormat }
 ]
 
 // Methods
 const downloadCV = async () => {
-  if (!props.cvData || !props.cvId || !selectedCVFormat.value) return
+  if (!props.cvData || !selectedCVFormat.value) return
 
   isDownloadingCV.value = true
   errorMessage.value = null
 
   try {
-    const exportRequest: ExportDocumentRequest = {
-      documentId: props.cvId,
-      documentType: 'cv',
-      format: selectedCVFormat.value,
-      options: {
-        template: 'modern',
-        includeMetadata: true
-      }
-    }
+    // Use client-side export
+    const result = await exportDocument(
+      props.cvData,
+      'cv',
+      selectedCVFormat.value as 'pdf' | 'docx'
+    )
 
-    const { data } = await $fetch<{ data: ExportResult }>('/api/export', {
-      method: 'POST',
-      body: exportRequest
-    })
-
-    lastCVDownload.value = data
+    lastCVDownload.value = result
 
     // Add to history
     downloadHistory.value.unshift({
       id: `cv-${Date.now()}`,
       type: 'cv',
-      filename: data.filename,
-      downloadUrl: data.downloadUrl,
-      size: data.size,
-      expiresAt: data.expiresAt,
+      filename: result.filename,
+      downloadUrl: result.downloadUrl,
+      size: result.size,
+      expiresAt: result.expiresAt,
       downloadedAt: new Date()
     })
 
     // Trigger download
-    await downloadFromUrl(data.downloadUrl, data.filename)
+    downloadFile(result.downloadUrl, result.filename)
 
-    successMessage.value = `CV téléchargé avec succès (${data.filename})`
+    successMessage.value = `CV téléchargé avec succès (${result.filename})`
   } catch (error) {
     console.error('Erreur lors du téléchargement du CV:', error)
     errorMessage.value = 'Erreur lors du téléchargement du CV. Veuillez réessayer.'
@@ -283,44 +272,36 @@ const downloadCV = async () => {
 }
 
 const downloadLetter = async () => {
-  if (!props.letterData || !props.letterId || !selectedLetterFormat.value) return
+  if (!props.letterData || !selectedLetterFormat.value) return
 
   isDownloadingLetter.value = true
   errorMessage.value = null
 
   try {
-    const exportRequest: ExportDocumentRequest = {
-      documentId: props.letterId,
-      documentType: 'letter',
-      format: selectedLetterFormat.value,
-      options: {
-        template: 'professional',
-        includeMetadata: true
-      }
-    }
+    // Use client-side export
+    const result = await exportDocument(
+      props.letterData,
+      'letter',
+      selectedLetterFormat.value as 'pdf' | 'docx'
+    )
 
-    const { data } = await $fetch<{ data: ExportResult }>('/api/export', {
-      method: 'POST',
-      body: exportRequest
-    })
-
-    lastLetterDownload.value = data
+    lastLetterDownload.value = result
 
     // Add to history
     downloadHistory.value.unshift({
       id: `letter-${Date.now()}`,
       type: 'letter',
-      filename: data.filename,
-      downloadUrl: data.downloadUrl,
-      size: data.size,
-      expiresAt: data.expiresAt,
+      filename: result.filename,
+      downloadUrl: result.downloadUrl,
+      size: result.size,
+      expiresAt: result.expiresAt,
       downloadedAt: new Date()
     })
 
     // Trigger download
-    await downloadFromUrl(data.downloadUrl, data.filename)
+    downloadFile(result.downloadUrl, result.filename)
 
-    successMessage.value = `Lettre téléchargée avec succès (${data.filename})`
+    successMessage.value = `Lettre téléchargée avec succès (${result.filename})`
   } catch (error) {
     console.error('Erreur lors du téléchargement de la lettre:', error)
     errorMessage.value = 'Erreur lors du téléchargement de la lettre. Veuillez réessayer.'
@@ -330,59 +311,41 @@ const downloadLetter = async () => {
 }
 
 const downloadBulk = async () => {
-  if (!props.cvData || !props.letterData || !props.cvId || !props.letterId) return
+  if (!props.cvData || !props.letterData) return
 
   isDownloadingBulk.value = true
   errorMessage.value = null
 
   try {
-    // Download both documents and create a ZIP
-    const cvRequest: ExportDocumentRequest = {
-      documentId: props.cvId,
-      documentType: 'cv',
-      format: 'pdf' as ExportFormat
-    }
-
-    const letterRequest: ExportDocumentRequest = {
-      documentId: props.letterId,
-      documentType: 'letter',
-      format: 'pdf' as ExportFormat
-    }
-
+    // Generate both documents in PDF format
     const [cvResult, letterResult] = await Promise.all([
-      $fetch<{ data: ExportResult }>('/api/export', {
-        method: 'POST',
-        body: cvRequest
-      }),
-      $fetch<{ data: ExportResult }>('/api/export', {
-        method: 'POST',
-        body: letterRequest
-      })
+      exportDocument(props.cvData, 'cv', 'pdf'),
+      exportDocument(props.letterData, 'letter', 'pdf')
     ])
 
-    // Create ZIP archive
-    const zipData = await $fetch<{ data: { downloadUrl: string, filename: string, size: number } }>('/api/export/bulk', {
-      method: 'POST',
-      body: {
-        documents: [cvResult.data, letterResult.data]
-      }
-    })
+    // Create a simple ZIP-like archive (for now, just download both files)
+    // TODO: Implement proper ZIP creation if needed
 
-    // Add to history
+    // Download CV first
+    downloadFile(cvResult.downloadUrl, cvResult.filename)
+
+    // Download letter with a small delay
+    setTimeout(() => {
+      downloadFile(letterResult.downloadUrl, letterResult.filename)
+    }, 500)
+
+    // Add to history (using CV result as representative)
     downloadHistory.value.unshift({
       id: `bulk-${Date.now()}`,
       type: 'cv',
-      filename: zipData.data.filename,
-      downloadUrl: zipData.data.downloadUrl,
-      size: zipData.data.size,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h
+      filename: 'CV + Lettre (fichiers séparés)',
+      downloadUrl: cvResult.downloadUrl,
+      size: cvResult.size + letterResult.size,
+      expiresAt: cvResult.expiresAt,
       downloadedAt: new Date()
     })
 
-    // Trigger download
-    await downloadFromUrl(zipData.data.downloadUrl, zipData.data.filename)
-
-    successMessage.value = `Archive téléchargée avec succès (${zipData.data.filename})`
+    successMessage.value = 'Documents téléchargés avec succès (CV + Lettre)'
   } catch (error) {
     console.error('Erreur lors du téléchargement groupé:', error)
     errorMessage.value = 'Erreur lors du téléchargement groupé. Veuillez réessayer.'
@@ -393,12 +356,7 @@ const downloadBulk = async () => {
 
 const downloadFromUrl = async (url: string, filename: string) => {
   try {
-    const link = document.createElement('a')
-    link.href = url
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    downloadFile(url, filename)
   } catch (error) {
     console.error('Erreur lors du téléchargement:', error)
     throw error

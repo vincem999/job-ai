@@ -71,6 +71,12 @@ interface StatusMessage {
   message: string
 }
 
+interface JobOfferData {
+  title: string
+  company: string
+  description: string
+}
+
 const emit = defineEmits<{
   next: []
   analysisComplete: [data: any]
@@ -82,7 +88,7 @@ const isAnalyzing = ref(false)
 
 const hasJobAnalysis = computed(() => !!jobAnalysis.value)
 
-const handleJobSubmission = async (jobData: any) => {
+const handleJobSubmission = async (jobData: JobOfferData) => {
   try {
     console.log("Job offer submitted:", jobData)
 
@@ -98,9 +104,9 @@ const handleJobSubmission = async (jobData: any) => {
     }>("/api/analyze-job", {
       method: "POST",
       body: {
-        jobOffer: jobData.jobDescription || jobData.description || "",
-        companyName: jobData.companyName || "",
-        jobTitle: jobData.jobTitle || "",
+        jobOffer: jobData.description,
+        company: jobData.company,
+        position: jobData.title,
       },
     })
 

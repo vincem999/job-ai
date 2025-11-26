@@ -22,8 +22,6 @@
       <DocumentDownload
         :cv-data="cvData"
         :letter-data="letterData"
-        :cv-id="cvId"
-        :letter-id="letterId"
       />
 
       <!-- Navigation Buttons -->
@@ -38,7 +36,7 @@
         </UButton>
 
         <UButton
-          color="blue"
+          color="primary"
           size="lg"
           icon="i-heroicons-arrow-path"
           @click="handleRestart"
@@ -107,13 +105,12 @@
 
 <script setup lang="ts">
 import DocumentDownload from "~/components/dashboard/DocumentDownload.vue"
-import type { CVData } from "~/components/templates/mockCVData"
+import type { AdaptedCV } from "../../../types/cv"
+import type { CoverLetter } from "../../../types/api"
 
 interface Props {
-  cvData?: CVData
-  letterData?: string
-  cvId?: string
-  letterId?: string
+  cvData?: AdaptedCV
+  letterData?: CoverLetter
 }
 
 defineProps<Props>()

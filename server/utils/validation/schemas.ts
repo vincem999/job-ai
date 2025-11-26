@@ -155,7 +155,7 @@ export const JobAnalysisResponseSchema = z.object({
   responsibilities: z.array(z.string()),
   requirements: z.array(z.string()),
   benefits: z.array(z.string()).optional(),
-  salaryRange: z.string().optional(),
+  salaryRange: z.string().nullable().optional(),
   workLocation: z.string().optional(),
   workType: z.enum(['Remote', 'Hybrid', 'On-site']).optional(),
   experienceLevel: z.enum(['Entry', 'Junior', 'Mid', 'Senior', 'Lead', 'Executive']).optional(),
