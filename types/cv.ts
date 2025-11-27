@@ -1,15 +1,14 @@
 // CV Data Type Definitions
 
 export interface PersonalInfo {
-  firstName: string
-  lastName: string
+  name: string
+  title: string
   email: string
-  phone?: string
-  address?: Address
+  phone: string
+  location: string
   linkedin?: string
   github?: string
-  website?: string
-  summary?: string
+  photo?: string
 }
 
 export interface Address {
@@ -20,41 +19,32 @@ export interface Address {
   country: string
 }
 
-export interface WorkExperience {
+export interface Experience {
   id: string
+  title: string
   company: string
-  position: string
-  startDate: Date
-  endDate?: Date
-  isCurrentPosition: boolean
-  location?: string
+  location: string
+  startDate: string
+  endDate: string
   description: string
-  achievements: string[]
+  bullets: string[]
   skills: string[]
-  technologies: string[]
 }
 
 export interface Education {
   id: string
-  institution: string
   degree: string
-  field: string
-  startDate: Date
-  endDate?: Date
-  isCurrentEducation: boolean
-  gpa?: number
-  honors?: string[]
-  relevantCourses?: string[]
+  institution: string
+  year: string
+  location?: string
+  details?: string
   description?: string
 }
 
-export interface Skill {
-  id: string
-  name: string
-  category: SkillCategory
-  level: SkillLevel
-  keywords: string[]
-  yearsOfExperience?: number
+export interface Skills {
+  technical: string[]
+  languages: string[]
+  soft: string[]
 }
 
 export enum SkillCategory {
@@ -74,28 +64,19 @@ export enum SkillLevel {
 }
 
 export interface Project {
-  id: string
+  id?: string
   name: string
-  description: string
-  role: string
-  startDate: Date
-  endDate?: Date
-  isOngoing: boolean
-  technologies: string[]
-  achievements: string[]
+  description?: string
+  technologies?: string[]
   url?: string
-  repository?: string
+  date?: string
 }
 
 export interface Certification {
-  id: string
+  id?: string
   name: string
   issuer: string
-  issueDate: Date
-  expiryDate?: Date
-  credentialId?: string
-  credentialUrl?: string
-  description?: string
+  date?: string
 }
 
 export interface Language {
@@ -125,17 +106,18 @@ export interface Reference {
 export interface CV {
   id: string
   personalInfo: PersonalInfo
-  workExperience: WorkExperience[]
+  summary: string
+  experiences: Experience[]
   education: Education[]
-  skills: Skill[]
-  projects: Project[]
-  certifications: Certification[]
-  languages: Language[]
-  references: Reference[]
-  createdAt: Date
-  updatedAt: Date
-  version: string
-  isTemplate: boolean
+  skills: Skills
+  certifications?: Certification[]
+  projects?: Project[]
+  languages?: Language[]
+  references?: Reference[]
+  createdAt?: Date
+  updatedAt?: Date
+  version?: string
+  isTemplate?: boolean
   templateName?: string
 }
 

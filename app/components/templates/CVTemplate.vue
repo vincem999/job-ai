@@ -1,5 +1,7 @@
 <template>
-  <div class="cv-template cv-container w-full max-w-5xl mx-auto bg-white shadow-2xl">
+  <div
+    class="cv-template cv-container"
+  >
     <!-- Header Section avec gradient -->
     <div class="cv-header">
       <div class="header-content">
@@ -22,9 +24,20 @@
 
           <!-- LinkedIn -->
           <div v-if="cvData.personalInfo.linkedin" class="linkedin-section">
-            <a :href="cvData.personalInfo.linkedin" target="_blank" class="linkedin-link">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            <a
+              :href="cvData.personalInfo.linkedin"
+              target="_blank"
+              class="linkedin-link"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                />
               </svg>
               {{ cvData.personalInfo.name }}
             </a>
@@ -35,19 +48,25 @@
         <div class="contact-bar">
           <div class="contact-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              <path
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+              />
             </svg>
             {{ cvData.personalInfo.location }}
           </div>
           <div class="contact-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              <path
+                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+              />
             </svg>
             {{ cvData.personalInfo.email }}
           </div>
           <div class="contact-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              <path
+                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+              />
             </svg>
             {{ cvData.personalInfo.phone }}
           </div>
@@ -67,7 +86,7 @@
             :key="experience.id || index"
             class="timeline-item"
           >
-            <div class="timeline-marker"/>
+            <div class="timeline-marker" />
             <div class="timeline-content">
               <h4 class="experience-title">{{ experience.title }}</h4>
               <p class="company">{{ experience.company }}</p>
@@ -116,12 +135,19 @@
             :key="education.id || index"
             class="education-item"
           >
-            <div class="timeline-marker-small"/>
+            <div class="timeline-marker-small" />
             <div>
               <h4>{{ education.degree }}</h4>
               <p class="school">{{ education.institution }}</p>
-              <p class="period">{{ education.year }} <span class="location">{{ education.location || 'France' }}</span></p>
-              <p v-if="education.description" class="compact-description">{{ education.description }}</p>
+              <p class="period">
+                {{ education.year }}
+                <span class="location">{{
+                  education.location || "France"
+                }}</span>
+              </p>
+              <p v-if="education.description" class="compact-description">
+                {{ education.description }}
+              </p>
             </div>
           </div>
         </section>
@@ -134,8 +160,12 @@
             :key="index"
             class="language-item"
           >
-            <strong>{{ language.split(' (')[0] }}</strong>
-            <span class="level">{{ language.includes('(') ? language.split(' (')[1]?.replace(')', '') || 'Fluent' : 'Fluent' }}</span>
+            <strong>{{ language.split(" (")[0] }}</strong>
+            <span class="level">{{
+              language.includes("(")
+                ? language.split(" (")[1]?.replace(")", "") || "Fluent"
+                : "Fluent"
+            }}</span>
           </div>
         </section>
 
@@ -155,33 +185,40 @@
 </template>
 
 <script setup lang="ts">
-import type { CVData } from "./mockCVData"
+import type { AdaptedCV } from "../../../types/cv"
 
 // Define props
 defineProps<{
-  cvData: CVData
+  cvData: AdaptedCV
 }>()
 </script>
 
 <style scoped>
-@reference "~/assets/css/main.css";
+/* CVTemplate - CSS pur pour compatibilité PDF */
 
 /* Reset styles adapté du design de référence */
 .cv-template {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #f5f5f5;
 }
 
 .cv-container {
-  max-width: 1200px;
+  width: 210mm; /* Format A4 standard */
+  height: auto;
+  min-height: 297mm; /* Hauteur A4 minimum */
   margin: 0 auto;
   background-color: white;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+
+  /* Pour l'affichage écran, utiliser une largeur responsive avec ratio A4 */
+  max-width: calc(100vw - 40px);
+  aspect-ratio: 210 / 297; /* Ratio A4 */
 }
 
 /* Header Section avec gradient violet */
@@ -492,6 +529,13 @@ defineProps<{
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .cv-container {
+    width: 100%;
+    max-width: 800px;
+    min-height: auto;
+    aspect-ratio: auto;
+  }
+
   .main-content {
     grid-template-columns: 1fr;
   }
@@ -543,19 +587,24 @@ defineProps<{
   }
 }
 
-/* Styles d'impression */
+/* Styles d'impression et PDF */
 @media print {
   .cv-template {
     background-color: white;
   }
 
   .cv-container {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-width: 210mm !important;
     box-shadow: none;
-    max-width: 100%;
+    margin: 0;
+    page-break-after: always;
   }
 
   .cv-header {
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -566,8 +615,46 @@ defineProps<{
     print-color-adjust: exact;
   }
 
+  .skill-tag:hover {
+    background-color: #2d3748 !important;
+    transform: none;
+    box-shadow: none;
+  }
+
   .timeline-item {
     page-break-inside: avoid;
   }
+}
+
+/* Classe pour export PDF */
+.pdf-export .cv-template {
+  background-color: white;
+}
+
+.pdf-export .cv-container {
+  width: 210mm !important;
+  height: auto !important;
+  min-height: 297mm !important;
+  max-width: 210mm !important;
+  box-shadow: none;
+  margin: 0;
+}
+
+.pdf-export .cv-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.pdf-export .skill-tag {
+  background-color: #2d3748 !important;
+}
+
+.pdf-export .skill-tag:hover {
+  background-color: #2d3748 !important;
+  transform: none;
+  box-shadow: none;
+}
+
+.pdf-export .timeline-item {
+  page-break-inside: avoid;
 }
 </style>

@@ -55,7 +55,7 @@ async function generateDOCX(
         new Paragraph({
           children: [
             new TextRun({
-              text: `${cv.personalInfo.firstName} ${cv.personalInfo.lastName}`,
+              text: cv.personalInfo.name,
               bold: true,
               size: 32
             })
@@ -78,12 +78,12 @@ async function generateDOCX(
         )
       }
 
-      if (cv.personalInfo.address) {
+      if (cv.personalInfo.location) {
         paragraphs.push(
           new Paragraph({
             children: [
               new TextRun({
-                text: `${cv.personalInfo.address.city}, ${cv.personalInfo.address.country}`,
+                text: cv.personalInfo.location,
                 size: 24
               })
             ],
@@ -95,7 +95,7 @@ async function generateDOCX(
     }
 
     // Work Experience
-    if (cv.workExperience?.length) {
+    if (cv.experiences?.length) {
       paragraphs.push(
         new Paragraph({
           children: [
@@ -110,12 +110,12 @@ async function generateDOCX(
         })
       )
 
-      cv.workExperience.forEach((exp) => {
+      cv.experiences.forEach((exp) => {
         paragraphs.push(
           new Paragraph({
             children: [
               new TextRun({
-                text: `${exp.position} - ${exp.company}`,
+                text: `${exp.title} - ${exp.company}`,
                 bold: true,
                 size: 26
               })
@@ -145,7 +145,7 @@ async function generateDOCX(
     }
 
     // Skills
-    if (cv.skills?.length) {
+    if (cv.skills && (cv.skills.technical.length || cv.skills.languages.length || cv.skills.soft.length)) {
       paragraphs.push(
         new Paragraph({
           children: [
@@ -159,7 +159,7 @@ async function generateDOCX(
           spacing: { before: 400, after: 200 }
         }),
         new Paragraph({
-          children: [new TextRun({ text: cv.skills.join(', '), size: 24 })],
+          children: [new TextRun({ text: [...cv.skills.technical, ...cv.skills.languages, ...cv.skills.soft].join(', '), size: 24 })],
           spacing: { after: 200 }
         })
       )
@@ -284,18 +284,18 @@ function estimateWordCount(document: AdaptedCV | CoverLetter | string, documentT
     const parts: string[] = []
 
     if (cv.personalInfo) {
-      parts.push(`${cv.personalInfo.firstName} ${cv.personalInfo.lastName}`)
+      parts.push(cv.personalInfo.name)
     }
 
-    if (cv.workExperience?.length) {
-      cv.workExperience.forEach(exp => {
-        parts.push(`${exp.position} ${exp.company}`)
+    if (cv.experiences?.length) {
+      cv.experiences.forEach(exp => {
+        parts.push(`${exp.title} ${exp.company}`)
         if (exp.description) parts.push(exp.description)
       })
     }
 
-    if (cv.skills?.length) {
-      parts.push(cv.skills.join(' '))
+    if (cv.skills && (cv.skills.technical.length || cv.skills.languages.length || cv.skills.soft.length)) {
+      parts.push([...cv.skills.technical, ...cv.skills.languages, ...cv.skills.soft].join(' '))
     }
 
     if (cv.education?.length) {

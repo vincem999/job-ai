@@ -1,64 +1,5 @@
 <template>
   <div class="document-download">
-    <div class="download-sections">
-      <!-- CV Download Section -->
-      <div class="download-section cv-section">
-        <div class="section-header">
-          <UIcon name="i-heroicons-document-text" class="section-icon" />
-          <div>
-            <h4 class="section-title">CV Adapté</h4>
-            <p class="section-subtitle">
-              {{ cvData ? "CV prêt pour téléchargement" : "Aucun CV généré" }}
-            </p>
-          </div>
-        </div>
-
-        <div v-if="cvData" class="download-options">
-          <div class="format-selection">
-            <label class="format-label">Format de téléchargement :</label>
-            <USelectMenu
-              v-model="selectedCVFormat"
-              :options="formatOptions"
-              placeholder="Choisir un format"
-              class="format-select"
-            />
-          </div>
-
-          <div class="download-actions">
-            <UButton
-              :loading="isDownloadingCV"
-              :disabled="!selectedCVFormat || isDownloadingCV"
-              class="download-btn"
-              icon="i-heroicons-arrow-down-tray"
-              @click="downloadCV"
-            >
-              {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
-            </UButton>
-
-            <UButton
-              v-if="lastCVDownload"
-              variant="outline"
-              icon="i-heroicons-arrow-path"
-              size="sm"
-              @click="
-                downloadFromUrl(
-                  lastCVDownload.downloadUrl,
-                  lastCVDownload.filename
-                )
-              "
-            >
-              Retélécharger
-            </UButton>
-          </div>
-        </div>
-
-        <div v-else class="no-document">
-          <UIcon name="i-heroicons-exclamation-triangle" class="warning-icon" />
-          <p>Générez d'abord un CV pour pouvoir le télécharger</p>
-        </div>
-      </div>
-    </div>
-
     <!-- Error Display -->
     <UAlert
       v-if="errorMessage"
@@ -78,6 +19,42 @@
       class="success-alert"
       @close="successMessage = null"
     />
+    <div class="download-layout">
+      <!-- Section de gauche - Contrôles de téléchargement -->
+      <div class="download-controls">
+        <UButton
+          :loading="isDownloadingCV"
+          :disabled="!selectedCVFormat || isDownloadingCV"
+          class="download-btn"
+          icon="i-heroicons-arrow-down-tray"
+          @click="downloadCV"
+        >
+          {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
+        </UButton>
+        <div class="cv-preview-container">
+          <div class="cv-preview-wrapper">
+            <CVTemplate :cv-data="cvData" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section de droite - Preview du CV -->
+      <!-- <div v-if="cvData && showPreview" class="cv-preview-section">
+        <div class="preview-header">
+          <h3 class="preview-title">
+            <UIcon name="i-heroicons-eye" />
+            Preview du CV
+          </h3>
+          <p class="preview-subtitle">Aperçu de votre CV adapté</p>
+        </div>
+
+        <div class="cv-preview-container">
+          <div class="cv-preview-wrapper">
+            <CVTemplate :cv-data="cvData" />
+          </div>
+        </div>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -89,6 +66,7 @@ import type {
   ExportResult,
 } from "../../../types/api"
 import { exportDocument, downloadFile } from "../../../utils/documentExport"
+import CVTemplate from "../templates/CVTemplate.vue"
 
 interface Props {
   cvData?: AdaptedCV
@@ -104,12 +82,8 @@ const isDownloadingCV = ref(false)
 const errorMessage = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
 const lastCVDownload = ref<ExportResult | null>(null)
+const showPreview = ref(false)
 
-// Format options (only PDF and DOCX)
-const formatOptions = [
-  { label: "PDF", value: "pdf" as ExportFormat },
-  { label: "Word (.docx)", value: "docx" as ExportFormat },
-]
 
 // Methods
 const { generatePDF } = usePDFExport()
@@ -117,11 +91,17 @@ const { generatePDF } = usePDFExport()
 const downloadCV = async () => {
   if (!props.cvData || !selectedCVFormat.value) return
 
+  // Vérifier qu'on est côté client pour la génération PDF
+  if (selectedCVFormat.value === "pdf" && import.meta.server) {
+    errorMessage.value = "La génération PDF n'est disponible que côté client"
+    return
+  }
+
   isDownloadingCV.value = true
   errorMessage.value = null
 
   try {
-    if (selectedCVFormat.value === 'pdf') {
+    if (selectedCVFormat.value === "pdf") {
       // Use client-side PDF generation with html2pdf.js
       const pdfBlob = await generatePDF(props.cvData)
 
@@ -133,19 +113,18 @@ const downloadCV = async () => {
       const result = {
         downloadUrl,
         filename,
-        format: 'pdf' as ExportFormat,
+        format: "pdf" as ExportFormat,
         size: pdfBlob.size,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         metadata: {
           pages: 1, // Estimate
           wordCount: 500, // Estimate
-          generatedAt: new Date()
-        }
+          generatedAt: new Date(),
+        },
       }
 
       lastCVDownload.value = result
       downloadFile(result.downloadUrl, result.filename)
-
     } else {
       // Use server-side export for DOCX
       const result = await exportDocument(
@@ -168,20 +147,27 @@ const downloadCV = async () => {
   }
 }
 
-const downloadFromUrl = async (url: string, filename: string) => {
-  try {
-    downloadFile(url, filename)
-  } catch (error) {
-    console.error("Erreur lors du téléchargement:", error)
-    throw error
-  }
-}
 
-// Set default formats
+// Set default formats and show preview if CV data available
 onMounted(() => {
   selectedCVFormat.value = "pdf" as ExportFormat
   selectedLetterFormat.value = "pdf" as ExportFormat
+
+  // Show preview by default if CV data is available
+  if (props.cvData) {
+    showPreview.value = true
+  }
 })
+
+// Watch for CV data changes to auto-show preview
+watch(
+  () => props.cvData,
+  (newCvData) => {
+    if (newCvData && !showPreview.value) {
+      showPreview.value = true
+    }
+  }
+)
 
 // Auto-dismiss messages
 watch([errorMessage, successMessage], () => {
@@ -203,6 +189,14 @@ watch([errorMessage, successMessage], () => {
 
 .document-download {
   @apply w-full space-y-6;
+}
+
+.download-layout {
+  @apply grid grid-cols-1 xl:grid-cols-2 gap-8;
+}
+
+.download-controls {
+  @apply space-y-6;
 }
 
 .download-header {
@@ -261,6 +255,10 @@ watch([errorMessage, successMessage], () => {
   @apply flex items-center gap-3 flex-wrap;
 }
 
+.preview-toggle {
+  @apply mt-4 pt-4 border-t border-gray-200;
+}
+
 .download-btn {
   @apply min-w-[140px];
 }
@@ -278,7 +276,7 @@ watch([errorMessage, successMessage], () => {
 }
 
 .bulk-section {
-  @apply bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200;
+  @apply bg-linear-to-r from-blue-50 to-indigo-50 border-blue-200;
 }
 
 .download-history {
@@ -322,7 +320,53 @@ watch([errorMessage, successMessage], () => {
   @apply mt-4;
 }
 
+/* CV Preview Section */
+.cv-preview-section {
+  @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+}
+
+.preview-header {
+  @apply p-6 border-b border-gray-200;
+}
+
+.preview-title {
+  @apply flex items-center gap-2 text-xl font-semibold text-gray-900 mb-2;
+}
+
+.preview-subtitle {
+  @apply text-sm text-gray-600;
+}
+
+.cv-preview-container {
+  @apply p-6;
+}
+
+.cv-preview-wrapper {
+  @apply max-h-[800px] overflow-y-auto border border-gray-200 rounded-lg bg-gray-50;
+
+  /* Calcul pour maintenir le ratio A4 dans le preview */
+  transform: scale(0.7);
+  transform-origin: top center;
+  width: calc(100% / 0.7); /* Compenser le scale */
+  margin: 0 auto;
+
+  /* Assurer que le contenu reste centré */
+  display: flex;
+  justify-content: center;
+}
+
 /* Responsive design */
+@media (max-width: 1279px) {
+  .download-layout {
+    @apply grid-cols-1;
+  }
+
+  .cv-preview-wrapper {
+    transform: scale(1);
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .download-actions {
     @apply flex-col items-stretch;
@@ -334,6 +378,10 @@ watch([errorMessage, successMessage], () => {
 
   .history-item {
     @apply flex-col items-start gap-3;
+  }
+
+  .cv-preview-wrapper {
+    @apply max-h-[600px];
   }
 }
 </style>
