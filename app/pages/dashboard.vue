@@ -127,7 +127,7 @@
 import JobAnalysisStep from "~/components/dashboard/JobAnalysisStep.vue"
 import DocumentGenerationStep from "~/components/dashboard/DocumentGenerationStep.vue"
 import DownloadStep from "~/components/dashboard/DownloadStep.vue"
-import type { CVData } from "~/components/templates/mockCVData"
+import type { CV } from "../../types/cv"
 
 // Page metadata
 useHead({
@@ -144,7 +144,7 @@ useHead({
 // Workflow state
 const currentStep = ref(0)
 const jobAnalysis = ref(null)
-const cvData = ref<CVData | undefined>(undefined)
+const cvData = ref<CV | undefined>(undefined)
 const letterData = ref<any | undefined>(undefined)
 const cvId = ref<string | undefined>(undefined)
 const letterId = ref<string | undefined>(undefined)

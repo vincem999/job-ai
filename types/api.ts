@@ -166,7 +166,7 @@ export interface CreateCVRequest {
     website?: string
     summary?: string
   }
-  workExperience?: any[]
+  workExperiences?: any[]
   education?: any[]
   skills?: any[]
   projects?: any[]

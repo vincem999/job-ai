@@ -46,10 +46,10 @@
 
 <script setup lang="ts">
 import CVTemplate from "../templates/CVTemplate.vue"
-import type { CVData } from "../templates/mockCVData"
+import type { CV } from "../../../types/cv"
 
 interface Props {
-  cvData: CVData
+  cvData: CV
 }
 
 defineProps<Props>()

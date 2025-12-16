@@ -3,7 +3,7 @@
  * Tests JSON extraction, validation, and error handling for API responses
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from "vitest"
 import {
   parseClaudeJSON,
   parseJobAnalysisResponse,
@@ -12,98 +12,93 @@ import {
   ParseError,
   JSONExtractionError,
   ValidationError,
-} from './parser'
-import {
-  JobAnalysisResponseSchema,
-} from '../validation/schemas'
-import type {
-  JobAnalysisResponse,
-  CVData,
-} from '../validation/schemas'
+} from "./parser"
+import { JobAnalysisResponseSchema } from "../validation/schemas"
+import type { JobAnalysisResponse, CVData } from "../validation/schemas"
 
 // Mock data for testing
 const validJobAnalysisJSON: JobAnalysisResponse = {
-  requiredSkills: ['JavaScript', 'TypeScript', 'React'],
-  preferredSkills: ['Node.js', 'AWS'],
-  responsibilities: ['Develop web applications', 'Code review'],
-  requirements: ['3+ years experience', 'Bachelor degree'],
-  benefits: ['Health insurance', 'Remote work'],
-  salaryRange: '80k - 120k USD',
-  workLocation: 'Remote',
-  workType: 'Remote',
-  experienceLevel: 'Mid',
-  industryKeywords: ['fintech', 'startup'],
+  requiredSkills: ["JavaScript", "TypeScript", "React"],
+  preferredSkills: ["Node.js", "AWS"],
+  responsibilities: ["Develop web applications", "Code review"],
+  requirements: ["3+ years experience", "Bachelor degree"],
+  benefits: ["Health insurance", "Remote work"],
+  salaryRange: "80k - 120k USD",
+  workLocation: "Remote",
+  workType: "Remote",
+  experienceLevel: "Mid",
+  industryKeywords: ["fintech", "startup"],
   matchingScore: 85,
-  suggestions: ['Highlight React experience', 'Mention TypeScript projects']
+  suggestions: ["Highlight React experience", "Mention TypeScript projects"],
 }
 
 const validCVDataJSON: CVData = {
-  id: 'cv-test-123',
+  id: "cv-test-123",
   personalInfo: {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane@example.com',
-    phone: '+1-555-0123',
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "jane@example.com",
+    phone: "+1-555-0123",
     address: {
-      city: 'Seattle',
-      country: 'USA'
+      city: "Seattle",
+      country: "USA",
     },
-    linkedin: 'https://linkedin.com/in/janesmith',
-    summary: 'Experienced developer'
+    linkedin: "https://linkedin.com/in/janesmith",
+    summary: "Experienced developer",
   },
-  workExperience: [
+  WorkExperiences: [
     {
-      id: 'exp-1',
-      company: 'Tech Corp',
-      position: 'Software Engineer',
-      startDate: new Date('2020-01-01'),
+      id: "exp-1",
+      company: "Tech Corp",
+      position: "Software Engineer",
+      startDate: new Date("2020-01-01"),
       isCurrentPosition: true,
-      description: 'Full-stack development',
-      achievements: ['Built scalable applications'],
-      skills: ['JavaScript', 'React'],
-      technologies: ['React', 'Node.js']
-    }
+      description: "Full-stack development",
+      achievements: ["Built scalable applications"],
+      skills: ["JavaScript", "React"],
+      technologies: ["React", "Node.js"],
+    },
   ],
   education: [
     {
-      id: 'edu-1',
-      institution: 'University of Tech',
-      degree: 'Bachelor of Science',
-      field: 'Computer Science',
-      startDate: new Date('2016-09-01'),
-      endDate: new Date('2020-06-01'),
+      id: "edu-1",
+      institution: "University of Tech",
+      degree: "Bachelor of Science",
+      field: "Computer Science",
+      startDate: new Date("2016-09-01"),
+      endDate: new Date("2020-06-01"),
       isCurrentEducation: false,
-      honors: ['Dean\'s List'],
-      relevantCourses: ['Algorithms', 'Data Structures']
-    }
+      honors: ["Dean's List"],
+      relevantCourses: ["Algorithms", "Data Structures"],
+    },
   ],
   skills: [
     {
-      id: 'skill-1',
-      name: 'JavaScript',
-      level: 'advanced',
-      category: 'Programming',
-      keywords: ['ES6', 'Node.js'],
-      yearsOfExperience: 4
-    }
+      id: "skill-1",
+      name: "JavaScript",
+      level: "advanced",
+      category: "Programming",
+      keywords: ["ES6", "Node.js"],
+      yearsOfExperience: 4,
+    },
   ],
   certifications: [],
   projects: [],
   languages: [
     {
-      id: 'lang-1',
-      name: 'English',
-      level: 'native',
-      certifications: []
-    }
+      id: "lang-1",
+      name: "English",
+      level: "native",
+      certifications: [],
+    },
   ],
-  createdAt: new Date('2024-01-01'),
-  updatedAt: new Date('2024-01-15'),
-  version: '1.0'
+  createdAt: new Date("2024-01-01"),
+  updatedAt: new Date("2024-01-15"),
+  version: "1.0",
 }
 
-describe('parseClaudeJSON', () => {
-  it('should parse valid JSON successfully', async () => {
+describe("parseClaudeJSON", () => {
+  it("should parse valid JSON successfully", async () => {
     const jsonString = JSON.stringify(validJobAnalysisJSON)
     const result = await parseClaudeJSON(jsonString, JobAnalysisResponseSchema)
 
@@ -112,7 +107,7 @@ describe('parseClaudeJSON', () => {
     expect(result.error).toBeUndefined()
   })
 
-  it('should extract JSON from markdown code blocks', async () => {
+  it("should extract JSON from markdown code blocks", async () => {
     const markdownResponse = `
 Here's the analysis:
 
@@ -123,28 +118,36 @@ ${JSON.stringify(validJobAnalysisJSON, null, 2)}
 This completes the analysis.
     `
 
-    const result = await parseClaudeJSON(markdownResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      markdownResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
     expect(result.repairAttempts).toBeDefined()
-    expect(result.repairAttempts).toContain('Extracted from markdown code block')
+    expect(result.repairAttempts).toContain(
+      "Extracted from markdown code block"
+    )
   })
 
-  it('should extract JSON without explicit json language tag', async () => {
+  it("should extract JSON without explicit json language tag", async () => {
     const markdownResponse = `
 \`\`\`
 ${JSON.stringify(validJobAnalysisJSON)}
 \`\`\`
     `
 
-    const result = await parseClaudeJSON(markdownResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      markdownResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should extract JSON from mixed content', async () => {
+  it("should extract JSON from mixed content", async () => {
     const mixedResponse = `
 I'll analyze this job offer for you.
 
@@ -153,13 +156,16 @@ ${JSON.stringify(validJobAnalysisJSON)}
 This analysis should help you optimize your CV.
     `
 
-    const result = await parseClaudeJSON(mixedResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      mixedResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should repair common JSON formatting issues', async () => {
+  it("should repair common JSON formatting issues", async () => {
     const malformedJSON = `{
       "requiredSkills": ['JavaScript', 'TypeScript', 'React',],
       preferredSkills: ["Node.js", "AWS"],
@@ -175,32 +181,55 @@ This analysis should help you optimize your CV.
       "suggestions": ["Highlight React experience", "Mention TypeScript projects"],
     }`
 
-    const result = await parseClaudeJSON(malformedJSON, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      malformedJSON,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
     expect(result.repairAttempts).toBeDefined()
-    expect(result.repairAttempts!.some(attempt => attempt.includes('trailing commas') || attempt.includes('Removed trailing commas'))).toBe(true)
-    expect(result.repairAttempts!.some(attempt => attempt.includes('property names') || attempt.includes('Added quotes to property names'))).toBe(true)
-    expect(result.repairAttempts!.some(attempt => attempt.includes('single quotes') || attempt.includes('Converted single quotes to double quotes'))).toBe(true)
+    expect(
+      result.repairAttempts!.some(
+        (attempt) =>
+          attempt.includes("trailing commas") ||
+          attempt.includes("Removed trailing commas")
+      )
+    ).toBe(true)
+    expect(
+      result.repairAttempts!.some(
+        (attempt) =>
+          attempt.includes("property names") ||
+          attempt.includes("Added quotes to property names")
+      )
+    ).toBe(true)
+    expect(
+      result.repairAttempts!.some(
+        (attempt) =>
+          attempt.includes("single quotes") ||
+          attempt.includes("Converted single quotes to double quotes")
+      )
+    ).toBe(true)
   })
 
-
-  it('should handle validation errors properly', async () => {
+  it("should handle validation errors properly", async () => {
     const invalidJSON = {
-      invalidField: 'value',
-      missingRequiredFields: true
+      invalidField: "value",
+      missingRequiredFields: true,
     }
 
-    const result = await parseClaudeJSON(JSON.stringify(invalidJSON), JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      JSON.stringify(invalidJSON),
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(false)
     expect(result.error).toBeInstanceOf(ValidationError)
-    expect(result.error!.message).toContain('does not match expected schema')
+    expect(result.error!.message).toContain("does not match expected schema")
   })
 
-  it('should handle completely invalid JSON', async () => {
-    const invalidJSON = 'This is not JSON at all { invalid }'
+  it("should handle completely invalid JSON", async () => {
+    const invalidJSON = "This is not JSON at all { invalid }"
 
     const result = await parseClaudeJSON(invalidJSON, JobAnalysisResponseSchema)
 
@@ -208,40 +237,51 @@ This analysis should help you optimize your CV.
     expect(result.error).toBeInstanceOf(JSONExtractionError)
   })
 
-  it('should respect maxLength configuration', async () => {
-    const longResponse = 'a'.repeat(1000)
+  it("should respect maxLength configuration", async () => {
+    const longResponse = "a".repeat(1000)
     const config = { maxLength: 500 }
 
-    const result = await parseClaudeJSON(longResponse, JobAnalysisResponseSchema, config)
+    const result = await parseClaudeJSON(
+      longResponse,
+      JobAnalysisResponseSchema,
+      config
+    )
 
     expect(result.success).toBe(false)
     expect(result.error).toBeInstanceOf(ParseError)
-    expect(result.error!.message).toContain('Response too long')
+    expect(result.error!.message).toContain("Response too long")
   })
 
-  it('should handle empty or null responses', async () => {
-    const emptyResult = await parseClaudeJSON('', JobAnalysisResponseSchema)
-    const nullResult = await parseClaudeJSON(null as any, JobAnalysisResponseSchema)
+  it("should handle empty or null responses", async () => {
+    const emptyResult = await parseClaudeJSON("", JobAnalysisResponseSchema)
+    const nullResult = await parseClaudeJSON(
+      null as any,
+      JobAnalysisResponseSchema
+    )
 
     expect(emptyResult.success).toBe(false)
-    expect(emptyResult.error!.message).toContain('empty or not a string')
+    expect(emptyResult.error!.message).toContain("empty or not a string")
 
     expect(nullResult.success).toBe(false)
-    expect(nullResult.error!.message).toContain('empty or not a string')
+    expect(nullResult.error!.message).toContain("empty or not a string")
   })
 
-  it('should disable repair when attemptRepair is false', async () => {
-    const malformedJSON = '{ "field": value }'  // Missing quotes around value
+  it("should disable repair when attemptRepair is false", async () => {
+    const malformedJSON = '{ "field": value }' // Missing quotes around value
     const config = { attemptRepair: false }
 
-    const result = await parseClaudeJSON(malformedJSON, JobAnalysisResponseSchema, config)
+    const result = await parseClaudeJSON(
+      malformedJSON,
+      JobAnalysisResponseSchema,
+      config
+    )
 
     expect(result.success).toBe(false)
     expect(result.error).toBeInstanceOf(JSONExtractionError)
-    expect(result.error!.message).toContain('repair is disabled')
+    expect(result.error!.message).toContain("repair is disabled")
   })
 
-  it('should disable markdown extraction when extractFromMarkdown is false', async () => {
+  it("should disable markdown extraction when extractFromMarkdown is false", async () => {
     // Use a markdown response that would only work with markdown extraction
     const markdownResponse = `Here's your analysis:
 
@@ -251,33 +291,53 @@ ${JSON.stringify(validJobAnalysisJSON)}
 
 Hope this helps!`
 
-    const withMarkdown = await parseClaudeJSON(markdownResponse, JobAnalysisResponseSchema, { extractFromMarkdown: true })
-    const withoutMarkdown = await parseClaudeJSON(markdownResponse, JobAnalysisResponseSchema, { extractFromMarkdown: false })
+    const withMarkdown = await parseClaudeJSON(
+      markdownResponse,
+      JobAnalysisResponseSchema,
+      { extractFromMarkdown: true }
+    )
+    const withoutMarkdown = await parseClaudeJSON(
+      markdownResponse,
+      JobAnalysisResponseSchema,
+      { extractFromMarkdown: false }
+    )
 
     // With markdown should succeed and mention markdown extraction
     expect(withMarkdown.success).toBe(true)
-    expect(withMarkdown.repairAttempts?.some(attempt => attempt.includes('markdown'))).toBe(true)
+    expect(
+      withMarkdown.repairAttempts?.some((attempt) =>
+        attempt.includes("markdown")
+      )
+    ).toBe(true)
 
     // Without markdown should still work because of JSON object extraction, but not mention markdown
     expect(withoutMarkdown.success).toBe(true)
-    expect(withoutMarkdown.repairAttempts?.some(attempt => attempt.includes('markdown'))).toBe(false)
+    expect(
+      withoutMarkdown.repairAttempts?.some((attempt) =>
+        attempt.includes("markdown")
+      )
+    ).toBe(false)
   })
 
-  it('should provide debug information when enabled', async () => {
+  it("should provide debug information when enabled", async () => {
     const malformedJSON = `{
       "requiredSkills": ['JavaScript'],
     }`
 
     const config = { debug: true }
-    const result = await parseClaudeJSON(malformedJSON, JobAnalysisResponseSchema, config)
+    const result = await parseClaudeJSON(
+      malformedJSON,
+      JobAnalysisResponseSchema,
+      config
+    )
 
     expect(result.repairAttempts).toBeDefined()
     expect(result.repairAttempts!.length).toBeGreaterThan(0)
   })
 })
 
-describe('parseJobAnalysisResponse', () => {
-  it('should parse valid job analysis response', async () => {
+describe("parseJobAnalysisResponse", () => {
+  it("should parse valid job analysis response", async () => {
     const jsonString = JSON.stringify(validJobAnalysisJSON)
     const result = await parseJobAnalysisResponse(jsonString)
 
@@ -285,8 +345,10 @@ describe('parseJobAnalysisResponse', () => {
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle job analysis response in markdown', async () => {
-    const markdownResponse = `\`\`\`json\n${JSON.stringify(validJobAnalysisJSON)}\n\`\`\``
+  it("should handle job analysis response in markdown", async () => {
+    const markdownResponse = `\`\`\`json\n${JSON.stringify(
+      validJobAnalysisJSON
+    )}\n\`\`\``
     const result = await parseJobAnalysisResponse(markdownResponse)
 
     expect(result.success).toBe(true)
@@ -294,22 +356,22 @@ describe('parseJobAnalysisResponse', () => {
   })
 })
 
-describe('parseCVResponse', () => {
-  it('should parse valid CV data response', async () => {
+describe("parseCVResponse", () => {
+  it("should parse valid CV data response", async () => {
     // Create JSON that would actually come from an API (with date strings)
     const cvDataForAPI = {
       ...validCVDataJSON,
-      workExperience: validCVDataJSON.workExperience.map(exp => ({
+      WorkExperiences: validCVDataJSON.WorkExperiences.map((exp) => ({
         ...exp,
-        startDate: exp.startDate.toISOString().split('T')[0] // Convert to date string
+        startDate: exp.startDate.toISOString().split("T")[0], // Convert to date string
       })),
-      education: validCVDataJSON.education.map(edu => ({
+      education: validCVDataJSON.education.map((edu) => ({
         ...edu,
-        startDate: edu.startDate.toISOString().split('T')[0],
-        endDate: edu.endDate?.toISOString().split('T')[0]
+        startDate: edu.startDate.toISOString().split("T")[0],
+        endDate: edu.endDate?.toISOString().split("T")[0],
       })),
-      createdAt: validCVDataJSON.createdAt.toISOString().split('T')[0],
-      updatedAt: validCVDataJSON.updatedAt.toISOString().split('T')[0]
+      createdAt: validCVDataJSON.createdAt.toISOString().split("T")[0],
+      updatedAt: validCVDataJSON.updatedAt.toISOString().split("T")[0],
     }
 
     const jsonString = JSON.stringify(cvDataForAPI)
@@ -321,14 +383,14 @@ describe('parseCVResponse', () => {
     expect(result.error).toBeInstanceOf(ValidationError)
   })
 
-  it('should validate CV data structure properly', async () => {
+  it("should validate CV data structure properly", async () => {
     const invalidCVData = {
-      id: 'cv-123',
+      id: "cv-123",
       personalInfo: {
-        firstName: 'John'
+        firstName: "John",
         // Missing required lastName and email
       },
-      workExperience: [],
+      WorkExperiences: [],
       education: [],
       skills: [],
       certifications: [],
@@ -336,7 +398,7 @@ describe('parseCVResponse', () => {
       languages: [],
       createdAt: new Date(),
       updatedAt: new Date(),
-      version: '1.0'
+      version: "1.0",
     }
 
     const result = await parseCVResponse(JSON.stringify(invalidCVData))
@@ -346,50 +408,61 @@ describe('parseCVResponse', () => {
   })
 })
 
-describe('parseOpenAIResponse', () => {
-  it('should parse OpenAI API response format correctly', async () => {
+describe("parseOpenAIResponse", () => {
+  it("should parse OpenAI API response format correctly", async () => {
     const openAIResponse = {
       choices: [
         {
           message: {
-            content: JSON.stringify(validJobAnalysisJSON)
-          }
-        }
-      ]
+            content: JSON.stringify(validJobAnalysisJSON),
+          },
+        },
+      ],
     }
 
-    const result = await parseOpenAIResponse(openAIResponse, JobAnalysisResponseSchema)
+    const result = await parseOpenAIResponse(
+      openAIResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle OpenAI response with markdown JSON', async () => {
+  it("should handle OpenAI response with markdown JSON", async () => {
     const openAIResponse = {
       choices: [
         {
           message: {
-            content: `\`\`\`json\n${JSON.stringify(validJobAnalysisJSON)}\n\`\`\``
-          }
-        }
-      ]
+            content: `\`\`\`json\n${JSON.stringify(
+              validJobAnalysisJSON
+            )}\n\`\`\``,
+          },
+        },
+      ],
     }
 
-    const result = await parseOpenAIResponse(openAIResponse, JobAnalysisResponseSchema)
+    const result = await parseOpenAIResponse(
+      openAIResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle string responses directly', async () => {
+  it("should handle string responses directly", async () => {
     const stringResponse = JSON.stringify(validJobAnalysisJSON)
 
-    const result = await parseOpenAIResponse(stringResponse, JobAnalysisResponseSchema)
+    const result = await parseOpenAIResponse(
+      stringResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result).toEqual(validJobAnalysisJSON)
   })
 
-  it('should throw on invalid OpenAI response structure', async () => {
+  it("should throw on invalid OpenAI response structure", async () => {
     const invalidResponse = {
-      invalid: 'structure'
+      invalid: "structure",
     }
 
     await expect(
@@ -397,15 +470,15 @@ describe('parseOpenAIResponse', () => {
     ).rejects.toThrow(ParseError)
   })
 
-  it('should throw on parsing failures', async () => {
+  it("should throw on parsing failures", async () => {
     const openAIResponse = {
       choices: [
         {
           message: {
-            content: 'Invalid JSON content'
-          }
-        }
-      ]
+            content: "Invalid JSON content",
+          },
+        },
+      ],
     }
 
     await expect(
@@ -414,53 +487,56 @@ describe('parseOpenAIResponse', () => {
   })
 })
 
-describe('Error Classes', () => {
-  it('should create ParseError with proper properties', () => {
-    const context = { test: 'data' }
-    const error = new ParseError('Test message', new Error('cause'), context)
+describe("Error Classes", () => {
+  it("should create ParseError with proper properties", () => {
+    const context = { test: "data" }
+    const error = new ParseError("Test message", new Error("cause"), context)
 
     expect(error).toBeInstanceOf(Error)
-    expect(error.name).toBe('ParseError')
-    expect(error.message).toBe('Test message')
+    expect(error.name).toBe("ParseError")
+    expect(error.message).toBe("Test message")
     expect(error.cause).toBeInstanceOf(Error)
     expect(error.context).toEqual(context)
   })
 
-  it('should create JSONExtractionError with proper inheritance', () => {
-    const error = new JSONExtractionError('JSON error', new Error('cause'))
+  it("should create JSONExtractionError with proper inheritance", () => {
+    const error = new JSONExtractionError("JSON error", new Error("cause"))
 
     expect(error).toBeInstanceOf(ParseError)
-    expect(error.name).toBe('JSONExtractionError')
-    expect(error.message).toBe('JSON error')
+    expect(error.name).toBe("JSONExtractionError")
+    expect(error.message).toBe("JSON error")
   })
 
-  it('should create ValidationError with Zod error', () => {
-    const zodResult = JobAnalysisResponseSchema.safeParse({ invalid: 'data' })
-    const error = new ValidationError('Validation failed', zodResult.error!)
+  it("should create ValidationError with Zod error", () => {
+    const zodResult = JobAnalysisResponseSchema.safeParse({ invalid: "data" })
+    const error = new ValidationError("Validation failed", zodResult.error!)
 
     expect(error).toBeInstanceOf(ParseError)
-    expect(error.name).toBe('ValidationError')
+    expect(error.name).toBe("ValidationError")
     expect(error.zodError).toBeDefined()
   })
 })
 
-describe('Edge Cases and Stress Tests', () => {
-  it('should handle deeply nested JSON structures', async () => {
+describe("Edge Cases and Stress Tests", () => {
+  it("should handle deeply nested JSON structures", async () => {
     const deeplyNestedJSON = {
       ...validJobAnalysisJSON,
       extraData: {
         level1: {
           level2: {
             level3: {
-              data: 'deep value'
-            }
-          }
-        }
-      }
+              data: "deep value",
+            },
+          },
+        },
+      },
     }
 
     // Zod by default allows extra properties, so this should succeed
-    const result = await parseClaudeJSON(JSON.stringify(deeplyNestedJSON), JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      JSON.stringify(deeplyNestedJSON),
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toBeDefined()
@@ -468,56 +544,68 @@ describe('Edge Cases and Stress Tests', () => {
     expect((result.data as any).extraData).toBeUndefined()
   })
 
-  it('should handle JSON with special characters', async () => {
+  it("should handle JSON with special characters", async () => {
     const specialCharsJSON = {
       ...validJobAnalysisJSON,
       suggestions: [
         'Use "quotes" and \\backslashes\\ properly',
-        'Handle newlines\nand tabs\t correctly',
-        'Unicode characters: ñ, é, 中文, 🚀'
-      ]
+        "Handle newlines\nand tabs\t correctly",
+        "Unicode characters: ñ, é, 中文, 🚀",
+      ],
     }
 
-    const result = await parseClaudeJSON(JSON.stringify(specialCharsJSON), JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      JSON.stringify(specialCharsJSON),
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
-    expect(result.data!.suggestions[0]).toContain('quotes')
-    expect(result.data!.suggestions[2]).toContain('🚀')
+    expect(result.data!.suggestions[0]).toContain("quotes")
+    expect(result.data!.suggestions[2]).toContain("🚀")
   })
 
-  it('should handle multiple JSON objects (should take first)', async () => {
+  it("should handle multiple JSON objects (should take first)", async () => {
     const multipleJSONResponse = `
       ${JSON.stringify(validJobAnalysisJSON)}
 
-      ${JSON.stringify({ additional: 'data' })}
+      ${JSON.stringify({ additional: "data" })}
     `
 
-    const result = await parseClaudeJSON(multipleJSONResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      multipleJSONResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle very large JSON responses within limits', async () => {
+  it("should handle very large JSON responses within limits", async () => {
     const largeJSON = {
       ...validJobAnalysisJSON,
-      requiredSkills: new Array(100).fill('Skill'),
-      responsibilities: new Array(50).fill('Responsibility')
+      requiredSkills: new Array(100).fill("Skill"),
+      responsibilities: new Array(50).fill("Responsibility"),
     }
 
-    const result = await parseClaudeJSON(JSON.stringify(largeJSON), JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      JSON.stringify(largeJSON),
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data!.requiredSkills).toHaveLength(100)
     expect(result.data!.responsibilities).toHaveLength(50)
   })
 
-  it('should handle concurrent parsing operations', async () => {
+  it("should handle concurrent parsing operations", async () => {
     const promises = Array.from({ length: 10 }, (_, i) =>
-      parseClaudeJSON(JSON.stringify({
-        ...validJobAnalysisJSON,
-        matchingScore: i * 10
-      }), JobAnalysisResponseSchema)
+      parseClaudeJSON(
+        JSON.stringify({
+          ...validJobAnalysisJSON,
+          matchingScore: i * 10,
+        }),
+        JobAnalysisResponseSchema
+      )
     )
 
     const results = await Promise.all(promises)
@@ -529,8 +617,8 @@ describe('Edge Cases and Stress Tests', () => {
   })
 })
 
-describe('Real-world Response Patterns', () => {
-  it('should handle ChatGPT-style responses', async () => {
+describe("Real-world Response Patterns", () => {
+  it("should handle ChatGPT-style responses", async () => {
     const chatGPTResponse = `Based on the job description provided, here's the analysis:
 
 \`\`\`json
@@ -539,26 +627,32 @@ ${JSON.stringify(validJobAnalysisJSON, null, 2)}
 
 This analysis covers all the key requirements mentioned in the job posting.`
 
-    const result = await parseClaudeJSON(chatGPTResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      chatGPTResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle Claude-style responses', async () => {
+  it("should handle Claude-style responses", async () => {
     const claudeResponse = `I'll analyze this job offer for you.
 
 ${JSON.stringify(validJobAnalysisJSON, null, 2)}
 
 This structured analysis will help you tailor your application.`
 
-    const result = await parseClaudeJSON(claudeResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      claudeResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)
   })
 
-  it('should handle responses with commentary mixed in JSON', async () => {
+  it("should handle responses with commentary mixed in JSON", async () => {
     const commentaryResponse = `{
   // This is the job analysis
   "requiredSkills": ${JSON.stringify(validJobAnalysisJSON.requiredSkills)},
@@ -578,13 +672,16 @@ This structured analysis will help you tailor your application.`
 }`
 
     // Comments in JSON are invalid, so this should fail
-    const result = await parseClaudeJSON(commentaryResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      commentaryResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(false)
     expect(result.error).toBeInstanceOf(JSONExtractionError)
   })
 
-  it('should handle mixed format responses', async () => {
+  it("should handle mixed format responses", async () => {
     const mixedResponse = `I'll help you with the job analysis.
 
 **Job Analysis Results:**
@@ -595,7 +692,10 @@ ${JSON.stringify(validJobAnalysisJSON)}
 
 **Summary:** This position requires strong JavaScript skills.`
 
-    const result = await parseClaudeJSON(mixedResponse, JobAnalysisResponseSchema)
+    const result = await parseClaudeJSON(
+      mixedResponse,
+      JobAnalysisResponseSchema
+    )
 
     expect(result.success).toBe(true)
     expect(result.data).toEqual(validJobAnalysisJSON)

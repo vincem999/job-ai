@@ -1,7 +1,7 @@
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
-import type { CV } from '../../../types/cv'
-import { validateCVStructure, type CVValidationResult } from './validator'
+import { readFile } from "node:fs/promises"
+import { resolve } from "node:path"
+import type { CV } from "../../../types/cv"
+import { validateCVStructure, type CVValidationResult } from "./validator"
 
 /**
  * Options for loading CV data
@@ -22,12 +22,16 @@ export interface LoadCVOptions {
  * @throws Error if file reading, JSON parsing, or validation fails
  */
 export async function loadMasterCV(options: LoadCVOptions = {}): Promise<CV> {
-  const { validateStructure = true, throwOnValidationErrors = true, throwOnWarnings = false } = options
+  const {
+    validateStructure = true,
+    throwOnValidationErrors = true,
+    throwOnWarnings = false,
+  } = options
 
   try {
     // Read the JSON file from the templates directory
-    const filePath = resolve(process.cwd(), 'templates', 'master-cv-data.json')
-    const fileContent = await readFile(filePath, 'utf-8')
+    const filePath = resolve(process.cwd(), "templates", "master-cv-data.json")
+    const fileContent = await readFile(filePath, "utf-8")
 
     // Parse the JSON data
     const cvData = JSON.parse(fileContent)
@@ -41,11 +45,13 @@ export async function loadMasterCV(options: LoadCVOptions = {}): Promise<CV> {
 
       // Log validation results
       if (validation.warnings.length > 0) {
-        console.warn('CV validation warnings:', validation.warnings)
+        console.warn("CV validation warnings:", validation.warnings)
       }
 
       if (!validation.valid) {
-        const errorMessage = `CV validation failed: ${validation.errors.join('; ')}`
+        const errorMessage = `CV validation failed: ${validation.errors.join(
+          "; "
+        )}`
         if (throwOnValidationErrors) {
           throw new Error(errorMessage)
         }
@@ -53,15 +59,20 @@ export async function loadMasterCV(options: LoadCVOptions = {}): Promise<CV> {
       }
 
       if (validation.warnings.length > 0 && throwOnWarnings) {
-        const warningMessage = `CV validation warnings: ${validation.warnings.join('; ')}`
+        const warningMessage = `CV validation warnings: ${validation.warnings.join(
+          "; "
+        )}`
         throw new Error(warningMessage)
       }
     }
 
     return parsedCV
-  }
-  catch (error) {
-    throw new Error(`Failed to load master CV: ${error instanceof Error ? error.message : String(error)}`)
+  } catch (error) {
+    throw new Error(
+      `Failed to load master CV: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    )
   }
 }
 
@@ -70,7 +81,9 @@ export async function loadMasterCV(options: LoadCVOptions = {}): Promise<CV> {
  * @param options Configuration options for loading
  * @returns Promise containing CV data and validation results
  */
-export async function loadMasterCVWithValidation(options: LoadCVOptions = {}): Promise<{
+export async function loadMasterCVWithValidation(
+  options: LoadCVOptions = {}
+): Promise<{
   cv: CV
   validation: CVValidationResult
 }> {
@@ -78,8 +91,8 @@ export async function loadMasterCVWithValidation(options: LoadCVOptions = {}): P
 
   try {
     // Read the JSON file from the templates directory
-    const filePath = resolve(process.cwd(), 'templates', 'master-cv-data.json')
-    const fileContent = await readFile(filePath, 'utf-8')
+    const filePath = resolve(process.cwd(), "templates", "master-cv-data.json")
+    const fileContent = await readFile(filePath, "utf-8")
 
     // Parse the JSON data
     const cvData = JSON.parse(fileContent)
@@ -94,11 +107,14 @@ export async function loadMasterCVWithValidation(options: LoadCVOptions = {}): P
 
     return {
       cv: parsedCV,
-      validation
+      validation,
     }
-  }
-  catch (error) {
-    throw new Error(`Failed to load master CV: ${error instanceof Error ? error.message : String(error)}`)
+  } catch (error) {
+    throw new Error(
+      `Failed to load master CV: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    )
   }
 }
 
@@ -109,8 +125,8 @@ export async function loadMasterCVWithValidation(options: LoadCVOptions = {}): P
  */
 const parseCV = (data: any): CV => {
   // Parse dates in work experience
-  if (data.workExperience) {
-    data.workExperience = data.workExperience.map((exp: any) => ({
+  if (data.WorkExperiences) {
+    data.WorkExperiences = data.WorkExperiences.map((exp: any) => ({
       ...exp,
       startDate: new Date(exp.startDate),
       endDate: exp.endDate ? new Date(exp.endDate) : undefined,

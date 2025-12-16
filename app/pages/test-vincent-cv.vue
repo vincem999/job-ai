@@ -9,7 +9,7 @@
           Template avec données réelles
         </UBadge>
         <UButton
-          class="download-btn"
+          class="download-btn ml-4"
           icon="i-heroicons-arrow-down-tray"
           @click="downloadCV"
         >
@@ -17,77 +17,18 @@
         </UButton>
       </div>
 
-      <CVTemplate :cv-data="cvData" />
+      <CVTemplate :cv-data="mockCVData" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import CVTemplate from "~/components/templates/CVTemplate.vue"
-import type { AdaptedCV } from "../../types/cv"
+// import type { AdaptedCV } from "../../types/cv"
 import type { ExportFormat } from "~~/types/api"
+import { mockCVData } from "~/components/templates/mockCVData"
 
-// Données du CV mises à jour avec les vraies informations
-const cvData = ref<AdaptedCV>({
-  id: "cv-vincent-1",
-  personalInfo: {
-    name: "Vincent MONNEGER",
-    title: "Développeur Front-end Vue.js",
-    email: "vincentmonneger@gmail.com",
-    phone: "06 51 89 31 49",
-    location: "Louveciennes, France",
-    linkedin: "linkedin.com/in/vincent-monneger",
-    github: "github.com/vincentmonneger",
-    photo: "/profile.jpg",
-  },
-  summary:
-    "Développeur Front-end passionné avec 5+ années d'expérience en Vue.js, TypeScript et développement d'applications web modernes. Expert en architecture frontend et optimisation des performances.",
-  experiences: [
-    {
-      id: "exp1",
-      title: "Lead Developer Front-end",
-      company: "TechCorp",
-      location: "Paris, France",
-      startDate: "2021",
-      endDate: "Présent",
-      description: "Lead technique sur des projets Vue.js complexes",
-      bullets: [
-        "Architecture et développement d'applications Vue.js/Nuxt.js",
-        "Encadrement d'équipe de 4 développeurs",
-        "Optimisation des performances et SEO",
-        "Mise en place de CI/CD et bonnes pratiques",
-      ],
-      skills: ["Vue.js", "Nuxt.js", "TypeScript", "Leadership"],
-    },
-  ],
-  education: [
-    {
-      id: "edu1",
-      degree: "Master en Informatique",
-      institution: "Université Paris-Saclay",
-      year: "2018",
-      location: "Paris, France",
-    },
-  ],
-  skills: {
-    technical: [
-      "Vue.js",
-      "Nuxt.js",
-      "TypeScript",
-      "JavaScript",
-      "HTML5",
-      "CSS3",
-    ],
-    languages: ["Français", "Anglais"],
-    soft: ["Leadership", "Communication", "Résolution de problèmes"],
-  },
-  // Propriétés AdaptedCV
-  originalCVId: "original-cv-1",
-  jobAnalysisId: "job-analysis-1",
-  adaptations: [],
-  matchScore: 95,
-  adaptedAt: new Date(),
-})
+// Use the imported mockCVData directly
 
 // Meta pour la page
 useHead({
@@ -105,7 +46,7 @@ const { generatePDF } = usePDFExport()
 const downloadCV = async () => {
   try {
     // Use client-side PDF generation with html2pdf.js
-    const pdfBlob = await generatePDF(cvData.value)
+    const pdfBlob = await generatePDF(mockCVData)
 
     // Create download result manually
     const timestamp = new Date().toISOString().slice(0, 10)
@@ -146,3 +87,5 @@ function downloadFile(downloadUrl: string, filename: string): void {
   }, 1000)
 }
 </script>
+
+<style scoped></style>

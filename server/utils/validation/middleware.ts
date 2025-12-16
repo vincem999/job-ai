@@ -68,7 +68,7 @@ const transformCVDates = (body: any): any => {
       ...body.cvData,
       createdAt: safeParseDate(body.cvData.createdAt),
       updatedAt: safeParseDate(body.cvData.updatedAt),
-      workExperience: body.cvData.workExperience?.map((exp: any) => ({
+      workExperiences: body.cvData.workExperiences?.map((exp: any) => ({
         ...exp,
         startDate: safeParseDate(exp.startDate),
         endDate: safeParseDate(exp.endDate),

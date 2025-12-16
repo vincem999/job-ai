@@ -19,27 +19,26 @@
       class="success-alert"
       @close="successMessage = null"
     />
-    <div class="download-layout">
-      <!-- Section de gauche - Contrôles de téléchargement -->
-      <div class="download-controls">
-        <UButton
-          :loading="isDownloadingCV"
-          :disabled="!selectedCVFormat || isDownloadingCV"
-          class="download-btn"
-          icon="i-heroicons-arrow-down-tray"
-          @click="downloadCV"
-        >
-          {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
-        </UButton>
-        <div class="cv-preview-container">
-          <div class="cv-preview-wrapper">
-            <CVTemplate :cv-data="cvData" />
-          </div>
-        </div>
-      </div>
 
-      <!-- Section de droite - Preview du CV -->
-      <!-- <div v-if="cvData && showPreview" class="cv-preview-section">
+    <!-- Section de gauche - Contrôles de téléchargement -->
+    <div class="download-controls">
+      <UButton
+        :loading="isDownloadingCV"
+        :disabled="!selectedCVFormat || isDownloadingCV"
+        class="download-btn"
+        icon="i-heroicons-arrow-down-tray"
+        @click="downloadCV"
+      >
+        {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
+      </UButton>
+
+      <div style="width: 100%">
+        <CVTemplate :cv-data="cvData" />
+      </div>
+    </div>
+
+    <!-- Section de droite - Preview du CV -->
+    <!-- <div v-if="cvData && showPreview" class="cv-preview-section">
         <div class="preview-header">
           <h3 class="preview-title">
             <UIcon name="i-heroicons-eye" />
@@ -54,22 +53,16 @@
           </div>
         </div>
       </div> -->
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { AdaptedCV } from "../../../types/cv"
-import type {
-  CoverLetter,
-  ExportFormat,
-  ExportResult,
-} from "../../../types/api"
-import { exportDocument, downloadFile } from "../../../utils/documentExport"
+import type { CoverLetter, ExportFormat } from "../../../types/api"
 import CVTemplate from "../templates/CVTemplate.vue"
 
 interface Props {
-  cvData?: AdaptedCV
+  cvData: AdaptedCV
   letterData?: CoverLetter
 }
 
@@ -81,9 +74,7 @@ const selectedLetterFormat = ref<ExportFormat>()
 const isDownloadingCV = ref(false)
 const errorMessage = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
-const lastCVDownload = ref<ExportResult | null>(null)
 const showPreview = ref(false)
-
 
 // Methods
 const { generatePDF } = usePDFExport()
@@ -122,18 +113,6 @@ const downloadCV = async () => {
           generatedAt: new Date(),
         },
       }
-
-      lastCVDownload.value = result
-      downloadFile(result.downloadUrl, result.filename)
-    } else {
-      // Use server-side export for DOCX
-      const result = await exportDocument(
-        props.cvData,
-        "cv",
-        selectedCVFormat.value as "docx"
-      )
-
-      lastCVDownload.value = result
       downloadFile(result.downloadUrl, result.filename)
     }
 
@@ -147,6 +126,20 @@ const downloadCV = async () => {
   }
 }
 
+function downloadFile(downloadUrl: string, filename: string): void {
+  const link = document.createElement("a")
+  link.href = downloadUrl
+  link.download = filename
+  link.style.display = "none"
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+
+  // Clean up the object URL after a delay
+  setTimeout(() => {
+    URL.revokeObjectURL(downloadUrl)
+  }, 1000)
+}
 
 // Set default formats and show preview if CV data available
 onMounted(() => {
@@ -189,10 +182,6 @@ watch([errorMessage, successMessage], () => {
 
 .document-download {
   @apply w-full space-y-6;
-}
-
-.download-layout {
-  @apply grid grid-cols-1 xl:grid-cols-2 gap-8;
 }
 
 .download-controls {

@@ -11,10 +11,10 @@
     "personalInfo": {
       "$ref": "#/definitions/PersonalInfo"
     },
-    "workExperience": {
+    "workExperiences": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/WorkExperience"
+        "$ref": "#/definitions/WorkExperiences"
       }
     },
     "education": {
@@ -79,7 +79,7 @@
   "required": [
     "id",
     "personalInfo",
-    "workExperience",
+    "workExperiences",
     "education",
     "skills",
     "projects",
@@ -150,7 +150,7 @@
       },
       "required": ["city", "country"]
     },
-    "WorkExperience": {
+    "WorkExperiences": {
       "type": "object",
       "properties": {
         "id": {
@@ -198,7 +198,17 @@
           }
         }
       },
-      "required": ["id", "company", "position", "startDate", "isCurrentPosition", "description", "achievements", "skills", "technologies"]
+      "required": [
+        "id",
+        "company",
+        "position",
+        "startDate",
+        "isCurrentPosition",
+        "description",
+        "achievements",
+        "skills",
+        "technologies"
+      ]
     },
     "Education": {
       "type": "object",
@@ -247,7 +257,14 @@
           "type": "string"
         }
       },
-      "required": ["id", "institution", "degree", "field", "startDate", "isCurrentEducation"]
+      "required": [
+        "id",
+        "institution",
+        "degree",
+        "field",
+        "startDate",
+        "isCurrentEducation"
+      ]
     },
     "Skill": {
       "type": "object",
@@ -260,7 +277,14 @@
         },
         "category": {
           "type": "string",
-          "enum": ["technical", "soft", "language", "certification", "tool", "framework"]
+          "enum": [
+            "technical",
+            "soft",
+            "language",
+            "certification",
+            "tool",
+            "framework"
+          ]
         },
         "level": {
           "type": "string",
@@ -326,7 +350,16 @@
           "format": "uri"
         }
       },
-      "required": ["id", "name", "description", "role", "startDate", "isOngoing", "technologies", "achievements"]
+      "required": [
+        "id",
+        "name",
+        "description",
+        "role",
+        "startDate",
+        "isOngoing",
+        "technologies",
+        "achievements"
+      ]
     },
     "Certification": {
       "type": "object",

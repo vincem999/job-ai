@@ -3,7 +3,7 @@ import type {
   JobAnalysisResponse,
   CVData,
   CoverLetterRequest,
-} from '../validation/schemas'
+} from "../validation/schemas"
 
 /**
  * Configuration for prompt generation
@@ -12,7 +12,7 @@ interface PromptConfig {
   /** Maximum length for generated content */
   maxLength?: number
   /** Tone of the generated content */
-  tone?: 'Professional' | 'Friendly' | 'Enthusiastic' | 'Formal'
+  tone?: "Professional" | "Friendly" | "Enthusiastic" | "Formal"
   /** Additional context to include */
   context?: string
 }
@@ -55,10 +55,10 @@ export function generateJobAnalysisPrompt(
 **JOB OFFER TO ANALYZE:**
 ${jobOffer}
 
-${company ? `**COMPANY:** ${company}` : ''}
-${position ? `**POSITION:** ${position}` : ''}
-${additionalContext ? `**ADDITIONAL CONTEXT:** ${additionalContext}` : ''}
-${context ? `**EXTRA CONTEXT:** ${context}` : ''}
+${company ? `**COMPANY:** ${company}` : ""}
+${position ? `**POSITION:** ${position}` : ""}
+${additionalContext ? `**ADDITIONAL CONTEXT:** ${additionalContext}` : ""}
+${context ? `**EXTRA CONTEXT:** ${context}` : ""}
 
 **REQUIRED OUTPUT FORMAT (JSON only):**
 {
@@ -141,8 +141,8 @@ ${JSON.stringify(cvData, null, 2)}
 **TARGET JOB ANALYSIS:**
 ${JSON.stringify(jobAnalysis, null, 2)}
 
-${focusAreas.length > 0 ? `**FOCUS AREAS:** ${focusAreas.join(', ')}` : ''}
-${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
+${focusAreas.length > 0 ? `**FOCUS AREAS:** ${focusAreas.join(", ")}` : ""}
+${context ? `**ADDITIONAL CONTEXT:** ${context}` : ""}
 
 **STRATÉGIE D'ADAPTATION :**
 
@@ -192,9 +192,9 @@ ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
     }
   ],
   "recommendedSections": {
-    "order": ["personalInfo", "summary", "workExperience", "skills", "projects", "education", "certifications"],
+    "order": ["personalInfo", "summary", "WorkExperiences", "skills", "projects", "education", "certifications"],
     "emphasis": {
-      "workExperience": "high",
+      "WorkExperiences": "high",
       "skills": "high",
       "projects": "medium"
     }
@@ -204,7 +204,7 @@ ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
     "naturalPlacements": [
       {
         "keyword": "keyword1",
-        "section": "workExperience",
+        "section": "WorkExperiences",
         "context": "How to naturally include this keyword"
       }
     ]
@@ -251,10 +251,14 @@ export function generateCoverLetterPrompt(
   const { maxLength = 800, context } = config
 
   const toneInstructions = {
-    Professional: 'Utilisez un langage d\'affaires formel, concentrez-vous sur les qualifications et réalisations',
-    Friendly: 'Utilisez un langage chaleureux et accessible tout en maintenant le professionnalisme',
-    Enthusiastic: 'Montrez un véritable enthousiasme et une passion pour le rôle et l\'entreprise',
-    Formal: 'Utilisez un langage traditionnel et conservateur approprié aux organisations formelles'
+    Professional:
+      "Utilisez un langage d'affaires formel, concentrez-vous sur les qualifications et réalisations",
+    Friendly:
+      "Utilisez un langage chaleureux et accessible tout en maintenant le professionnalisme",
+    Enthusiastic:
+      "Montrez un véritable enthousiasme et une passion pour le rôle et l'entreprise",
+    Formal:
+      "Utilisez un langage traditionnel et conservateur approprié aux organisations formelles",
   }
 
   const basePrompt = `Vous êtes un conseiller en carrière expert et rédacteur professionnel. Votre tâche est de créer une lettre de motivation convaincante et personnalisée qui connecte efficacement le parcours du candidat à l'opportunité d'emploi ciblée.
@@ -271,19 +275,27 @@ export function generateCoverLetterPrompt(
 - **RÉDIGEZ EN FRANÇAIS**
 
 **CANDIDATE CV DATA:**
-${JSON.stringify({
-  personalInfo: cvData.personalInfo,
-  workExperience: cvData.workExperience.slice(0, 3), // Most recent 3 experiences
-  skills: cvData.skills.slice(0, 10), // Top 10 skills
-  education: cvData.education.slice(0, 2), // Most recent education
-  projects: cvData.projects.slice(0, 3) // Top 3 projects
-}, null, 2)}
+${JSON.stringify(
+  {
+    personalInfo: cvData.personalInfo,
+    WorkExperiences: cvData.WorkExperiences.slice(0, 3), // Most recent 3 experiences
+    skills: cvData.skills.slice(0, 10), // Top 10 skills
+    education: cvData.education.slice(0, 2), // Most recent education
+    projects: cvData.projects.slice(0, 3), // Top 3 projects
+  },
+  null,
+  2
+)}
 
 **TARGET JOB ANALYSIS:**
 ${JSON.stringify(jobAnalysis, null, 2)}
 
-${personalMessage ? `**PERSONAL MESSAGE FROM CANDIDATE:** ${personalMessage}` : ''}
-${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
+${
+  personalMessage
+    ? `**PERSONAL MESSAGE FROM CANDIDATE:** ${personalMessage}`
+    : ""
+}
+${context ? `**ADDITIONAL CONTEXT:** ${context}` : ""}
 
 **STRUCTURE DE LA LETTRE DE MOTIVATION :**
 
@@ -311,7 +323,9 @@ ${context ? `**ADDITIONAL CONTEXT:** ${context}` : ''}
 {
   "coverLetter": {
     "header": {
-      "candidateName": "${cvData.personalInfo.firstName} ${cvData.personalInfo.lastName}",
+      "candidateName": "${cvData.personalInfo.firstName} ${
+    cvData.personalInfo.lastName
+  }",
       "candidateEmail": "${cvData.personalInfo.email}",
       "date": "Current date",
       "recipientInfo": "Hiring Manager or specific contact if known"
@@ -356,47 +370,55 @@ Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
  * @returns Validation result with any issues found
  */
 export function validatePromptTemplate(
-  promptType: 'jobAnalysis' | 'cvAdaptation' | 'coverLetter',
+  promptType: "jobAnalysis" | "cvAdaptation" | "coverLetter",
   prompt: string
 ): { isValid: boolean; issues: string[] } {
   const issues: string[] = []
 
   // Common validations
   if (prompt.length < 100) {
-    issues.push('Prompt is too short - may not provide sufficient context')
+    issues.push("Prompt is too short - may not provide sufficient context")
   }
 
   if (prompt.length > 10000) {
-    issues.push('Prompt is too long - may exceed token limits')
+    issues.push("Prompt is too long - may exceed token limits")
   }
 
-  if (!prompt.includes('JSON')) {
-    issues.push('Prompt should specify JSON output format')
+  if (!prompt.includes("JSON")) {
+    issues.push("Prompt should specify JSON output format")
   }
 
   // Type-specific validations
   switch (promptType) {
-    case 'jobAnalysis':
-      if (!prompt.includes('requiredSkills') || !prompt.includes('preferredSkills')) {
-        issues.push('Job analysis prompt missing required skill extraction elements')
+    case "jobAnalysis":
+      if (
+        !prompt.includes("requiredSkills") ||
+        !prompt.includes("preferredSkills")
+      ) {
+        issues.push(
+          "Job analysis prompt missing required skill extraction elements"
+        )
       }
       break
 
-    case 'cvAdaptation':
-      if (!prompt.includes('matchingScore') || !prompt.includes('keywordOptimization')) {
-        issues.push('CV adaptation prompt missing optimization elements')
+    case "cvAdaptation":
+      if (
+        !prompt.includes("matchingScore") ||
+        !prompt.includes("keywordOptimization")
+      ) {
+        issues.push("CV adaptation prompt missing optimization elements")
       }
       break
 
-    case 'coverLetter':
-      if (!prompt.includes('tone') || !prompt.includes('wordCount')) {
-        issues.push('Cover letter prompt missing formatting requirements')
+    case "coverLetter":
+      if (!prompt.includes("tone") || !prompt.includes("wordCount")) {
+        issues.push("Cover letter prompt missing formatting requirements")
       }
       break
   }
 
   return {
     isValid: issues.length === 0,
-    issues
+    issues,
   }
 }

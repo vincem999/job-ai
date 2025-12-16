@@ -137,7 +137,7 @@
 import GenerateButton from "~/components/dashboard/GenerateButton.vue"
 import CVPreview from "~/components/dashboard/CVPreview.vue"
 import LoadingSpinner from "~/components/dashboard/LoadingSpinner.vue"
-import type { CVData } from "~/components/templates/mockCVData"
+import type { CV } from "../../../types/cv"
 
 interface StatusMessage {
   type: "success" | "error" | "warning"
@@ -157,7 +157,7 @@ const emit = defineEmits<{
   ]
 }>()
 
-const cvData = ref<CVData | undefined>(undefined)
+const cvData = ref<CV | undefined>(undefined)
 const letterData = ref<any | undefined>(undefined)
 const cvId = ref<string | undefined>(undefined)
 const letterId = ref<string | undefined>(undefined)

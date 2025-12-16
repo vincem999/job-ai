@@ -1,7 +1,8 @@
 // CV Data Type Definitions
 
 export interface PersonalInfo {
-  name: string
+  firstName: string
+  lastName: string
   title: string
   email: string
   phone: string
@@ -19,7 +20,7 @@ export interface Address {
   country: string
 }
 
-export interface Experience {
+export interface WorkExperience {
   id: string
   title: string
   company: string
@@ -48,19 +49,19 @@ export interface Skills {
 }
 
 export enum SkillCategory {
-  TECHNICAL = 'technical',
-  SOFT = 'soft',
-  LANGUAGE = 'language',
-  CERTIFICATION = 'certification',
-  TOOL = 'tool',
-  FRAMEWORK = 'framework'
+  TECHNICAL = "technical",
+  SOFT = "soft",
+  LANGUAGE = "language",
+  CERTIFICATION = "certification",
+  TOOL = "tool",
+  FRAMEWORK = "framework",
 }
 
 export enum SkillLevel {
-  BEGINNER = 'beginner',
-  INTERMEDIATE = 'intermediate',
-  ADVANCED = 'advanced',
-  EXPERT = 'expert'
+  BEGINNER = "beginner",
+  INTERMEDIATE = "intermediate",
+  ADVANCED = "advanced",
+  EXPERT = "expert",
 }
 
 export interface Project {
@@ -87,10 +88,10 @@ export interface Language {
 }
 
 export enum LanguageLevel {
-  BASIC = 'basic',
-  CONVERSATIONAL = 'conversational',
-  FLUENT = 'fluent',
-  NATIVE = 'native'
+  BASIC = "basic",
+  CONVERSATIONAL = "conversational",
+  FLUENT = "fluent",
+  NATIVE = "native",
 }
 
 export interface Reference {
@@ -107,7 +108,7 @@ export interface CV {
   id: string
   personalInfo: PersonalInfo
   summary: string
-  experiences: Experience[]
+  workExperiences: WorkExperience[]
   education: Education[]
   skills: Skills
   certifications?: Certification[]
@@ -150,12 +151,12 @@ export interface CVAdaptation {
 }
 
 export enum CVSection {
-  PERSONAL_INFO = 'personalInfo',
-  WORK_EXPERIENCE = 'workExperience',
-  EDUCATION = 'education',
-  SKILLS = 'skills',
-  PROJECTS = 'projects',
-  CERTIFICATIONS = 'certifications',
-  LANGUAGES = 'languages',
-  SUMMARY = 'summary'
+  PERSONAL_INFO = "personalInfo",
+  WORK_EXPERIENCE = "workExperience",
+  EDUCATION = "education",
+  SKILLS = "skills",
+  PROJECTS = "projects",
+  CERTIFICATIONS = "certifications",
+  LANGUAGES = "languages",
+  SUMMARY = "summary",
 }

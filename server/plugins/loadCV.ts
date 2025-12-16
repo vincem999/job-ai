@@ -1,5 +1,5 @@
-import type { CV } from '../../types/cv'
-import { loadMasterCV } from '../utils/cv/loader'
+import type { CV } from "../../types/cv"
+import { loadMasterCV } from "../utils/cv/loader"
 
 /**
  * Nitro plugin to load the master CV at server startup
@@ -27,7 +27,7 @@ export async function getMasterCV(): Promise<CV> {
     // Simple polling mechanism - in production you might want to use a more sophisticated approach
     let attempts = 0
     while (isLoading && attempts < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise((resolve) => setTimeout(resolve, 100))
       attempts++
     }
 
@@ -36,13 +36,13 @@ export async function getMasterCV(): Promise<CV> {
     }
 
     if (!loadedCV) {
-      throw new Error('CV loading timed out')
+      throw new Error("CV loading timed out")
     }
   }
 
   // If we don't have the CV loaded yet, try to load it
   if (!loadedCV && !isLoading) {
-    throw new Error('CV not loaded. Server may not have started properly.')
+    throw new Error("CV not loaded. Server may not have started properly.")
   }
 
   return loadedCV!
@@ -65,10 +65,10 @@ export function getCVLoadError(): Error | null {
 }
 
 export default defineNitroPlugin(async (nitroApp) => {
-  console.log('🚀 Starting CV loading plugin...')
+  console.log("🚀 Starting CV loading plugin...")
 
   // Load CV immediately when plugin initializes
-  console.log('🔄 Loading master CV at server startup...')
+  console.log("🔄 Loading master CV at server startup...")
   isLoading = true
 
   try {
@@ -76,37 +76,38 @@ export default defineNitroPlugin(async (nitroApp) => {
     const cv = await loadMasterCV({
       validateStructure: true,
       throwOnValidationErrors: true,
-      throwOnWarnings: false
+      throwOnWarnings: false,
     })
 
     loadedCV = cv
     loadError = null
 
-    console.log('✅ Master CV loaded successfully')
+    console.log("✅ Master CV loaded successfully")
     console.log(`   - CV ID: ${cv.id}`)
-    console.log(`   - Name: ${cv.personalInfo.firstName} ${cv.personalInfo.lastName}`)
-    console.log(`   - Work Experience entries: ${cv.workExperience?.length || 0}`)
+    console.log(
+      `   - Work Experience entries: ${cv.workExperiences?.length || 0}`
+    )
     console.log(`   - Education entries: ${cv.education?.length || 0}`)
     console.log(`   - Projects: ${cv.projects?.length || 0}`)
-  }
-  catch (error) {
+  } catch (error) {
     loadError = error instanceof Error ? error : new Error(String(error))
     loadedCV = null
 
-    console.error('❌ Failed to load master CV:', loadError.message)
+    console.error("❌ Failed to load master CV:", loadError.message)
 
     // Log the error but don't throw it to prevent server startup failure
     // The error will be available via getCVLoadError() for debugging
-  }
-  finally {
+  } finally {
     isLoading = false
   }
 
   // Optional: Hook into request lifecycle to log CV access
-  nitroApp.hooks.hook('request', (event) => {
+  nitroApp.hooks.hook("request", (event) => {
     // Only log API routes that might use CV data
-    if (event.path.startsWith('/api/')) {
-      console.log(`📄 API request to ${event.path} - CV loaded: ${isCVLoaded()}`)
+    if (event.path.startsWith("/api/")) {
+      console.log(
+        `📄 API request to ${event.path} - CV loaded: ${isCVLoaded()}`
+      )
     }
   })
 })

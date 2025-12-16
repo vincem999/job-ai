@@ -21,7 +21,9 @@ All API responses follow a consistent JSON format:
 ```json
 {
   "success": true,
-  "data": { /* endpoint-specific data */ },
+  "data": {
+    /* endpoint-specific data */
+  },
   "processingTime": 1234,
   "timestamp": "2023-12-07T10:30:00.000Z"
 }
@@ -50,23 +52,23 @@ All error responses follow this standardized format:
 
 ### Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `INVALID_INPUT` | 400 | Invalid request input |
-| `INVALID_EMAIL` | 400 | Invalid email format |
-| `INVALID_URL` | 400 | Invalid URL format |
-| `MISSING_REQUIRED_FIELD` | 400 | Required field is missing |
-| `VALIDATION_ERROR` | 422 | Request validation failed |
-| `UNAUTHORIZED` | 401 | Authentication required |
-| `FORBIDDEN` | 403 | Access denied |
-| `NOT_FOUND` | 404 | Resource not found |
-| `RATE_LIMITED` | 429 | Too many requests |
-| `PAYLOAD_TOO_LARGE` | 413 | Request payload too large |
-| `PROCESSING_ERROR` | 500 | Internal server error |
-| `DATABASE_ERROR` | 500 | Database operation failed |
-| `EXTERNAL_SERVICE_ERROR` | 502 | External service unavailable |
-| `CONFIGURATION_ERROR` | 500 | Server configuration error |
-| `UNKNOWN_ERROR` | 500 | Unexpected error occurred |
+| Code                     | HTTP Status | Description                  |
+| ------------------------ | ----------- | ---------------------------- |
+| `INVALID_INPUT`          | 400         | Invalid request input        |
+| `INVALID_EMAIL`          | 400         | Invalid email format         |
+| `INVALID_URL`            | 400         | Invalid URL format           |
+| `MISSING_REQUIRED_FIELD` | 400         | Required field is missing    |
+| `VALIDATION_ERROR`       | 422         | Request validation failed    |
+| `UNAUTHORIZED`           | 401         | Authentication required      |
+| `FORBIDDEN`              | 403         | Access denied                |
+| `NOT_FOUND`              | 404         | Resource not found           |
+| `RATE_LIMITED`           | 429         | Too many requests            |
+| `PAYLOAD_TOO_LARGE`      | 413         | Request payload too large    |
+| `PROCESSING_ERROR`       | 500         | Internal server error        |
+| `DATABASE_ERROR`         | 500         | Database operation failed    |
+| `EXTERNAL_SERVICE_ERROR` | 502         | External service unavailable |
+| `CONFIGURATION_ERROR`    | 500         | Server configuration error   |
+| `UNKNOWN_ERROR`          | 500         | Unexpected error occurred    |
 
 ## Rate Limiting
 
@@ -77,6 +79,7 @@ The API implements rate limiting to prevent abuse:
 - **Ban duration**: 1 hour for exceeding limits
 
 Rate limit headers are included in responses:
+
 - `X-RateLimit-Limit`: Maximum requests allowed
 - `X-RateLimit-Remaining`: Remaining requests in current window
 - `X-RateLimit-Reset`: Unix timestamp when window resets
@@ -91,6 +94,7 @@ Analyzes job offer text and extracts structured information.
 **Endpoint**: `POST /api/analyze-job`
 
 **Request Body**:
+
 ```json
 {
   "jobOffer": "string (required) - Job offer text to analyze"
@@ -98,6 +102,7 @@ Analyzes job offer text and extracts structured information.
 ```
 
 **Success Response (200)**:
+
 ```json
 {
   "success": true,
@@ -125,6 +130,7 @@ Analyzes job offer text and extracts structured information.
 ```
 
 **Error Examples**:
+
 ```json
 // Missing job offer text
 {
@@ -162,6 +168,7 @@ Optimizes CV content based on job analysis data.
 **Endpoint**: `POST /api/adapt-cv`
 
 **Request Body**:
+
 ```json
 {
   "cvData": {
@@ -172,7 +179,7 @@ Optimizes CV content based on job analysis data.
       "phone": "+1234567890",
       "address": "123 Main St, City, Country"
     },
-    "workExperience": [
+    "WorkExperiences": [
       {
         "id": "1",
         "position": "Software Developer",
@@ -180,7 +187,10 @@ Optimizes CV content based on job analysis data.
         "startDate": "2021-01-01T00:00:00.000Z",
         "endDate": "2023-12-01T00:00:00.000Z",
         "description": "Developed web applications using React and Node.js",
-        "achievements": ["Increased performance by 30%", "Led team of 3 developers"]
+        "achievements": [
+          "Increased performance by 30%",
+          "Led team of 3 developers"
+        ]
       }
     ],
     "skills": [
@@ -202,6 +212,7 @@ Optimizes CV content based on job analysis data.
 ```
 
 **Success Response (200)**:
+
 ```json
 {
   "success": true,
@@ -213,7 +224,10 @@ Optimizes CV content based on job analysis data.
       {
         "id": "1",
         "enhancedDescription": "Enhanced description emphasizing relevant skills",
-        "highlightedAchievements": ["Performance optimization", "Team leadership"],
+        "highlightedAchievements": [
+          "Performance optimization",
+          "Team leadership"
+        ],
         "relevantSkills": ["React", "Node.js", "Leadership"],
         "matchingScore": 95
       }
@@ -226,9 +240,9 @@ Optimizes CV content based on job analysis data.
       }
     ],
     "recommendedSections": {
-      "order": ["personalInfo", "workExperience", "skills", "education"],
+      "order": ["personalInfo", "WorkExperiences", "skills", "education"],
       "emphasis": {
-        "workExperience": "high",
+        "WorkExperiences": "high",
         "skills": "high",
         "education": "medium"
       }
@@ -238,7 +252,7 @@ Optimizes CV content based on job analysis data.
       "naturalPlacements": [
         {
           "keyword": "React",
-          "section": "workExperience",
+          "section": "WorkExperiences",
           "context": "Developed React applications"
         }
       ]
@@ -260,6 +274,7 @@ Creates a personalized cover letter based on CV and job analysis.
 **Endpoint**: `POST /api/generate-letter`
 
 **Request Body**:
+
 ```json
 {
   "cvData": {
@@ -276,6 +291,7 @@ Creates a personalized cover letter based on CV and job analysis.
 ```
 
 **Success Response (200)**:
+
 ```json
 {
   "success": true,
@@ -295,7 +311,11 @@ Creates a personalized cover letter based on CV and job analysis.
       },
       "fullText": "Complete formatted cover letter text",
       "wordCount": 350,
-      "keyHighlights": ["React expertise", "Leadership experience", "Performance optimization"]
+      "keyHighlights": [
+        "React expertise",
+        "Leadership experience",
+        "Performance optimization"
+      ]
     },
     "matchingElements": {
       "addressedRequirements": ["3+ years experience", "React proficiency"],
@@ -316,6 +336,7 @@ Retrieves the master CV data.
 **Endpoint**: `GET /api/cv`
 
 **Success Response (200)**:
+
 ```json
 {
   "success": true,
@@ -331,6 +352,7 @@ Retrieves the master CV data.
 ```
 
 **Error Examples**:
+
 ```json
 // CV not ready
 {
@@ -415,12 +437,14 @@ When rate limit is exceeded:
 ### Standard Headers
 
 All requests should include:
+
 - `Content-Type: application/json`
 - `Accept: application/json`
 
 ### Response Headers
 
 All responses include:
+
 - `Content-Type: application/json`
 - `X-Request-ID: req_1234567890_abc123def`
 - Rate limiting headers (when applicable)
