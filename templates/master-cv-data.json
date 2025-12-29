@@ -1,39 +1,134 @@
 {
-  "id": "vincent-monneger-cv-001",
+  "id": "master CV",
   "personalInfo": {
     "firstName": "Vincent",
     "lastName": "MONNEGER",
+    "title": "Développeur Front-end Vue.js",
     "email": "vincentmonneger@gmail.com",
     "phone": "06 51 89 31 49",
-    "address": {
-      "city": "Louveciennes",
-      "zipCode": "78430",
-      "country": "France"
-    },
+    "location": "78430 Louveciennes ",
     "linkedin": "https://linkedin.com/in/vincent-monneger",
-    "summary": "Développeur front-end spécialisé Vue.js, avec un fort esprit d'initiative et une curiosité naturelle. Polyvalent, je possède également des compétences en backend, DevOps et cloud, ce qui me permet de contribuer efficacement à différents aspects du développement applicatif."
+    "github": "https://github.com/vincem999",
+    "photo": "/profile.jpg"
   },
+  "summary": "Développeur front-end spécialisé Vue.js, avec un fort esprit d'initiative et une curiosité naturelle. Polyvalent, je possède également des compétences en backend, DevOps et cloud, ce qui me permet de contribuer efficacement à différents aspects du développement applicatif.",
   "workExperiences": [
     {
-      "id": "work-001",
+      "id": "exp-1",
+      "title": "Développeur Full Stack",
       "company": "Vincent Monneger (Freelance)",
-      "position": "Développeur Full Stack",
-      "startDate": "2025-10-01T00:00:00.000Z",
-      "endDate": null,
-      "isCurrentPosition": true,
-      "location": "Paris",
+      "location": "Paris, France",
+      "startDate": "10/2025",
+      "endDate": "Present",
       "description": "Création d'un SaaS (en cours) avec l'API Open AI. Mettre à disposition le deep research",
-      "achievements": [
+      "bullets": [
         "Utilisation de Claude Code avec context engineering pour le développement",
-        "Architecture microservices avec Node.js/Express",
-        "Mise en place de Redis + BullMQ pour le traitement asynchrone",
+        "Backend Node.js/Express avec architecture microservices",
+        "Cache & Queue : Redis + BullMQ pour traitement asynchrone",
         "Déploiement sur Railway (backend) et Vercel (frontend)"
       ],
       "skills": [
-        "Architecture logicielle",
-        "Context Engineering",
-        "Développement SaaS"
+        "Node.js",
+        "Express",
+        "Redis",
+        "BullMQ",
+        "Supabase",
+        "Nuxt 4",
+        "OpenAI API"
+      ]
+    },
+    {
+      "id": "exp-2",
+      "title": "Développeur web",
+      "company": "Vincent Monneger (Freelance)",
+      "location": "Paris, France",
+      "startDate": "11/2024",
+      "endDate": "Present",
+      "description": "Création site Webflow avec du custom code et autres projets avec technologies modernes",
+      "bullets": [
+        "Création du site https://www.re-nesens.com avec Webflow",
+        "Développement de projets avec Astro.js",
+        "Intégration d'animations GSAP",
+        "Développement WordPress personnalisé"
       ],
+      "skills": ["Webflow", "Astro.js", "GSAP", "WordPress", "JavaScript"]
+    },
+    {
+      "id": "exp-3",
+      "title": "Développeur front",
+      "company": "Jobpass",
+      "location": "Paris, France",
+      "startDate": "10/2021",
+      "endDate": "09/2024",
+      "description": "Arrivé à la création de l'entreprise, développement complet de l'application frontend",
+      "bullets": [
+        "Développement de l'application en Vue 2, puis migration vers Vue 3 avec Typescript",
+        "Passage de VueX à Pinia pour le state management",
+        "Configuration du framework Quasar et personnalisation des composants",
+        "Intégration de GraphQL avec le client Apollo pour les requêtes API",
+        "Mise en place de l'authentification via Firebase, puis migration vers Auth0",
+        "Réalisation de tests automatisés avec Cypress pour garantir la qualité du code"
+      ],
+      "skills": [
+        "Vue.js",
+        "TypeScript",
+        "Pinia",
+        "Quasar",
+        "GraphQL",
+        "Apollo",
+        "Cypress"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "Bachelor Développeur Web",
+      "institution": "Hetic",
+      "year": "2021-2023",
+      "description": "Formation complète en développement web avec spécialisation frontend et backend : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web"
+    },
+    {
+      "id": "edu-2",
+      "degree": "Développeur web junior RNCP niveau 5 (BAC +2)",
+      "institution": "OpenClassrooms",
+      "year": "2020-2021",
+      "description": "Formation en développement web : HTML, CSS, JavaScript, Vue.js, Node.js, Express, MongoDB, Accessibilité web"
+    }
+  ],
+  "skills": {
+    "technical": [
+      "Vue.js",
+      "React",
+      "Svelte",
+      "TypeScript",
+      "Nuxt.js",
+      "Node.js",
+      "GraphQL",
+      "Docker",
+      "Cloud",
+      "Cypress",
+      "Playwright",
+      "Storybook"
+    ],
+    "languages": ["Anglais (B2)"],
+    "soft": [
+      "Initiative",
+      "Curiosité",
+      "Polyvalence",
+      "Adaptabilité",
+      "Collaboration",
+      "Résolution de problèmes",
+      "Innovation",
+      "Autonomie"
+    ]
+  },
+  "certifications": [],
+  "projects": [
+    {
+      "id": "proj-1",
+      "name": "SaaS Deep Research",
+      "description": "Création d'un SaaS utilisant l'API OpenAI pour fournir des services de deep research avec architecture microservices.",
       "technologies": [
         "Node.js",
         "Express",
@@ -41,303 +136,31 @@
         "BullMQ",
         "Supabase",
         "Nuxt 4",
-        "Nuxt UI",
-        "Railway",
-        "Vercel",
         "OpenAI API"
-      ]
+      ],
+      "date": "2025"
     },
     {
-      "id": "work-002",
-      "company": "Vincent Monneger (Freelance)",
-      "position": "Développeur web",
-      "startDate": "2024-11-01T00:00:00.000Z",
-      "endDate": "2025-09-30T00:00:00.000Z",
-      "isCurrentPosition": false,
-      "location": "Paris",
-      "description": "Création site Webflow avec du custom code et autres projets avec technologies modernes",
-      "achievements": [
-        "Création du site https://www.re-nesens.com avec Webflow",
-        "Développement de projets avec Astro.js",
-        "Intégration d'animations GSAP",
-        "Développement WordPress personnalisé"
-      ],
-      "skills": [
-        "Webflow Development",
-        "Custom Code Integration",
-        "Animation Web"
-      ],
-      "technologies": [
-        "Webflow",
-        "Astro.js",
-        "GSAP",
-        "WordPress",
-        "JavaScript"
-      ]
+      "id": "proj-2",
+      "name": "Re-Nesens Website",
+      "description": "Site web moderne créé avec Webflow et du code personnalisé, intégrant des animations et un design responsive.",
+      "technologies": ["Webflow", "JavaScript", "Custom Code"],
+      "url": "https://www.re-nesens.com",
+      "date": "2024"
     },
     {
-      "id": "work-003",
-      "company": "Jobpass",
-      "position": "Développeur front",
-      "startDate": "2021-10-01T00:00:00.000Z",
-      "endDate": "2024-09-30T00:00:00.000Z",
-      "isCurrentPosition": false,
-      "location": "Paris",
-      "description": "Arrivé à la création de l'entreprise, développement complet de l'application frontend",
-      "achievements": [
-        "Développement de l'application en Vue 2, puis migration vers Vue 3 avec TypeScript",
-        "Migration du state management de VueX vers Pinia",
-        "Configuration du framework Quasar et personnalisation des composants",
-        "Création de composants from scratch en SCSS suivant le design atomique",
-        "Maintien de Storybook pour la documentation des composants",
-        "Intégration GraphQL avec Apollo Client",
-        "Mise en place de l'authentification Firebase puis migration vers Auth0",
-        "Réalisation de tests automatisés avec Cypress",
-        "Documentation du code avec JSDoc",
-        "Collaboration avec les designers via Figma"
-      ],
-      "skills": [
-        "Vue.js Migration",
-        "State Management",
-        "Component Design",
-        "API Integration",
-        "Testing",
-        "Documentation"
-      ],
+      "id": "proj-3",
+      "name": "Jobpass Application",
+      "description": "Application de gestion de candidatures développée from scratch avec Vue.js, migration complète de Vue 2 vers Vue 3.",
       "technologies": [
         "Vue.js",
         "TypeScript",
         "Pinia",
-        "VueX",
         "Quasar",
-        "SCSS",
-        "Storybook",
         "GraphQL",
-        "Apollo",
-        "Firebase",
-        "Auth0",
-        "Cypress",
-        "JSDoc",
-        "GitLab",
-        "Jira",
-        "Figma"
-      ]
-    }
-  ],
-  "education": [
-    {
-      "id": "edu-001",
-      "institution": "Hetic",
-      "degree": "Bachelor Développeur Web",
-      "field": "Développement Web",
-      "startDate": "2021-10-01T00:00:00.000Z",
-      "endDate": "2023-10-01T00:00:00.000Z",
-      "isCurrentEducation": false,
-      "description": "Formation complète en développement web avec spécialisation frontend et backend",
-      "relevantCourses": [
-        "React",
-        "Svelte",
-        "PHP",
-        "Symfony",
-        "Golang",
-        "Node.js",
-        "Docker",
-        "Cloud",
-        "CI/CD",
-        "Accessibilité web"
-      ]
-    },
-    {
-      "id": "edu-002",
-      "institution": "OpenClassrooms",
-      "degree": "Développeur web junior RNCP niveau 5 (BAC +2)",
-      "field": "Développement Web",
-      "startDate": "2020-12-01T00:00:00.000Z",
-      "endDate": "2021-08-01T00:00:00.000Z",
-      "isCurrentEducation": false,
-      "description": "Formation en développement web avec focus sur les technologies frontend et backend",
-      "relevantCourses": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Vue.js",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Accessibilité web"
-      ]
-    }
-  ],
-  "skills": [
-    {
-      "id": "skill-001",
-      "name": "Vue.js",
-      "category": "framework",
-      "level": "expert",
-      "keywords": ["Vue 2", "Vue 3", "Composition API", "Options API"],
-      "yearsOfExperience": 4
-    },
-    {
-      "id": "skill-002",
-      "name": "TypeScript",
-      "category": "technical",
-      "level": "advanced",
-      "keywords": ["Type Safety", "Interfaces", "Generics"],
-      "yearsOfExperience": 3
-    },
-    {
-      "id": "skill-003",
-      "name": "JavaScript",
-      "category": "technical",
-      "level": "expert",
-      "keywords": ["ES6+", "DOM", "Async/Await"],
-      "yearsOfExperience": 4
-    },
-    {
-      "id": "skill-004",
-      "name": "Nuxt.js",
-      "category": "framework",
-      "level": "advanced",
-      "keywords": ["SSR", "SSG", "Universal", "Nuxt 4"],
-      "yearsOfExperience": 1
-    },
-    {
-      "id": "skill-005",
-      "name": "Node.js",
-      "category": "technical",
-      "level": "advanced",
-      "keywords": ["Express", "API", "Microservices"],
-      "yearsOfExperience": 3
-    },
-    {
-      "id": "skill-006",
-      "name": "React",
-      "category": "framework",
-      "level": "intermediate",
-      "keywords": ["Hooks", "JSX", "Components"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-007",
-      "name": "Svelte",
-      "category": "framework",
-      "level": "intermediate",
-      "keywords": ["Reactive", "Components"],
-      "yearsOfExperience": 1
-    },
-    {
-      "id": "skill-008",
-      "name": "GraphQL",
-      "category": "technical",
-      "level": "advanced",
-      "keywords": ["Apollo", "Queries", "Mutations"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-009",
-      "name": "Docker",
-      "category": "tool",
-      "level": "intermediate",
-      "keywords": ["Containers", "Deployment"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-010",
-      "name": "Cloud",
-      "category": "technical",
-      "level": "intermediate",
-      "keywords": ["AWS", "Vercel", "Railway"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-011",
-      "name": "Cypress",
-      "category": "tool",
-      "level": "advanced",
-      "keywords": ["E2E Testing", "Automation"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-012",
-      "name": "Storybook",
-      "category": "tool",
-      "level": "advanced",
-      "keywords": ["Component Documentation", "UI Testing"],
-      "yearsOfExperience": 2
-    },
-    {
-      "id": "skill-013",
-      "name": "Webflow",
-      "category": "tool",
-      "level": "advanced",
-      "keywords": ["No Code", "Custom Code", "CMS"],
-      "yearsOfExperience": 1
-    }
-  ],
-  "projects": [
-    {
-      "id": "proj-001",
-      "name": "SaaS Deep Research",
-      "description": "Création d'un SaaS utilisant l'API OpenAI pour fournir des services de deep research",
-      "role": "Développeur Full Stack",
-      "startDate": "2025-10-01T00:00:00.000Z",
-      "endDate": null,
-      "isOngoing": true,
-      "technologies": ["Node.js", "Express", "Redis", "BullMQ", "Supabase", "Nuxt 4", "OpenAI API"],
-      "achievements": [
-        "Architecture microservices scalable",
-        "Traitement asynchrone avec Redis et BullMQ",
-        "Déploiement multi-plateforme (Railway + Vercel)"
-      ]
-    },
-    {
-      "id": "proj-002",
-      "name": "Re-Nesens Website",
-      "description": "Création d'un site web moderne avec Webflow et du code personnalisé",
-      "role": "Développeur Web",
-      "startDate": "2024-11-01T00:00:00.000Z",
-      "endDate": "2024-12-01T00:00:00.000Z",
-      "isOngoing": false,
-      "technologies": ["Webflow", "JavaScript", "Custom Code"],
-      "achievements": [
-        "Intégration de code personnalisé dans Webflow",
-        "Site web responsive et performant"
+        "Apollo"
       ],
-      "url": "https://www.re-nesens.com"
-    },
-    {
-      "id": "proj-003",
-      "name": "Jobpass Application",
-      "description": "Application de gestion de candidatures développée from scratch",
-      "role": "Développeur Frontend Lead",
-      "startDate": "2021-10-01T00:00:00.000Z",
-      "endDate": "2024-09-30T00:00:00.000Z",
-      "isOngoing": false,
-      "technologies": ["Vue.js", "TypeScript", "Pinia", "Quasar", "GraphQL", "Apollo"],
-      "achievements": [
-        "Migration complète de Vue 2 vers Vue 3",
-        "Mise en place d'une architecture component-based",
-        "Intégration complète avec backend GraphQL"
-      ]
+      "date": "2021-2024"
     }
-  ],
-  "certifications": [],
-  "languages": [
-    {
-      "id": "lang-001",
-      "name": "Français",
-      "level": "native"
-    },
-    {
-      "id": "lang-002",
-      "name": "Anglais",
-      "level": "conversational"
-    }
-  ],
-  "references": [],
-  "createdAt": "2024-11-20T00:00:00.000Z",
-  "updatedAt": "2024-11-20T00:00:00.000Z",
-  "version": "1.0.0",
-  "isTemplate": true,
-  "templateName": "Vincent MONNEGER - Développeur Full Stack"
+  ]
 }

@@ -1,6 +1,7 @@
 // Mock CV data for testing the CVTemplate component
 
 export const mockCVData = {
+  id: "Master CV",
   personalInfo: {
     firstName: "Vincent",
     lastName: "MONNEGER",
@@ -8,8 +9,8 @@ export const mockCVData = {
     email: "vincentmonneger@gmail.com",
     phone: "06 51 89 31 49",
     location: "78430 Louveciennes ",
-    linkedin: "linkedin.com/in/vincent-monneger",
-    github: "github.com/vincentmonneger",
+    linkedin: "https://linkedin.com/in/vincent-monneger",
+    github: "https://github.com/vincem999",
     photo: "/profile.jpg",
   },
   summary:

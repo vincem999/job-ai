@@ -1,7 +1,7 @@
-import { readBody, type H3Event } from 'h3'
-import type { ZodType } from 'zod'
-import { createAppError } from '../errorHandler'
-import { sanitizeForDisplay } from './sanitize'
+import { readBody, type H3Event } from "h3"
+import type { ZodType } from "zod"
+import { createAppError } from "../errorHandler"
+import { sanitizeForDisplay } from "./sanitize"
 
 /**
  * Configuration options for validation middleware
@@ -41,7 +41,7 @@ const safeParseDate = (dateString: any): Date | undefined => {
   }
 
   // If it's a string, try to parse it
-  if (typeof dateString === 'string') {
+  if (typeof dateString === "string") {
     const parsed = new Date(dateString)
     // Check if the date is valid
     if (isNaN(parsed.getTime())) {
@@ -68,27 +68,31 @@ const transformCVDates = (body: any): any => {
       ...body.cvData,
       createdAt: safeParseDate(body.cvData.createdAt),
       updatedAt: safeParseDate(body.cvData.updatedAt),
-      workExperiences: body.cvData.workExperiences?.map((exp: any) => ({
-        ...exp,
-        startDate: safeParseDate(exp.startDate),
-        endDate: safeParseDate(exp.endDate),
-      })) || [],
-      education: body.cvData.education?.map((edu: any) => ({
-        ...edu,
-        startDate: safeParseDate(edu.startDate),
-        endDate: safeParseDate(edu.endDate),
-      })) || [],
-      certifications: body.cvData.certifications?.map((cert: any) => ({
-        ...cert,
-        issueDate: safeParseDate(cert.issueDate),
-        expiryDate: safeParseDate(cert.expiryDate),
-      })) || [],
-      projects: body.cvData.projects?.map((proj: any) => ({
-        ...proj,
-        startDate: safeParseDate(proj.startDate),
-        endDate: safeParseDate(proj.endDate),
-      })) || [],
-    }
+      workExperiences:
+        body.cvData.workExperiences?.map((exp: any) => ({
+          ...exp,
+          startDate: safeParseDate(exp.startDate),
+          endDate: safeParseDate(exp.endDate),
+        })) || [],
+      education:
+        body.cvData.education?.map((edu: any) => ({
+          ...edu,
+          startDate: safeParseDate(edu.startDate),
+          endDate: safeParseDate(edu.endDate),
+        })) || [],
+      certifications:
+        body.cvData.certifications?.map((cert: any) => ({
+          ...cert,
+          issueDate: safeParseDate(cert.issueDate),
+          expiryDate: safeParseDate(cert.expiryDate),
+        })) || [],
+      projects:
+        body.cvData.projects?.map((proj: any) => ({
+          ...proj,
+          startDate: safeParseDate(proj.startDate),
+          endDate: safeParseDate(proj.endDate),
+        })) || [],
+    },
   }
 }
 
@@ -97,15 +101,15 @@ const transformCVDates = (body: any): any => {
  * Preserves the structure while sanitizing text content
  */
 const deepSanitize = (obj: any, sanitizer: (value: string) => string): any => {
-  if (typeof obj === 'string') {
+  if (typeof obj === "string") {
     return sanitizer(obj)
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(item => deepSanitize(item, sanitizer))
+    return obj.map((item) => deepSanitize(item, sanitizer))
   }
 
-  if (obj && typeof obj === 'object' && obj.constructor === Object) {
+  if (obj && typeof obj === "object" && obj.constructor === Object) {
     const sanitized: any = {}
     for (const [key, value] of Object.entries(obj)) {
       sanitized[key] = deepSanitize(value, sanitizer)
@@ -133,7 +137,7 @@ export async function validateRequestBody<T>(
   const {
     transformDates = false,
     sanitize = true,
-    sanitizer = sanitizeForDisplay
+    sanitizer = sanitizeForDisplay,
   } = options
 
   try {
@@ -147,11 +151,13 @@ export async function validateRequestBody<T>(
     const validationResult = schema.safeParse(transformedBody)
 
     if (!validationResult.success) {
-      console.error('❌ Validation: Invalid request data:', validationResult.error.issues)
-      throw createAppError.validation(
-        'Invalid request data',
-        { validationErrors: validationResult.error.issues }
+      console.error(
+        "❌ Validation: Invalid request data:",
+        JSON.stringify(validationResult.error.issues, null, 2)
       )
+      throw createAppError.validation("Invalid request data", {
+        validationErrors: validationResult.error.issues,
+      })
     }
 
     // Apply sanitization if requested
@@ -163,16 +169,15 @@ export async function validateRequestBody<T>(
     return validatedData
   } catch (error) {
     // Re-throw validation errors as-is
-    if (error && typeof error === 'object' && 'code' in error) {
+    if (error && typeof error === "object" && "code" in error) {
       throw error
     }
 
     // Wrap unexpected errors
-    console.error('❌ Validation: Unexpected error during validation:', error)
-    throw createAppError.validation(
-      'Failed to process request body',
-      { originalError: error instanceof Error ? error.message : String(error) }
-    )
+    console.error("❌ Validation: Unexpected error during validation:", error)
+    throw createAppError.validation("Failed to process request body", {
+      originalError: error instanceof Error ? error.message : String(error),
+    })
   }
 }
 
@@ -180,10 +185,10 @@ export async function validateRequestBody<T>(
  * Convenience function for validating job analysis requests
  */
 export async function validateJobAnalysisRequest(event: H3Event) {
-  const { JobAnalysisRequestSchema } = await import('./schemas')
+  const { JobAnalysisRequestSchema } = await import("./schemas")
   return validateRequestBody(event, JobAnalysisRequestSchema, {
     transformDates: false,
-    sanitize: true
+    sanitize: true,
   })
 }
 
@@ -191,10 +196,10 @@ export async function validateJobAnalysisRequest(event: H3Event) {
  * Convenience function for validating CV adaptation requests
  */
 export async function validateCVAdaptationRequest(event: H3Event) {
-  const { CVAdaptationRequestSchema } = await import('./schemas')
+  const { CVAdaptationRequestSchema } = await import("./schemas")
   return validateRequestBody(event, CVAdaptationRequestSchema, {
-    transformDates: true,
-    sanitize: true
+    transformDates: false,
+    sanitize: true,
   })
 }
 
@@ -202,10 +207,10 @@ export async function validateCVAdaptationRequest(event: H3Event) {
  * Convenience function for validating cover letter requests
  */
 export async function validateCoverLetterRequest(event: H3Event) {
-  const { CoverLetterRequestSchema } = await import('./schemas')
+  const { CoverLetterRequestSchema } = await import("./schemas")
   return validateRequestBody(event, CoverLetterRequestSchema, {
-    transformDates: true,
-    sanitize: true
+    transformDates: false,
+    sanitize: true,
   })
 }
 

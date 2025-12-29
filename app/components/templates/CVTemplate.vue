@@ -170,7 +170,6 @@
               :key="education.id || index"
               class="education-item"
             >
-              <div class="timeline-marker-small" />
               <div>
                 <h4>{{ education.degree }}</h4>
                 <p class="school">{{ education.institution }}</p>
@@ -360,7 +359,7 @@ onBeforeUnmount(() => {
 .contact-bar {
   display: flex;
   gap: 8mm;
-  padding: 5mm 8mm;
+  padding: 3mm 8mm;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3mm;
   flex-wrap: wrap;
@@ -381,7 +380,7 @@ onBeforeUnmount(() => {
 .main-content {
   display: grid;
   grid-template-columns: 1fr 60mm;
-  gap: 10mm;
+  gap: 8mm;
   margin-top: 0;
   padding: 5mm;
 }
@@ -398,9 +397,8 @@ onBeforeUnmount(() => {
 /* Timeline pour les expériences */
 .timeline-item {
   position: relative;
-  padding-left: 8mm;
-
-  padding-bottom: 8mm;
+  padding-left: 5mm;
+  padding-bottom: 3mm;
 }
 
 .timeline-item:last-child {
@@ -513,7 +511,6 @@ onBeforeUnmount(() => {
 
 .education-item {
   position: relative;
-  padding-left: 6mm;
   margin-bottom: 6mm;
 }
 

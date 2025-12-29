@@ -98,6 +98,7 @@
         <div v-else-if="currentStep === 2">
           <DownloadStep
             :cv-data="cvData"
+            :job-analysis="jobAnalysis"
             :letter-data="letterData"
             :cv-id="cvId"
             :letter-id="letterId"
@@ -143,7 +144,7 @@ useHead({
 
 // Workflow state
 const currentStep = ref(0)
-const jobAnalysis = ref(null)
+const jobAnalysis = ref<JobAnalysisResponse | null>(null)
 const cvData = ref<CV | undefined>(undefined)
 const letterData = ref<any | undefined>(undefined)
 const cvId = ref<string | undefined>(undefined)
@@ -174,8 +175,8 @@ const goToStep = (step: number) => {
 }
 
 // Step event handlers
-const handleAnalysisComplete = (data: any) => {
-  jobAnalysis.value = data
+const handleAnalysisComplete = (data: JobAnalysisResponse) => {
+  if (data) jobAnalysis.value = data
 }
 
 const handleDocumentsGenerated = (data: {

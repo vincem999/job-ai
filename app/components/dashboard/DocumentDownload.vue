@@ -36,23 +36,6 @@
         <CVTemplate :cv-data="cvData" />
       </div>
     </div>
-
-    <!-- Section de droite - Preview du CV -->
-    <!-- <div v-if="cvData && showPreview" class="cv-preview-section">
-        <div class="preview-header">
-          <h3 class="preview-title">
-            <UIcon name="i-heroicons-eye" />
-            Preview du CV
-          </h3>
-          <p class="preview-subtitle">Aperçu de votre CV adapté</p>
-        </div>
-
-        <div class="cv-preview-container">
-          <div class="cv-preview-wrapper">
-            <CVTemplate :cv-data="cvData" />
-          </div>
-        </div>
-      </div> -->
   </div>
 </template>
 

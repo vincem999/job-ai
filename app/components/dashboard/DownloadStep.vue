@@ -12,9 +12,38 @@
           />
           Télécharger les documents
         </h3>
-        <p class="text-gray-600 dark:text-gray-300 text-sm">
-          Téléchargez vos documents dans différents formats
-        </p>
+        <ul style="display: flex; gap: 5px">
+          Mots-clés:
+          <li
+            v-for="industryKeyword in jobAnalysis?.industryKeywords"
+            :key="industryKeyword"
+          >
+            {{ industryKeyword }} |
+          </li>
+        </ul>
+        <ul style="display: flex; gap: 5px">
+          Skill requis:
+          <li
+            v-for="requiredSkill in jobAnalysis?.requiredSkills"
+            :key="requiredSkill"
+          >
+            {{ requiredSkill }} |
+          </li>
+        </ul>
+        <ul style="display: flex; gap: 5px">
+          Skill préféré:
+          <li
+            v-for="preferredSkill in jobAnalysis?.preferredSkills"
+            :key="preferredSkill"
+          >
+            {{ preferredSkill }} |
+          </li>
+        </ul>
+        <!-- <p>
+          Skills requis: {{ jobAnalysis?.requiredSkills }}<br>
+          Mots-clés industrie: {{ jobAnalysis?.industryKeywords }}<br>
+          Skills préférés: {{ jobAnalysis?.preferredSkills }}
+        </p> -->
       </div>
 
       <DocumentDownload :cv-data="cvData" :letter-data="letterData" />
@@ -113,6 +142,7 @@ import type { CoverLetter } from "../../../types/api"
 interface Props {
   cvData?: AdaptedCV
   letterData?: CoverLetter
+  jobAnalysis?: JobAnalysisResponse
 }
 
 defineProps<Props>()

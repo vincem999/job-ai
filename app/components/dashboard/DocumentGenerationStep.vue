@@ -239,9 +239,9 @@ const handleCVGeneration = async () => {
       cvData.value = {
         ...mockCVData,
         // Integrate some real data from API response
-        summary:
-          response.data.adaptedPersonalInfo?.summary || mockCVData.summary,
+        workExperiences: response.data.workExperiences,
       }
+      console.log("le cv data", cvData.value)
       cvId.value = "cv-" + Date.now()
       showStatusMessage(
         "success",
@@ -267,70 +267,70 @@ const handleCVGeneration = async () => {
   loadingCVGeneration.value = false
 }
 
-const _handleLetterGeneration = async () => {
-  if (!props.jobAnalysis) {
-    showStatusMessage(
-      "error",
-      "Erreur",
-      "Vous devez d'abord analyser une offre d'emploi."
-    )
-    return
-  }
+// const _handleLetterGeneration = async () => {
+//   if (!props.jobAnalysis) {
+//     showStatusMessage(
+//       "error",
+//       "Erreur",
+//       "Vous devez d'abord analyser une offre d'emploi."
+//     )
+//     return
+//   }
 
-  if (!cvData.value) {
-    showStatusMessage(
-      "error",
-      "Erreur",
-      "Vous devez d'abord générer un CV adapté."
-    )
-    return
-  }
+//   if (!cvData.value) {
+//     showStatusMessage(
+//       "error",
+//       "Erreur",
+//       "Vous devez d'abord générer un CV adapté."
+//     )
+//     return
+//   }
 
-  try {
-    console.log("Generating cover letter...")
-    loadingLetterGeneration.value = true
-    showStatusMessage(
-      "success",
-      "Lettre en cours de génération",
-      "Votre lettre de motivation est en cours de création..."
-    )
+//   try {
+//     console.log("Generating cover letter...")
+//     loadingLetterGeneration.value = true
+//     showStatusMessage(
+//       "success",
+//       "Lettre en cours de génération",
+//       "Votre lettre de motivation est en cours de création..."
+//     )
 
-    // Call letter generation API
-    const response = await $fetch<{
-      success: boolean
-      data?: string
-      error?: string
-    }>("/api/generate-letter", {
-      method: "POST",
-      body: {
-        adaptedCV: cvData.value,
-        jobAnalysis: props.jobAnalysis,
-      },
-    })
+//     // Call letter generation API
+//     const response = await $fetch<{
+//       success: boolean
+//       data?: string
+//       error?: string
+//     }>("/api/generate-letter", {
+//       method: "POST",
+//       body: {
+//         adaptedCV: cvData.value,
+//         jobAnalysis: props.jobAnalysis,
+//       },
+//     })
 
-    if (response.success && response.data) {
-      letterData.value = response.data
-      letterId.value = "letter-" + Date.now()
-      showStatusMessage(
-        "success",
-        "Lettre générée avec succès",
-        "Votre lettre de motivation est prête."
-      )
+//     if (response.success && response.data) {
+//       letterData.value = response.data
+//       letterId.value = "letter-" + Date.now()
+//       showStatusMessage(
+//         "success",
+//         "Lettre générée avec succès",
+//         "Votre lettre de motivation est prête."
+//       )
 
-      emitDocumentsUpdate()
-    } else {
-      throw new Error(
-        response.error || "Erreur lors de la génération de la lettre"
-      )
-    }
-  } catch (error) {
-    console.error("Letter generation error:", error)
-    const errorMessage =
-      error instanceof Error ? error.message : "Erreur inconnue"
-    showStatusMessage("error", "Erreur de génération", errorMessage)
-  }
-  loadingLetterGeneration.value = false
-}
+//       emitDocumentsUpdate()
+//     } else {
+//       throw new Error(
+//         response.error || "Erreur lors de la génération de la lettre"
+//       )
+//     }
+//   } catch (error) {
+//     console.error("Letter generation error:", error)
+//     const errorMessage =
+//       error instanceof Error ? error.message : "Erreur inconnue"
+//     showStatusMessage("error", "Erreur de génération", errorMessage)
+//   }
+//   loadingLetterGeneration.value = false
+// }
 
 const emitDocumentsUpdate = () => {
   emit("documentsGenerated", {

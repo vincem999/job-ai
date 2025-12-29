@@ -29,7 +29,6 @@ export interface WorkExperience {
   endDate: string
   description: string
   bullets: string[]
-  skills: string[]
 }
 
 export interface Education {
@@ -115,8 +114,8 @@ export interface CV {
   projects?: Project[]
   languages?: Language[]
   references?: Reference[]
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: string
+  updatedAt?: string
   version?: string
   isTemplate?: boolean
   templateName?: string
@@ -128,8 +127,8 @@ export interface CVTemplate {
   description: string
   cv: CV
   isDefault: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
 // Adapted CV for specific job applications

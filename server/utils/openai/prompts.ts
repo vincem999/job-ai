@@ -43,10 +43,9 @@ export function generateJobAnalysisPrompt(
   const { jobOffer, company, position, additionalContext } = request
   const { context } = config
 
-  const basePrompt = `Vous êtes un analyste RH expert et consultant en carrière. Votre tâche est d'analyser une offre d'emploi et d'extraire des informations complètes sur les exigences du poste.
+  const basePrompt = `Vous êtes un analyste RH expert et consultant en carrière. Votre tâche est d'analyser une offre d'emploi et d'extraire des informations complètes sur les exigences du poste pour optimiser un CV.
 
 **INSTRUCTIONS IMPORTANTES :**
-- Fournissez une analyse complète uniquement au format JSON valide
 - Soyez précis et spécifique dans votre catégorisation
 - Incluez les exigences explicitement mentionnées et implicites
 - Concentrez-vous sur des insights actionnables pour l'optimisation de CV
@@ -60,36 +59,15 @@ ${position ? `**POSITION:** ${position}` : ""}
 ${additionalContext ? `**ADDITIONAL CONTEXT:** ${additionalContext}` : ""}
 ${context ? `**EXTRA CONTEXT:** ${context}` : ""}
 
-**REQUIRED OUTPUT FORMAT (JSON only):**
-{
-  "requiredSkills": ["skill1", "skill2"],
-  "preferredSkills": ["skill1", "skill2"],
-  "responsibilities": ["responsibility1", "responsibility2"],
-  "requirements": ["requirement1", "requirement2"],
-  "benefits": ["benefit1", "benefit2"],
-  "salaryRange": "X - Y per year/month",
-  "workLocation": "location or remote/hybrid",
-  "workType": "Remote|Hybrid|On-site",
-  "experienceLevel": "Entry|Junior|Mid|Senior|Lead|Executive",
-  "industryKeywords": ["keyword1", "keyword2"],
-  "matchingScore": null,
-  "suggestions": ["suggestion1", "suggestion2"]
-}
-
 **DIRECTIVES D'ANALYSE :**
 1. **Required Skills:** Compétences techniques et relationnelles explicitement mentionnées comme obligatoires
 2. **Preferred Skills:** Compétences qui seraient avantageuses mais pas essentielles
 3. **Responsibilities:** Principales missions et tâches du poste
 4. **Requirements:** Formation, expérience, certifications et autres qualifications
-5. **Benefits:** Package de rémunération, avantages et bénéfices entreprise
-6. **Salary Range:** Extraire les chiffres exacts si mentionnés, format cohérent
-7. **Work Location:** Lieu spécifique ou arrangements de travail à distance
-8. **Work Type:** Classer comme Remote, Hybrid ou On-site selon la description
-9. **Experience Level:** Déterminer le niveau selon années d'expérience et responsabilités
-10. **Industry Keywords:** Termes importants spécifiques à l'industrie/domaine
-11. **Suggestions:** Conseils actionnables pour les candidats postulant à ce poste
+5. **Experience Level:** Déterminer le niveau selon années d'expérience et responsabilités (Entry/Junior/Mid/Senior/Lead/Executive)
+6. **Industry Keywords:** Termes importants spécifiques à l'industrie/domaine qui optimiseront le passage des ATS
 
-Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
+Analysez l'offre et extrayez ces informations pour permettre l'adaptation optimale du CV du candidat.`
 
   return basePrompt
 }
@@ -121,104 +99,58 @@ export function generateCVAdaptationPrompt(
   focusAreas: string[] = [],
   config: PromptConfig = {}
 ): string {
-  const { maxLength = 2000, context } = config
+  const { context } = config
+  const relevantJobData = {
+    requiredSkills: jobAnalysis.requiredSkills,
+    industryKeywords: jobAnalysis.industryKeywords,
+    preferredSkills: jobAnalysis.preferredSkills,
+  }
 
-  const basePrompt = `Vous êtes un rédacteur de CV expert et consultant en carrière. Votre tâche est d'adapter un CV existant pour mieux correspondre à une opportunité d'emploi spécifique tout en maintenant la véracité et l'authenticité.
+  const basePrompt = `Vous êtes un expert en optimisation de CV. Votre tâche est d'enrichir les descriptions ET les bullets des expériences professionnelles en intégrant naturellement les mots-clés pertinents du poste
+  ciblé.
 
 **INSTRUCTIONS IMPORTANTES :**
-- Maintenez toutes les informations factuelles - ne jamais inventer d'expérience ou de compétences
-- Réorganisez et mettez l'accent sur les expériences pertinentes pour le poste ciblé
-- Utilisez naturellement des mots-clés appropriés à l'industrie
-- Optimisez l'ordre des sections et le focus du contenu
-- Fournissez des recommandations spécifiques et actionnables
-- Gardez le CV adapté concis mais complet
-- Longueur maximale recommandée : ${maxLength} caractères par section
-- **RÉPONDEZ EN FRANÇAIS dans tous les champs de texte**
+- Modifiez les descriptions ET les bullets des expériences professionnelles
+- Intégrez naturellement les mots-clés de l'analyse de poste dans les descriptions et bullets
+- **PRIORITÉ À LA COHÉRENCE** : N'ajoutez un mot-clé que s'il s'intègre naturellement
+- **NE FORCEZ JAMAIS** l'intégration si cela altère le sens ou la crédibilité
+- Maintenez la véracité - ne jamais inventer d'expériences ou compétences
+- Préservez le sens et la structure originale des descriptions et bullets
+- Mieux vaut une description/bullet authentique qu'une version artificielle avec des mots-clés forcés
 
-**CURRENT CV DATA:**
-${JSON.stringify(cvData, null, 2)}
+**EXPÉRIENCES PROFESSIONNELLES ACTUELLES :**
+${JSON.stringify(cvData.workExperiences, null, 2)}
 
-**TARGET JOB ANALYSIS:**
-${JSON.stringify(jobAnalysis, null, 2)}
+**MOTS-CLÉS À INTÉGRER :**
+${JSON.stringify(relevantJobData, null, 2)}
 
-${focusAreas.length > 0 ? `**FOCUS AREAS:** ${focusAreas.join(", ")}` : ""}
-${context ? `**ADDITIONAL CONTEXT:** ${context}` : ""}
-
-**STRATÉGIE D'ADAPTATION :**
-
-1. **Optimisation du Résumé Personnel :**
-   - Réécrire le résumé pour s'aligner avec les exigences du poste
-   - Mettre en avant les réalisations et compétences pertinentes
-   - Utiliser naturellement les mots-clés de l'analyse du poste
-
-2. **Amélioration de la Section Expérience :**
-   - Réorganiser les expériences professionnelles par pertinence au poste ciblé
-   - Mettre l'accent sur les réalisations qui correspondent aux responsabilités du poste
-   - Quantifier l'impact quand possible (pourcentages, chiffres, résultats)
-   - Ajouter les technologies/compétences pertinentes utilisées dans chaque poste
-
-3. **Optimisation de la Section Compétences :**
-   - Prioriser les compétences requises et préférées de l'analyse du poste
-   - Grouper les compétences par catégorie (techniques, relationnelles, outils)
-   - Adapter les descriptions de niveau de compétence aux exigences du poste
-
-4. **Formation et Certifications :**
-   - Mettre en avant la formation et certifications pertinentes
-   - Souligner les cours ou projets liés aux exigences du poste
-
-5. **Amélioration de la Section Projets :**
-   - Présenter les projets qui démontrent les compétences pertinentes
-   - Connecter les résultats des projets aux responsabilités du poste
-
-**REQUIRED OUTPUT FORMAT (JSON):**
-{
-  "adaptedPersonalInfo": {
-    "summary": "Enhanced summary text focusing on job-relevant aspects"
-  },
-  "prioritizedWorkExperience": [
-    {
-      "id": "experience_id",
-      "enhancedDescription": "Optimized description with job-relevant keywords",
-      "highlightedAchievements": ["achievement1", "achievement2"],
-      "relevantSkills": ["skill1", "skill2"],
-      "matchingScore": 85
-    }
-  ],
-  "optimizedSkills": [
-    {
-      "id": "skill_id",
-      "priority": "high|medium|low",
-      "justification": "Why this skill is important for the role"
-    }
-  ],
-  "recommendedSections": {
-    "order": ["personalInfo", "summary", "WorkExperiences", "skills", "projects", "education", "certifications"],
-    "emphasis": {
-      "WorkExperiences": "high",
-      "skills": "high",
-      "projects": "medium"
-    }
-  },
-  "keywordOptimization": {
-    "addedKeywords": ["keyword1", "keyword2"],
-    "naturalPlacements": [
-      {
-        "keyword": "keyword1",
-        "section": "WorkExperiences",
-        "context": "How to naturally include this keyword"
-      }
-    ]
-  },
-  "improvementSuggestions": [
-    "Specific suggestion 1",
-    "Specific suggestion 2"
-  ],
-  "overallMatchScore": 78,
-  "strengthsHighlighted": ["strength1", "strength2"],
-  "gapsToAddress": ["gap1", "gap2"]
+${
+  focusAreas.length > 0
+    ? `**DOMAINES À PRIORISER :** ${focusAreas.join(", ")}`
+    : ""
 }
+${context ? `**CONTEXTE SUPPLÉMENTAIRE :** ${context}` : ""}
 
-Retournez UNIQUEMENT l'objet JSON sans texte additionnel ou formatage.`
+**STRATÉGIE D'ENRICHISSEMENT :**
+
+**PRINCIPE FONDAMENTAL :**
+L'authenticité prime sur l'optimisation. Si un mot-clé ne peut pas être intégré naturellement dans une expérience ou un bullet, ne le forcez pas. Une description/bullet cohérent et crédible vaut mieux qu'une version
+bourrée de mots-clés qui sonne artificielle.
+
+1. **Évaluation de pertinence AVANT intégration :**
+    - Le mot-clé correspond-il réellement aux tâches effectuées ?
+    - Peut-il être intégré sans altérer le sens original ?
+    - La description/bullet reste-t-il fluide et naturel après ajout ?
+
+2. **Intégration des mots-clés obligatoires (requiredSkills) :**
+    - Identifiez les expériences et bullets où ces compétences ont été RÉELLEMENT utilisées
+    - Si aucune correspondance naturelle : laissez la description/bullet original
+
+3. **Optimisation des bullets :**
+    - Les bullets sont souvent plus spécifiques que les descriptions générales
+    - Ils sont idéaux pour intégrer des technologies, méthodologies et compétences techniques
+    - Modifiez les bullets existants pour inclure des mots-clés pertinents
+    - Conservez la structure de liste à puces et le style concis`
 
   return basePrompt
 }
@@ -278,7 +210,7 @@ export function generateCoverLetterPrompt(
 ${JSON.stringify(
   {
     personalInfo: cvData.personalInfo,
-    WorkExperiences: cvData.WorkExperiences.slice(0, 3), // Most recent 3 experiences
+    workExperiences: cvData.workExperiences.slice(0, 3), // Most recent 3 experiences
     skills: cvData.skills.slice(0, 10), // Top 10 skills
     education: cvData.education.slice(0, 2), // Most recent education
     projects: cvData.projects.slice(0, 3), // Top 3 projects

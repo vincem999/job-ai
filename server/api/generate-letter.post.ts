@@ -1,11 +1,9 @@
-import { defineEventHandler } from 'h3'
-import { createChatCompletionWithRetry } from '../utils/openai/client'
-import { generateCoverLetterPrompt } from '../utils/openai/prompts'
-import { parseOpenAIResponse } from '../utils/openai/parser'
-import type { CoverLetterRequest } from '../utils/validation/schemas'
-import { handleError } from '../utils/errorHandler'
-import { validateCoverLetterRequest } from '../utils/validation/middleware'
-import { z } from 'zod'
+import { defineEventHandler } from "h3"
+import { generateCoverLetterPrompt } from "../utils/openai/prompts"
+import type { CoverLetterRequest } from "../utils/validation/schemas"
+import { handleError } from "../utils/errorHandler"
+import { validateCoverLetterRequest } from "../utils/validation/middleware"
+import { z } from "zod"
 
 /**
  * Schema for validating cover letter generation response from OpenAI
@@ -49,42 +47,56 @@ export default defineEventHandler(async (event) => {
   const startTime = Date.now()
 
   try {
-    console.log('💌 API: Starting cover letter generation...')
+    console.log("💌 API: Starting cover letter generation...")
 
     // Validate, transform, and sanitize request body using middleware
-    const sanitizedRequest: CoverLetterRequest = await validateCoverLetterRequest(event)
+    const sanitizedRequest: CoverLetterRequest =
+      await validateCoverLetterRequest(event)
 
-    console.log(`📝 API: Generating cover letter for ${sanitizedRequest.cvData.personalInfo.firstName} ${sanitizedRequest.cvData.personalInfo.lastName}`)
+    console.log(
+      `📝 API: Generating cover letter for ${sanitizedRequest.cvData.personalInfo.firstName} ${sanitizedRequest.cvData.personalInfo.lastName}`
+    )
 
     // Generate prompt for OpenAI
-    const prompt = generateCoverLetterPrompt(sanitizedRequest, { maxLength: 800 })
-    console.log('📝 API: Generated cover letter prompt')
+    const prompt = generateCoverLetterPrompt(sanitizedRequest, {
+      maxLength: 800,
+    })
+    console.log("📝 API: Generated cover letter prompt")
 
     // Make API call with retry logic
-    console.log('🤖 API: Calling OpenAI API for cover letter generation with retry logic...')
-    const completion = await createChatCompletionWithRetry({
-      model: 'gpt-4o',
-      messages: [
-        {
-          role: 'system',
-          content: 'Tu es un expert en rédaction de lettres de motivation et conseiller en carrière. Réponds toujours en JSON valide uniquement.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 2000,
-      response_format: { type: 'json_object' }
-    }, {
-      maxRetries: 3, // Standard retry count for letter generation
-      initialDelay: 800
-    })
+    console.log(
+      "🤖 API: Calling OpenAI API for cover letter generation with retry logic..."
+    )
+    const completion = await createChatCompletionWithRetry(
+      {
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Tu es un expert en rédaction de lettres de motivation et conseiller en carrière. Réponds toujours en JSON valide uniquement.",
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 2000,
+        response_format: { type: "json_object" },
+      },
+      {
+        maxRetries: 3, // Standard retry count for letter generation
+        initialDelay: 800,
+      }
+    )
 
     // Log the raw response for debugging
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🐛 API: Raw OpenAI response:', completion.choices[0]?.message?.content)
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        "🐛 API: Raw OpenAI response:",
+        completion.choices[0]?.message?.content
+      )
     }
 
     // Parse and validate the response using the existing parser
@@ -94,23 +106,27 @@ export default defineEventHandler(async (event) => {
       {
         attemptRepair: true,
         extractFromMarkdown: true,
-        debug: process.env.NODE_ENV === 'development'
+        debug: process.env.NODE_ENV === "development",
       }
     )
 
     const processingTime = Date.now() - startTime
-    console.log(`💌 API: Cover letter generation completed successfully in ${processingTime}ms`)
+    console.log(
+      `💌 API: Cover letter generation completed successfully in ${processingTime}ms`
+    )
 
     return {
       success: true,
       data: letterData,
       processingTime,
-      timestamp: new Date()
+      timestamp: new Date(),
     }
-
   } catch (error) {
     const processingTime = Date.now() - startTime
-    console.error(`❌ API: Cover letter generation failed after ${processingTime}ms:`, error)
+    console.error(
+      `❌ API: Cover letter generation failed after ${processingTime}ms:`,
+      error
+    )
 
     // Use existing error handler for consistent error responses
     return handleError(error, event)

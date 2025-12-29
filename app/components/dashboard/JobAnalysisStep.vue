@@ -21,14 +21,17 @@
 
       <!-- Loading State -->
       <div v-if="isAnalyzing" class="mt-6">
-        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6">
+        <div
+          class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6"
+        >
           <LoadingSpinner
             text="Analyse en cours de l'offre d'emploi..."
             color="text-blue-600 dark:text-blue-400"
             size="md"
           />
           <p class="text-sm text-blue-600 dark:text-blue-300 mt-3 text-center">
-            Extraction des compétences requises et analyse des critères de sélection
+            Extraction des compétences requises et analyse des critères de
+            sélection
           </p>
         </div>
       </div>
@@ -53,7 +56,10 @@
       <!-- Auto-transition notification -->
       <div v-if="hasJobAnalysis" class="mt-6 text-center">
         <p class="text-sm text-gray-600 dark:text-gray-300">
-          <UIcon name="i-heroicons-check-circle" class="w-4 h-4 inline text-green-500 mr-1" />
+          <UIcon
+            name="i-heroicons-check-circle"
+            class="w-4 h-4 inline text-green-500 mr-1"
+          />
           Transition automatique vers l'étape suivante...
         </p>
       </div>
@@ -112,6 +118,7 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
 
     if (response.success && response.data) {
       // Store the analyzed job data
+      console.log("la resp front", response.data)
       jobAnalysis.value = response.data
 
       // Stop analyzing state

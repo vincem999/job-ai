@@ -78,23 +78,23 @@ export function validateCVStructure(cv: unknown): CVValidationResult {
     return result
   }
 
-  // If Zod validation passes, proceed with custom business logic validation
-  const validCV = zodValidation.data
+  // // If Zod validation passes, proceed with custom business logic validation
+  // const validCV = zodValidation.data
 
-  // Validate required personal information
-  validatePersonalInfo(validCV, result)
+  // // Validate required personal information
+  // validatePersonalInfo(validCV, result)
 
-  // Validate minimum content requirements
-  validateMinimumContent(validCV, result)
+  // // Validate minimum content requirements
+  // validateMinimumContent(validCV, result)
 
-  // Validate CV metadata (if it has CV-specific fields beyond the schema)
-  validateMetadata(validCV, result)
+  // // Validate CV metadata (if it has CV-specific fields beyond the schema)
+  // validateMetadata(validCV, result)
 
-  // Add warnings for recommended but missing fields
-  addRecommendationWarnings(validCV, result)
+  // // Add warnings for recommended but missing fields
+  // addRecommendationWarnings(validCV, result)
 
-  // Validate business logic constraints
-  validateBusinessLogic(validCV, result)
+  // // Validate business logic constraints
+  // validateBusinessLogic(validCV, result)
 
   return result
 }
