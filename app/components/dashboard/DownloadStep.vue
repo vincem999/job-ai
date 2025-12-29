@@ -5,13 +5,33 @@
       class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
     >
       <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
           <UIcon
             name="i-heroicons-arrow-down-tray"
             class="w-5 h-5 inline mr-2"
           />
           Télécharger les documents
         </h3>
+
+        <!-- Toggle entre Preview et Edition -->
+        <div class="mb-4">
+          <UButtonGroup>
+            <UButton
+              :variant="viewMode === 'preview' ? 'solid' : 'outline'"
+              icon="i-heroicons-eye"
+              @click="viewMode = 'preview'"
+            >
+              Aperçu
+            </UButton>
+            <UButton
+              :variant="viewMode === 'edit' ? 'solid' : 'outline'"
+              icon="i-heroicons-pencil"
+              @click="viewMode = 'edit'"
+            >
+              Modifier expériences
+            </UButton>
+          </UButtonGroup>
+        </div>
         <ul style="display: flex; gap: 5px">
           Mots-clés:
           <li
@@ -46,7 +66,28 @@
         </p> -->
       </div>
 
-      <DocumentDownload :cv-data="cvData" :letter-data="letterData" />
+      <!-- Layout 2 colonnes -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- Colonne gauche - Formulaire (si mode edit) -->
+        <div v-if="viewMode === 'edit'" class="order-2 xl:order-1">
+          <ExperienceEditor
+            v-if="editableCvData"
+            :cv-data="editableCvData"
+            @update:cv-data="updateCV"
+          />
+        </div>
+
+        <!-- Colonne droite (ou pleine largeur) - Preview CV -->
+        <div :class="viewMode === 'edit' ? 'order-1 xl:order-2' : ''">
+          <div class="sticky top-4">
+            <DocumentDownload
+              v-if="editableCvData"
+              :cv-data="editableCvData"
+              :letter-data="letterData"
+            />
+          </div>
+        </div>
+      </div>
 
       <!-- Navigation Buttons -->
       <div class="mt-8 flex justify-between">
@@ -77,7 +118,7 @@
       <div class="flex items-start space-x-3">
         <UIcon
           name="i-heroicons-check-circle"
-          class="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
+          class="w-6 h-6 text-green-600 dark:text-green-400 shrink-0 mt-0.5"
         />
         <div>
           <h4
@@ -112,7 +153,7 @@
       <div class="flex items-start space-x-3">
         <UIcon
           name="i-heroicons-light-bulb"
-          class="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
+          class="w-6 h-6 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5"
         />
         <div>
           <h4
@@ -136,6 +177,7 @@
 
 <script setup lang="ts">
 import DocumentDownload from "~/components/dashboard/DocumentDownload.vue"
+import ExperienceEditor from "~/components/dashboard/ExperienceEditor.vue"
 import type { AdaptedCV } from "../../../types/cv"
 import type { CoverLetter } from "../../../types/api"
 
@@ -145,12 +187,28 @@ interface Props {
   jobAnalysis?: JobAnalysisResponse
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
   back: []
   restart: []
 }>()
+
+// État local pour l'édition
+const viewMode = ref<'preview' | 'edit'>('preview')
+const editableCvData = ref<AdaptedCV | undefined>(props.cvData ? { ...props.cvData } : undefined)
+
+// Watch pour synchroniser les props
+watch(() => props.cvData, (newData) => {
+  if (newData) {
+    editableCvData.value = { ...newData }
+  }
+}, { deep: true, immediate: true })
+
+// Mise à jour du CV
+const updateCV = (updatedCV: AdaptedCV) => {
+  editableCvData.value = updatedCV
+}
 
 const handleRestart = () => {
   emit("restart")

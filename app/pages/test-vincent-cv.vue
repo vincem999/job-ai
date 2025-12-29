@@ -8,27 +8,72 @@
         <UBadge variant="soft" color="primary" size="lg">
           Template avec données réelles
         </UBadge>
+
+        <!-- Toggle entre Preview et Edition -->
+        <div class="mt-4">
+          <UButtonGroup>
+            <UButton
+              :variant="viewMode === 'preview' ? 'solid' : 'outline'"
+              icon="i-heroicons-eye"
+              @click="viewMode = 'preview'"
+            >
+              Aperçu
+            </UButton>
+            <UButton
+              :variant="viewMode === 'edit' ? 'solid' : 'outline'"
+              icon="i-heroicons-pencil"
+              @click="viewMode = 'edit'"
+            >
+              Modifier expériences
+            </UButton>
+          </UButtonGroup>
+        </div>
+
         <UButton
-          class="download-btn ml-4"
+          class="download-btn ml-4 mt-4"
           icon="i-heroicons-arrow-down-tray"
           @click="downloadCV"
         >
-          {{ "Télécharger CV" }}
+          Télécharger CV
         </UButton>
       </div>
 
-      <CVTemplate :cv-data="mockCVData" />
+      <!-- Layout 2 colonnes -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- Colonne gauche - Formulaire (si mode edit) -->
+        <div v-if="viewMode === 'edit'" class="order-2 xl:order-1">
+          <ExperienceEditor
+            :cv-data="editableCvData"
+            @update:cv-data="updateCV"
+          />
+        </div>
+
+        <!-- Colonne droite (ou pleine largeur) - Preview CV -->
+        <div :class="viewMode === 'edit' ? 'order-1 xl:order-2' : ''">
+          <div class="sticky top-4">
+            <CVTemplate :cv-data="editableCvData" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import CVTemplate from "~/components/templates/CVTemplate.vue"
-// import type { AdaptedCV } from "../../types/cv"
+import ExperienceEditor from "~/components/dashboard/ExperienceEditor.vue"
+import type { CV } from "../../types/cv"
 import type { ExportFormat } from "~~/types/api"
 import { mockCVData } from "~/components/templates/mockCVData"
 
-// Use the imported mockCVData directly
+// État local pour l'édition
+const viewMode = ref<"preview" | "edit">("preview")
+const editableCvData = ref<CV>({ ...mockCVData })
+
+// Mise à jour du CV
+const updateCV = (updatedCV: CV) => {
+  editableCvData.value = updatedCV
+}
 
 // Meta pour la page
 useHead({
@@ -46,8 +91,7 @@ const { generatePDF } = usePDFExport()
 const downloadCV = async () => {
   try {
     // Use client-side PDF generation with html2pdf.js
-    const pdfBlob = await generatePDF(mockCVData)
-
+    const pdfBlob = await generatePDF(editableCvData.value)
     // Create download result manually
     const timestamp = new Date().toISOString().slice(0, 10)
     const filename = `CV_${timestamp}.pdf`

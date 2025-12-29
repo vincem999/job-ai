@@ -242,6 +242,9 @@ const calculateScale = () => {
   const containerWidth = cvContainer.value.clientWidth
   const containerHeight = cvContainer.value.clientHeight
 
+  console.log("available width", containerWidth)
+  console.log("available height", containerHeight)
+
   const margin = 40
   const availableWidth = containerWidth - margin * 2
   const availableHeight = containerHeight - margin * 2
@@ -249,7 +252,12 @@ const calculateScale = () => {
   const scaleX = availableWidth / A4_WIDTH
   const scaleY = availableHeight / A4_HEIGHT
 
+  console.log("scaleX", scaleX)
+  console.log("scaleY", scaleY)
+
   scale.value = Math.min(scaleX, scaleY, 1) // Max 1 pour ne pas agrandir
+
+  console.log("final scale", scale.value)
 }
 
 onMounted(() => {
@@ -278,6 +286,7 @@ onBeforeUnmount(() => {
 .cv-wrapper {
   transition: transform 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 210 / 297;
 }
 
 /* Header Section avec gradient violet */
@@ -305,7 +314,7 @@ onBeforeUnmount(() => {
   height: 30mm;
   border-radius: 50%;
   overflow: hidden;
-  border: 1mm solid white;
+  border: 0.3mm solid white;
   box-shadow: 0 1mm 2mm rgba(0, 0, 0, 0.1);
 }
 
@@ -330,7 +339,7 @@ onBeforeUnmount(() => {
 }
 
 .profile-bio {
-  font-size: 9pt;
+  font-size: 9.5pt;
   line-height: 1.4;
   opacity: 0.9;
   max-width: 160mm;
@@ -369,7 +378,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 2.5mm;
-  font-size: 8pt;
+  font-size: 8.5pt;
 }
 
 .contact-item svg {
@@ -447,7 +456,7 @@ onBeforeUnmount(() => {
 }
 
 .description {
-  font-size: 8.5pt;
+  font-size: 9.5pt;
   line-height: 1.4;
   margin: 0 0 3mm 0;
   color: #666;
@@ -465,7 +474,7 @@ onBeforeUnmount(() => {
   margin-bottom: 2mm;
   position: relative;
   line-height: 1.4;
-  font-size: 8.5pt;
+  font-size: 9.5pt;
 }
 
 .timeline-content ul li:before {
@@ -493,7 +502,7 @@ onBeforeUnmount(() => {
   background-color: #2d3748;
   color: white;
   border-radius: 1.5mm;
-  font-size: 7.5pt;
+  font-size: 8.5pt;
   font-weight: 500;
   transition: all 0.3s ease;
 }
@@ -539,7 +548,7 @@ onBeforeUnmount(() => {
 }
 
 .compact-description {
-  font-size: 8pt;
+  font-size: 9pt;
   color: #666;
   line-height: 1.3;
   margin: 2mm 0 0 0;
@@ -552,10 +561,9 @@ onBeforeUnmount(() => {
 
 .language-item {
   display: flex;
-
   align-items: center;
   padding: 2.5mm 0;
-  font-size: 8.5pt;
+  font-size: 9pt;
   color: #666;
 }
 
@@ -578,7 +586,7 @@ onBeforeUnmount(() => {
 .interests-list li {
   padding: 2mm 0;
   border-bottom: 0.3mm solid #e0e0e0;
-  font-size: 8.5pt;
+  font-size: 9pt;
 }
 
 .interests-list li:last-child {

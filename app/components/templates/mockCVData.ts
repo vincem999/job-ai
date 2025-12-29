@@ -11,7 +11,7 @@ export const mockCVData = {
     location: "78430 Louveciennes ",
     linkedin: "https://linkedin.com/in/vincent-monneger",
     github: "https://github.com/vincem999",
-    photo: "/profile.jpg",
+    photo: "/photo_profil.png",
   },
   summary:
     "Développeur front-end spécialisé Vue.js, avec un fort esprit d'initiative et une curiosité naturelle. Polyvalent, je possède également des compétences en backend, DevOps et cloud, ce qui me permet de contribuer efficacement à différents aspects du développement applicatif.",
@@ -22,7 +22,7 @@ export const mockCVData = {
       company: "Vincent Monneger (Freelance)",
       location: "Paris, France",
       startDate: "10/2025",
-      endDate: "Present",
+      endDate: "Aujourd'hui",
       description:
         "Création d'un SaaS (en cours) avec l'API Open AI. Mettre à disposition le deep research",
       bullets: [
@@ -47,7 +47,7 @@ export const mockCVData = {
       company: "Vincent Monneger (Freelance)",
       location: "Paris, France",
       startDate: "11/2024",
-      endDate: "Present",
+      endDate: "Aujourd'hui",
       description:
         "Création site Webflow avec du custom code et autres projets avec technologies modernes",
       bullets: [
@@ -93,7 +93,8 @@ export const mockCVData = {
       institution: "Hetic",
       year: "2021-2023",
       description:
-        "Formation complète en développement web avec spécialisation frontend et backend : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web",
+        "Formation en développement web : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web",
+      location: "Montreuil",
     },
     {
       id: "edu-2",
@@ -113,6 +114,7 @@ export const mockCVData = {
       "Nuxt.js",
       "Node.js",
       "GraphQL",
+      "SQL",
       "Docker",
       "Cloud",
       "Cypress",

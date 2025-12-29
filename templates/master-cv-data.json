@@ -9,7 +9,7 @@
     "location": "78430 Louveciennes ",
     "linkedin": "https://linkedin.com/in/vincent-monneger",
     "github": "https://github.com/vincem999",
-    "photo": "/profile.jpg"
+    "photo": "/photo_profil.png"
   },
   "summary": "Développeur front-end spécialisé Vue.js, avec un fort esprit d'initiative et une curiosité naturelle. Polyvalent, je possède également des compétences en backend, DevOps et cloud, ce qui me permet de contribuer efficacement à différents aspects du développement applicatif.",
   "workExperiences": [
@@ -19,7 +19,7 @@
       "company": "Vincent Monneger (Freelance)",
       "location": "Paris, France",
       "startDate": "10/2025",
-      "endDate": "Present",
+      "endDate": "Aujourd'hui",
       "description": "Création d'un SaaS (en cours) avec l'API Open AI. Mettre à disposition le deep research",
       "bullets": [
         "Utilisation de Claude Code avec context engineering pour le développement",
@@ -43,7 +43,7 @@
       "company": "Vincent Monneger (Freelance)",
       "location": "Paris, France",
       "startDate": "11/2024",
-      "endDate": "Present",
+      "endDate": "Aujourd'hui",
       "description": "Création site Webflow avec du custom code et autres projets avec technologies modernes",
       "bullets": [
         "Création du site https://www.re-nesens.com avec Webflow",
@@ -86,7 +86,8 @@
       "degree": "Bachelor Développeur Web",
       "institution": "Hetic",
       "year": "2021-2023",
-      "description": "Formation complète en développement web avec spécialisation frontend et backend : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web"
+      "description": "Formation en développement web : React, Svelte, PHP, Symfony, Golang, Node.js, Docker, Cloud, CI/CD, Accessibilité web",
+      "location": "Montreuil"
     },
     {
       "id": "edu-2",
@@ -105,6 +106,7 @@
       "Nuxt.js",
       "Node.js",
       "GraphQL",
+      "SQL",
       "Docker",
       "Cloud",
       "Cypress",
