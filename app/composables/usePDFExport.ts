@@ -31,12 +31,6 @@ export const usePDFExport = () => {
       // Optimize clone for PDF generation
       clonedElement.style.transform = "none"
       clonedElement.style.boxShadow = "none"
-      clonedElement.style.margin = "0"
-      clonedElement.style.width = "210mm"
-      clonedElement.style.height = "297mm"
-      clonedElement.style.maxHeight = "297mm"
-      clonedElement.style.minHeight = "297mm"
-      clonedElement.style.overflow = "hidden"
 
       // Extract all CSS styles from the document
       const styles = Array.from(document.styleSheets)
@@ -71,49 +65,10 @@ export const usePDFExport = () => {
         html, body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: white;
         }
 
-        .cv-wrapper {
-            width: 210mm !important;
-            height: 297mm !important;
-            max-height: 297mm !important;
-            min-height: 297mm !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            box-sizing: border-box !important;
-            background: white !important;
-            overflow: hidden !important;
-            page-break-after: avoid !important;
-            page-break-inside: avoid !important;
-        }
-
-        .cv-header {
-            max-height: 80mm !important;
-            overflow: hidden !important;
-        }
-
-        .main-content {
-            max-height: 200mm !important;
-            overflow: hidden !important;
-        }
-
-        .profile-bio {
-            max-height: 35mm !important;
-            overflow: hidden !important;
-            display: -webkit-box !important;
-            -webkit-line-clamp: 3 !important;
-            -webkit-box-orient: vertical !important;
-        }
-
-        .experience-item,
-        .education-item,
-        .project-item,
-        section {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }
+        
 
         ${styles}
     </style>

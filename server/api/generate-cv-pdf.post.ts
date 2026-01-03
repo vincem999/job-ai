@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
       await page.setViewport({
         width: 794, // A4 width at 96 DPI
         height: 1123, // A4 height at 96 DPI
-        deviceScaleFactor: 1,
+        deviceScaleFactor: 2,
       })
 
       // Set content and wait for complete loading
@@ -51,58 +51,6 @@ export default defineEventHandler(async (event) => {
 
       // Wait for fonts to load
       await page.evaluate(() => document.fonts.ready)
-
-      // Add CSS to force single page and optimize layout
-      // await page.addStyleTag({
-      //   content: `
-      //     @page {
-      //       size: A4;
-      //       margin: 0;
-      //     }
-
-      //     body {
-      //       margin: 0 !important;
-      //       padding: 0 !important;
-      //       overflow: hidden !important;
-      //     }
-
-      //     .cv-wrapper {
-      //       width: 210mm !important;
-      //       height: 297mm !important;
-      //       max-height: 297mm !important;
-      //       min-height: 297mm !important;
-      //       overflow: hidden !important;
-      //       page-break-after: avoid !important;
-      //       page-break-inside: avoid !important;
-      //       box-sizing: border-box !important;
-      //     }
-
-      //     .cv-header {
-      //       max-height: 80mm !important;
-      //       overflow: hidden !important;
-      //     }
-
-      //     .main-content {
-      //       max-height: 200mm !important;
-      //       overflow: hidden !important;
-      //     }
-
-      //     .timeline-item,
-      //     .education-item,
-      //     section {
-      //       page-break-inside: avoid !important;
-      //       break-inside: avoid !important;
-      //     }
-
-      //     .profile-bio {
-      //       max-height: 40mm !important;
-      //       overflow: hidden !important;
-      //       display: -webkit-box !important;
-      //       -webkit-line-clamp: 4 !important;
-      //       -webkit-box-orient: vertical !important;
-      //     }
-      //   `
-      // })
 
       // Small delay to ensure complete rendering
       await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -120,7 +68,7 @@ export default defineEventHandler(async (event) => {
           right: 0,
         },
         timeout: 30000,
-        scale: 0.9,
+        scale: 1,
       })
 
       console.log("✅ PDF generated successfully")

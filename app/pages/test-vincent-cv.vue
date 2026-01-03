@@ -31,10 +31,12 @@
 
         <UButton
           class="download-btn ml-4 mt-4"
-          icon="i-heroicons-arrow-down-tray"
+          :icon="isGeneratingPDF ? 'i-heroicons-arrow-path' : 'i-heroicons-arrow-down-tray'"
+          :loading="isGeneratingPDF"
+          :disabled="isGeneratingPDF"
           @click="downloadCV"
         >
-          Télécharger CV
+          {{ isGeneratingPDF ? 'Génération en cours...' : 'Télécharger CV' }}
         </UButton>
       </div>
 
@@ -70,6 +72,9 @@ import { mockCVData } from "~/components/templates/mockCVData"
 const viewMode = ref<"preview" | "edit">("preview")
 const editableCvData = ref<CV>({ ...mockCVData })
 
+// État de chargement pour la génération PDF
+const isGeneratingPDF = ref(false)
+
 // Mise à jour du CV
 const updateCV = (updatedCV: CV) => {
   editableCvData.value = updatedCV
@@ -90,6 +95,8 @@ const { generatePDF } = usePDFExport()
 
 const downloadCV = async () => {
   try {
+    isGeneratingPDF.value = true
+
     // Use client-side PDF generation with html2pdf.js
     const pdfBlob = await generatePDF(editableCvData.value)
     // Create download result manually
@@ -113,6 +120,8 @@ const downloadCV = async () => {
     downloadFile(result.downloadUrl, result.filename)
   } catch (error) {
     console.error("Erreur lors du téléchargement du CV:", error)
+  } finally {
+    isGeneratingPDF.value = false
   }
 }
 
