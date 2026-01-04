@@ -161,6 +161,14 @@
             </div>
           </section>
 
+          <section class="project">
+            <h3 class="section-title">Projets</h3>
+            <div class="project-item">
+              <p>https://job-ai-mu.vercel.app</p>
+              <p>https://www.re-ne-sens.com</p>
+            </div>
+          </section>
+
           <!-- Section Formation -->
           <section class="education">
             <h3 class="section-title">Diplômes et Formations</h3>
@@ -242,9 +250,6 @@ const calculateScale = () => {
   const containerWidth = cvContainer.value.clientWidth
   const containerHeight = cvContainer.value.clientHeight
 
-  console.log("available width", containerWidth)
-  console.log("available height", containerHeight)
-
   const margin = 40
   const availableWidth = containerWidth - margin * 2
   const availableHeight = containerHeight - margin * 2
@@ -252,12 +257,7 @@ const calculateScale = () => {
   const scaleX = availableWidth / A4_WIDTH
   const scaleY = availableHeight / A4_HEIGHT
 
-  console.log("scaleX", scaleX)
-  console.log("scaleY", scaleY)
-
   scale.value = Math.min(scaleX, scaleY, 1) // Max 1 pour ne pas agrandir
-
-  console.log("final scale", scale.value)
 }
 
 onMounted(() => {
@@ -274,7 +274,7 @@ onBeforeUnmount(() => {
 /* Conteneur A4 - Dimensions réelles de la feuille A4 */
 .cv-container {
   width: 100%;
-  height: 100vh; /* ou autre hauteur selon ton besoin */
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -293,13 +293,13 @@ onBeforeUnmount(() => {
 .cv-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 5mm;
+  padding: 4mm;
 }
 
 .header-content {
   display: flex;
   flex-direction: column;
-  gap: 5mm;
+  gap: 3mm;
 }
 
 .profile-section {
@@ -327,14 +327,13 @@ onBeforeUnmount(() => {
 .profile-name {
   font-size: 18pt;
   font-weight: 700;
-  margin-bottom: 2mm;
   letter-spacing: -0.3pt;
 }
 
 .profile-title {
   font-size: 12pt;
   font-weight: 400;
-  margin-bottom: 3mm;
+  margin-bottom: 1mm;
   opacity: 0.95;
 }
 
@@ -407,7 +406,7 @@ onBeforeUnmount(() => {
 .timeline-item {
   position: relative;
   padding-left: 5mm;
-  padding-bottom: 3mm;
+  padding-bottom: 1.5mm;
 }
 
 .timeline-item:last-child {
@@ -471,7 +470,7 @@ onBeforeUnmount(() => {
 
 .timeline-content ul li {
   padding-left: 5mm;
-  margin-bottom: 2mm;
+  margin-bottom: 1.5mm;
   position: relative;
   line-height: 1.4;
   font-size: 9.5pt;
@@ -487,7 +486,7 @@ onBeforeUnmount(() => {
 
 /* Section Compétences */
 .skills {
-  margin-bottom: 8mm;
+  margin-bottom: 7mm;
 }
 
 .skills-grid {
@@ -513,14 +512,25 @@ onBeforeUnmount(() => {
   box-shadow: 0 1mm 2mm rgba(102, 126, 234, 0.3);
 }
 
+.project {
+  margin-bottom: 7mm;
+}
+
+.project-item p {
+  font-size: 9pt;
+  color: #333;
+  font-weight: 600;
+  margin: 0 0 1.5mm 0;
+}
+
 /* Section Formation */
 .education {
-  margin-bottom: 8mm;
+  margin-bottom: 7mm;
 }
 
 .education-item {
   position: relative;
-  margin-bottom: 6mm;
+  margin-bottom: 5mm;
 }
 
 .timeline-marker-small {
@@ -556,7 +566,7 @@ onBeforeUnmount(() => {
 
 /* Section Langues */
 .languages {
-  margin-bottom: 8mm;
+  margin-bottom: 7mm;
 }
 
 .language-item {
@@ -577,6 +587,8 @@ onBeforeUnmount(() => {
 
 /* Section Centres d'intérêt */
 .interests-list {
+  display: flex;
+
   list-style: none;
   margin: 0;
   padding: 0;
@@ -584,12 +596,13 @@ onBeforeUnmount(() => {
 }
 
 .interests-list li {
-  padding: 2mm 0;
-  border-bottom: 0.3mm solid #e0e0e0;
+  padding-right: 2mm;
+  padding-left: 2mm;
+  border-right: 0.3mm solid #e0e0e0;
   font-size: 9pt;
 }
 
 .interests-list li:last-child {
-  border-bottom: none;
+  border-right: none;
 }
 </style>

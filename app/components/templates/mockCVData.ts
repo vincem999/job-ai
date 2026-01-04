@@ -26,7 +26,8 @@ export const mockCVData = {
       description:
         "Création d'un SaaS (en cours) avec l'API Open AI. Mettre à disposition le deep research",
       bullets: [
-        "Utilisation de Claude Code avec context engineering pour le développement",
+        "Front-end Nuxt 4 et Nuxt UI",
+        "Utilisation de Claude Code avec task-master pour le développement",
         "Backend Node.js/Express avec architecture microservices",
         "Cache & Queue : Redis + BullMQ pour traitement asynchrone",
         "Déploiement sur Railway (backend) et Vercel (frontend)",
@@ -43,24 +44,19 @@ export const mockCVData = {
     },
     {
       id: "exp-2",
-      title: "Développeur web",
+      title: "Développeur Full Stack",
       company: "Vincent Monneger (Freelance)",
       location: "Paris, France",
       startDate: "11/2024",
       endDate: "Aujourd'hui",
       description:
-        "Création site Webflow avec du custom code et autres projets avec technologies modernes",
-      bullets: [
-        "Création du site https://www.re-nesens.com avec Webflow",
-        "Développement de projets avec Astro.js",
-        "Intégration d'animations GSAP",
-        "Développement WordPress personnalisé",
-      ],
+        "Création site Webflow avec du custom code https://www.re-ne-sens.com et autres projets avec Astro.js, GSAP et Wordpress",
+      bullets: [],
       skills: ["Webflow", "Astro.js", "GSAP", "WordPress", "JavaScript"],
     },
     {
       id: "exp-3",
-      title: "Développeur front",
+      title: "Développeur Front",
       company: "Jobpass",
       location: "Paris, France",
       startDate: "10/2021",
@@ -71,9 +67,15 @@ export const mockCVData = {
         "Développement de l'application en Vue 2, puis migration vers Vue 3 avec Typescript",
         "Passage de VueX à Pinia pour le state management",
         "Configuration du framework Quasar et personnalisation des composants",
+        "Création de composants from scratch en SCSS, en suivant le principe de design atomique",
+        "Maintien à jour de Storybook pour la documentation des composants",
+        "Collaboration avec les développeurs back-end pour concevoir le schéma API",
         "Intégration de GraphQL avec le client Apollo pour les requêtes API",
         "Mise en place de l'authentification via Firebase, puis migration vers Auth0",
         "Réalisation de tests automatisés avec Cypress pour garantir la qualité du code",
+        "Utilisation de JSDoc pour documenter le code",
+        "Travail en méthode Agile, utilisation de GitLab et Jira",
+        "Collaboration avec les designers via Figma",
       ],
       skills: [
         "Vue.js",
@@ -177,5 +179,3 @@ export const mockCVData = {
     },
   ],
 }
-
-// CVData interface is defined above

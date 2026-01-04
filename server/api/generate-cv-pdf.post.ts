@@ -22,13 +22,11 @@ export default defineEventHandler(async (event) => {
     console.log("📥 Received HTML size:", new Blob([html]).size, "bytes")
 
     // Convert relative paths to absolute URLs for Puppeteer
-    const baseUrl = process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000"
     const htmlWithAbsolutePaths = html.replace(
       /src="\/([^"]+)"/g,
       `src="${baseUrl}/$1"`
     )
-
-    console.log("🔗 Converting relative paths to absolute URLs with base:", baseUrl)
 
     let browser
     try {
@@ -68,7 +66,7 @@ export default defineEventHandler(async (event) => {
       const pdf = await page.pdf({
         format: "A4",
         printBackground: true,
-        preferCSSPageSize: true,
+        preferCSSPageSize: false,
         displayHeaderFooter: false,
         margin: {
           top: 0,
