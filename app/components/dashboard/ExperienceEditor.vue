@@ -71,16 +71,16 @@
 </template>
 
 <script setup lang="ts">
-import type { AdaptedCV } from "../../../types/cv"
+import type { CV } from "../../../types/cv"
 
 interface Props {
-  cvData: AdaptedCV
+  cvData: CV
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  "update:cvData": [cv: AdaptedCV]
+  "update:cvData": [cv: CV]
 }>()
 
 // Direct mutations avec emit
