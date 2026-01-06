@@ -3,11 +3,11 @@
     <UContainer>
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Built with Modern Technologies
+          Construit avec des technologies modernes
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Leveraging cutting-edge technologies to deliver a fast, reliable, and scalable solution
-          for your CV optimization needs.
+          En tirant parti des technologies de pointe pour offrir une solution rapide, fiable et évolutive
+          pour vos besoins d'optimisation de CV.
         </p>
       </div>
 
@@ -19,7 +19,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Nuxt 4</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Full-stack framework with SSR
+            Framework full-stack avec SSR
           </p>
         </div>
 
@@ -29,7 +29,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vue 3</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Progressive JavaScript framework
+            Framework JavaScript progressif
           </p>
         </div>
 
@@ -39,7 +39,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">TypeScript</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Type-safe development
+            Développement type-safe
           </p>
         </div>
 
@@ -49,7 +49,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Tailwind CSS</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Utility-first styling
+            Styling utility-first
           </p>
         </div>
 
@@ -59,7 +59,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Nuxt UI</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Beautiful UI components
+            Composants UI magnifiques
           </p>
         </div>
 
@@ -70,7 +70,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">OpenAI</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            AI-powered analysis
+            Analyse par IA
           </p>
         </div>
 
@@ -80,7 +80,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Pinia</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            State management
+            Gestion d'état
           </p>
         </div>
 
@@ -90,7 +90,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Zod</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Schema validation
+            Validation de schéma
           </p>
         </div>
 
@@ -100,7 +100,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vitest</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Unit testing framework
+            Framework de tests unitaires
           </p>
         </div>
 
@@ -110,7 +110,7 @@
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Vite</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Lightning-fast build tool
+            Outil de build ultra-rapide
           </p>
         </div>
       </div>
@@ -121,9 +121,9 @@
           <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
             <UIcon name="i-lucide-zap" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Performance First</h3>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Performance avant tout</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300">
-            Built with Nuxt 4 and Vite for lightning-fast loading and optimal user experience.
+            Construit avec Nuxt 4 et Vite pour un chargement ultra-rapide et une expérience utilisateur optimale.
           </p>
         </div>
 
@@ -131,9 +131,9 @@
           <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
             <UIcon name="i-lucide-shield" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Type Safe</h3>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Type-safe</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300">
-            TypeScript and Zod ensure robust, error-free code with comprehensive validation.
+            TypeScript et Zod assurent un code robuste et sans erreur avec une validation complète.
           </p>
         </div>
 
@@ -141,9 +141,9 @@
           <div class="w-12 h-12 mx-auto mb-4 p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
             <UIcon name="i-lucide-brain" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">AI-Powered</h3>
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Propulsé par l'IA</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300">
-            Leverages OpenAI's advanced models for intelligent job analysis and CV optimization.
+            Tire parti des modèles avancés d'OpenAI pour l'analyse intelligente d'offres d'emploi et l'optimisation de CV.
           </p>
         </div>
       </div>

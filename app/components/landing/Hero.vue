@@ -8,17 +8,17 @@
           size="lg"
           class="mb-8"
         >
-          🚀 Optimize Your Job Applications with AI
+          🚀 Optimisez vos candidatures avec l'IA
         </UBadge>
 
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
-          Transform Your CV for Every
-          <span class="text-primary-600 dark:text-primary-400"> Job Opportunity</span>
+          Transformez votre CV pour chaque
+          <span class="text-primary-600 dark:text-primary-400"> opportunité d'emploi</span>
         </h1>
 
         <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-          Leverage AI to analyze job offers and automatically adapt your CV to match requirements perfectly.
-          Generate compelling cover letters and export professional documents instantly.
+          Utilisez l'IA pour analyser les offres d'emploi et adapter automatiquement votre CV pour correspondre parfaitement aux exigences.
+          Générez des lettres de motivation convaincantes et exportez des documents professionnels instantanément.
         </p>
 
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
@@ -27,7 +27,7 @@
             class="px-8 py-4"
             to="/dashboard"
           >
-            Get Started Free
+            Commencer gratuitement
             <template #trailing>
               <UIcon name="i-lucide-arrow-right" />
             </template>
@@ -42,7 +42,7 @@
             <template #leading>
               <UIcon name="i-lucide-play" />
             </template>
-            Watch Demo
+            Voir la démo
           </UButton>
         </div>
 
@@ -51,9 +51,9 @@
             <div class="rounded-full bg-primary-100 dark:bg-primary-900 p-3 mb-4">
               <UIcon name="i-lucide-brain" class="h-8 w-8 text-primary-600 dark:text-primary-400" />
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">AI-Powered Analysis</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Analyse par IA</h3>
             <p class="text-sm text-gray-600 dark:text-gray-300 text-center mt-2">
-              Smart job offer analysis to identify key requirements and skills
+              Analyse intelligente des offres d'emploi pour identifier les exigences clés et compétences
             </p>
           </div>
 
@@ -61,9 +61,9 @@
             <div class="rounded-full bg-primary-100 dark:bg-primary-900 p-3 mb-4">
               <UIcon name="i-lucide-file-text" class="h-8 w-8 text-primary-600 dark:text-primary-400" />
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Dynamic CV Adaptation</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Adaptation dynamique du CV</h3>
             <p class="text-sm text-gray-600 dark:text-gray-300 text-center mt-2">
-              Automatically tailor your CV to highlight relevant experience
+              Adaptez automatiquement votre CV pour mettre en valeur l'expérience pertinente
             </p>
           </div>
 
@@ -71,9 +71,9 @@
             <div class="rounded-full bg-primary-100 dark:bg-primary-900 p-3 mb-4">
               <UIcon name="i-lucide-download" class="h-8 w-8 text-primary-600 dark:text-primary-400" />
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Export Ready</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Prêt à exporter</h3>
             <p class="text-sm text-gray-600 dark:text-gray-300 text-center mt-2">
-              Generate professional PDFs and cover letters instantly
+              Générez des PDF professionnels et lettres de motivation instantanément
             </p>
           </div>
         </div>

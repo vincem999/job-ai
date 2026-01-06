@@ -3,11 +3,11 @@
     <UContainer>
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Meet the Developer
+          Rencontrez le développeur
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Passionate about creating tools that help developers and job seekers
-          succeed in their careers.
+          Passionné par la création d'outils qui aident les développeurs et demandeurs d'emploi
+          à réussir dans leur carrière.
         </p>
       </div>
 
@@ -47,14 +47,14 @@
               <p
                 class="text-primary-600 dark:text-primary-400 font-semibold mb-4"
               >
-                Full-Stack Developer & AI Enthusiast
+                Développeur Full-Stack & Passionné d'IA
               </p>
               <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Experienced developer specializing in modern web technologies
-                and AI integration. Passionate about creating tools that
-                streamline workflows and enhance productivity. This CV optimizer
-                was born from personal experience in the job market and the
-                desire to help others present their best professional selves.
+                Développeur expérimenté spécialisé dans les technologies web modernes
+                et l'intégration de l'IA. Passionné par la création d'outils qui
+                rationalisent les flux de travail et améliorent la productivité. Cet optimiseur de CV
+                est né de l'expérience personnelle sur le marché du travail et du
+                désir d'aider les autres à présenter leur meilleur profil professionnel.
               </p>
 
               <!-- Skills -->
@@ -122,7 +122,7 @@
                   5+
                 </div>
                 <div class="text-gray-600 dark:text-gray-300">
-                  Years Experience
+                  Années d'expérience
                 </div>
               </div>
               <div>
@@ -132,7 +132,7 @@
                   50+
                 </div>
                 <div class="text-gray-600 dark:text-gray-300">
-                  Projects Completed
+                  Projets réalisés
                 </div>
               </div>
               <div>

@@ -3,10 +3,10 @@
     <UContainer>
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          See It In Action
+          Voyez-le en action
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-          Watch how our AI analyzes job offers and generates tailored documents in three simple steps
+          Regardez comment notre IA analyse les offres d'emploi et génère des documents adaptés en trois étapes simples
         </p>
       </div>
 
@@ -33,10 +33,10 @@
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Upload Job Offer
+                  Télécharger l'offre d'emploi
                 </h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Paste or upload the job description
+                  Coller ou télécharger la description du poste
                 </p>
               </div>
             </div>
@@ -46,15 +46,15 @@
             <div class="space-y-3">
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-upload" class="w-4 h-4 text-primary-600" />
-                <span>Copy & paste job description</span>
+                <span>Copier-coller la description du poste</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-brain" class="w-4 h-4 text-primary-600" />
-                <span>AI analyzes requirements</span>
+                <span>L'IA analyse les exigences</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-check-circle" class="w-4 h-4 text-primary-600" />
-                <span>Extract key skills & qualifications</span>
+                <span>Extraire les compétences clés et qualifications</span>
               </div>
             </div>
           </template>
@@ -81,10 +81,10 @@
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  AI Generation
+                  Génération IA
                 </h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Smart document adaptation
+                  Adaptation intelligente des documents
                 </p>
               </div>
             </div>
@@ -94,15 +94,15 @@
             <div class="space-y-3">
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-file-text" class="w-4 h-4 text-primary-600" />
-                <span>Adapt CV to job requirements</span>
+                <span>Adapter le CV aux exigences du poste</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-pen-tool" class="w-4 h-4 text-primary-600" />
-                <span>Generate cover letter</span>
+                <span>Générer une lettre de motivation</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-sparkles" class="w-4 h-4 text-primary-600" />
-                <span>Highlight relevant experience</span>
+                <span>Mettre en valeur l'expérience pertinente</span>
               </div>
             </div>
           </template>
@@ -129,10 +129,10 @@
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Export & Apply
+                  Exporter et postuler
                 </h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Professional PDF output
+                  Sortie PDF professionnelle
                 </p>
               </div>
             </div>
@@ -142,15 +142,15 @@
             <div class="space-y-3">
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-download" class="w-4 h-4 text-primary-600" />
-                <span>Download PDF documents</span>
+                <span>Télécharger les documents PDF</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-printer" class="w-4 h-4 text-primary-600" />
-                <span>Print-ready formatting</span>
+                <span>Formatage prêt à imprimer</span>
               </div>
               <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                 <UIcon name="i-lucide-send" class="w-4 h-4 text-primary-600" />
-                <span>Ready for job applications</span>
+                <span>Prêt pour les candidatures</span>
               </div>
             </div>
           </template>
@@ -179,20 +179,20 @@
                   <UIcon name="i-lucide-briefcase" class="w-5 h-5 text-primary-600 mt-1" />
                   <div class="flex-1">
                     <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
-                      Frontend Developer - Vue.js
+                      Développeur Frontend - Vue.js
                     </h4>
                     <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                      <p>• 3+ years experience with Vue.js and TypeScript</p>
-                      <p>• Strong knowledge of Tailwind CSS and responsive design</p>
-                      <p>• Experience with Nuxt.js framework preferred</p>
-                      <p>• Knowledge of REST APIs and GraphQL</p>
+                      <p>• 3+ ans d'expérience avec Vue.js et TypeScript</p>
+                      <p>• Solide connaissance de Tailwind CSS et design responsive</p>
+                      <p>• Expérience avec le framework Nuxt.js préférée</p>
+                      <p>• Connaissance des API REST et GraphQL</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="flex items-center space-x-2 text-sm text-green-600 dark:text-green-400">
                 <UIcon name="i-lucide-check-circle" class="w-4 h-4" />
-                <span>Job requirements analyzed successfully</span>
+                <span>Exigences du poste analysées avec succès</span>
               </div>
             </div>
 
@@ -202,30 +202,30 @@
                 <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon name="i-lucide-file-text" class="w-5 h-5 text-blue-600" />
-                    <h4 class="font-semibold text-blue-900 dark:text-blue-300">CV Adaptation</h4>
+                    <h4 class="font-semibold text-blue-900 dark:text-blue-300">Adaptation du CV</h4>
                   </div>
                   <div class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                    <p>✓ Highlighted Vue.js & TypeScript experience</p>
-                    <p>✓ Emphasized responsive design projects</p>
-                    <p>✓ Added Nuxt.js project examples</p>
+                    <p>✓ Expérience Vue.js & TypeScript mise en avant</p>
+                    <p>✓ Projets de design responsive soulignés</p>
+                    <p>✓ Exemples de projets Nuxt.js ajoutés</p>
                   </div>
                 </div>
                 <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon name="i-lucide-pen-tool" class="w-5 h-5 text-purple-600" />
-                    <h4 class="font-semibold text-purple-900 dark:text-purple-300">Cover Letter</h4>
+                    <h4 class="font-semibold text-purple-900 dark:text-purple-300">Lettre de motivation</h4>
                   </div>
                   <div class="text-sm text-purple-700 dark:text-purple-300 space-y-1">
-                    <p>✓ Personalized introduction written</p>
-                    <p>✓ Skills matched to job requirements</p>
-                    <p>✓ Company research incorporated</p>
+                    <p>✓ Introduction personnalisée rédigée</p>
+                    <p>✓ Compétences adaptées aux exigences du poste</p>
+                    <p>✓ Recherche sur l'entreprise intégrée</p>
                   </div>
                 </div>
               </div>
               <div class="flex items-center space-x-2 text-sm">
                 <div class="flex items-center space-x-1">
                   <div class="w-2 h-2 bg-primary-600 rounded-full animate-pulse"/>
-                  <span class="text-gray-600 dark:text-gray-400">AI processing complete</span>
+                  <span class="text-gray-600 dark:text-gray-400">Traitement IA terminé</span>
                 </div>
               </div>
             </div>
@@ -240,11 +240,11 @@
                     </div>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900 dark:text-white">Adapted CV</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Professional PDF • 2 pages</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">CV adapté</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">PDF professionnel • 2 pages</p>
                     <UButton size="xs" variant="outline" class="mt-2">
                       <UIcon name="i-lucide-download" class="w-3 h-3" />
-                      Download
+                      Télécharger
                     </UButton>
                   </div>
                 </div>
@@ -255,18 +255,18 @@
                     </div>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-900 dark:text-white">Cover Letter</h4>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Professional PDF • 1 page</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Lettre de motivation</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">PDF professionnel • 1 page</p>
                     <UButton size="xs" variant="outline" class="mt-2">
                       <UIcon name="i-lucide-download" class="w-3 h-3" />
-                      Download
+                      Télécharger
                     </UButton>
                   </div>
                 </div>
               </div>
               <div class="text-center pt-4">
                 <UButton size="lg" to="/dashboard">
-                  Start Your Application
+                  Démarrer votre candidature
                   <template #trailing>
                     <UIcon name="i-lucide-arrow-right" />
                   </template>
@@ -286,7 +286,7 @@
             @click="previousStep"
           >
             <UIcon name="i-lucide-chevron-left" />
-            Previous
+            Précédent
           </UButton>
 
           <div class="flex space-x-2">
@@ -305,7 +305,7 @@
             variant="outline"
             @click="nextStep"
           >
-            Next
+            Suivant
             <UIcon name="i-lucide-chevron-right" />
           </UButton>
         </div>
@@ -317,7 +317,7 @@
             @click="toggleAutoPlay"
           >
             <UIcon :name="isAutoPlay ? 'i-lucide-pause' : 'i-lucide-play'" class="w-3 h-3" />
-            {{ isAutoPlay ? 'Pause' : 'Auto-play' }} Demo
+            {{ isAutoPlay ? 'Pause' : 'Lecture automatique' }} Démo
           </UButton>
         </div>
       </div>
@@ -337,18 +337,18 @@ const currentStep = computed(() => demoSteps[activeStep.value - 1] || demoSteps[
 
 const demoSteps = [
   {
-    title: 'Job Offer Analysis',
-    badge: 'AI Powered',
+    title: 'Analyse de l\'offre d\'emploi',
+    badge: 'Propulsé par IA',
     badgeColor: 'info' as const
   },
   {
-    title: 'Document Generation',
-    badge: 'Processing',
+    title: 'Génération de documents',
+    badge: 'Traitement en cours',
     badgeColor: 'primary' as const
   },
   {
-    title: 'Ready for Download',
-    badge: 'Complete',
+    title: 'Prêt pour téléchargement',
+    badge: 'Terminé',
     badgeColor: 'success' as const
   }
 ] as const
