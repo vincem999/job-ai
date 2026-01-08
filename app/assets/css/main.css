@@ -1,2 +1,8 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+button,
+[type="button"],
+[role="button"] {
+  cursor: pointer;
+}

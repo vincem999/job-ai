@@ -214,4 +214,15 @@ export async function validateCoverLetterRequest(event: H3Event) {
   })
 }
 
+/**
+ * Convenience function for validating ATS matching requests
+ */
+export async function validateATSMatchingRequest(event: H3Event) {
+  const { ATSMatchingRequestSchema } = await import("./schemas")
+  return validateRequestBody(event, ATSMatchingRequestSchema, {
+    transformDates: false,
+    sanitize: true,
+  })
+}
+
 // Types are already exported inline with the interface declaration

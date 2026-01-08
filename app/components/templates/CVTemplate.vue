@@ -1,220 +1,224 @@
 <template>
-  <div ref="cvContainer" class="cv-container">
-    <div class="cv-wrapper" :style="wrapperStyle">
-      <!-- Header Section avec gradient -->
-      <div class="cv-header">
-        <div class="header-content">
-          <div class="profile-section">
-            <!-- Photo de profil -->
-            <div class="profile-image">
-              <img
-                :src="cvData.personalInfo.photo || '/placeholder-profile.jpg'"
-                :alt="
-                  cvData.personalInfo.firstName +
-                  ' ' +
-                  cvData.personalInfo.lastName
-                "
-                class="profile-img"
-              />
-            </div>
+  <div ref="measureRef" class="cv-measure-zone">
+    <div ref="cvContainer" class="cv-layout-container" :style="containerStyle">
+      <div class="cv-wrapper" :style="wrapperStyle">
+        <!-- Header Section avec gradient -->
+        <div class="cv-header">
+          <div class="header-content">
+            <div class="profile-section">
+              <!-- Photo de profil -->
+              <div class="profile-image">
+                <img
+                  :src="cvData.personalInfo.photo || '/placeholder-profile.jpg'"
+                  :alt="
+                    cvData.personalInfo.firstName +
+                    ' ' +
+                    cvData.personalInfo.lastName
+                  "
+                  class="profile-img"
+                />
+              </div>
 
-            <!-- Informations personnelles -->
-            <div class="profile-info">
-              <div style="display: flex; justify-content: space-between">
-                <div>
-                  <h1 class="profile-name">
-                    {{
-                      cvData.personalInfo.firstName +
-                      " " +
-                      cvData.personalInfo.lastName
-                    }}
-                  </h1>
-                </div>
-                <div
-                  v-if="cvData.personalInfo.linkedin"
-                  class="linkedin-section"
-                >
-                  <a
-                    :href="cvData.personalInfo.linkedin"
-                    target="_blank"
-                    class="linkedin-link"
+              <!-- Informations personnelles -->
+              <div class="profile-info">
+                <div style="display: flex; justify-content: space-between">
+                  <div>
+                    <h1 class="profile-name">
+                      {{
+                        cvData.personalInfo.firstName +
+                        " " +
+                        cvData.personalInfo.lastName
+                      }}
+                    </h1>
+                  </div>
+                  <div
+                    v-if="cvData.personalInfo.linkedin"
+                    class="linkedin-section"
                   >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
+                    <a
+                      :href="cvData.personalInfo.linkedin"
+                      target="_blank"
+                      class="linkedin-link"
                     >
-                      <path
-                        d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
-                      />
-                    </svg>
-                    {{
-                      cvData.personalInfo.firstName +
-                      " " +
-                      cvData.personalInfo.lastName
-                    }}
-                  </a>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                        />
+                      </svg>
+                      {{
+                        cvData.personalInfo.firstName +
+                        " " +
+                        cvData.personalInfo.lastName
+                      }}
+                    </a>
+                  </div>
+                </div>
+                <h2 class="profile-title">{{ cvData.personalInfo.title }}</h2>
+                <p class="profile-bio">{{ cvData.summary }}</p>
+              </div>
+
+              <!-- LinkedIn -->
+            </div>
+
+            <!-- Barre de contact -->
+            <div class="contact-bar">
+              <div class="contact-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                  />
+                </svg>
+                {{ cvData.personalInfo.location }}
+              </div>
+              <div class="contact-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+                {{ cvData.personalInfo.email }}
+              </div>
+              <div class="contact-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  />
+                </svg>
+                {{ cvData.personalInfo.phone }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content avec layout 2 colonnes -->
+        <div class="main-content">
+          <!-- Colonne de gauche - Expériences -->
+          <div class="left-column">
+            <section class="experience-section">
+              <h3 class="section-title">Expériences professionnelles</h3>
+
+              <div
+                v-for="(experience, index) in cvData.workExperiences"
+                :key="experience.id || index"
+                class="timeline-item"
+              >
+                <div class="timeline-marker" />
+                <div class="timeline-content">
+                  <h4 class="experience-title">{{ experience.title }}</h4>
+                  <p class="company">{{ experience.company }}</p>
+                  <p class="period">
+                    {{ experience.startDate }} – {{ experience.endDate }}
+                    <span class="location">{{ experience.location }}</span>
+                  </p>
+                  <p v-if="experience.description" class="description">
+                    {{ experience.description }}
+                  </p>
+                  <ul
+                    v-if="experience.bullets && experience.bullets.length > 0"
+                  >
+                    <li
+                      v-for="(bullet, bulletIndex) in experience.bullets"
+                      :key="bulletIndex"
+                    >
+                      {{ bullet }}
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <h2 class="profile-title">{{ cvData.personalInfo.title }}</h2>
-              <p class="profile-bio">{{ cvData.summary }}</p>
-            </div>
-
-            <!-- LinkedIn -->
+            </section>
           </div>
 
-          <!-- Barre de contact -->
-          <div class="contact-bar">
-            <div class="contact-item">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-                />
-              </svg>
-              {{ cvData.personalInfo.location }}
-            </div>
-            <div class="contact-item">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-              {{ cvData.personalInfo.email }}
-            </div>
-            <div class="contact-item">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
-                />
-              </svg>
-              {{ cvData.personalInfo.phone }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Content avec layout 2 colonnes -->
-      <div class="main-content">
-        <!-- Colonne de gauche - Expériences -->
-        <div class="left-column">
-          <section class="experience-section">
-            <h3 class="section-title">Expériences professionnelles</h3>
-
-            <div
-              v-for="(experience, index) in cvData.workExperiences"
-              :key="experience.id || index"
-              class="timeline-item"
-            >
-              <div class="timeline-marker" />
-              <div class="timeline-content">
-                <h4 class="experience-title">{{ experience.title }}</h4>
-                <p class="company">{{ experience.company }}</p>
-                <p class="period">
-                  {{ experience.startDate }} – {{ experience.endDate }}
-                  <span class="location">{{ experience.location }}</span>
-                </p>
-                <p v-if="experience.description" class="description">
-                  {{ experience.description }}
-                </p>
-                <ul v-if="experience.bullets && experience.bullets.length > 0">
-                  <li
-                    v-for="(bullet, bulletIndex) in experience.bullets"
-                    :key="bulletIndex"
-                  >
-                    {{ bullet }}
-                  </li>
-                </ul>
+          <!-- Colonne de droite - Compétences, Formation, etc. -->
+          <div class="right-column">
+            <!-- Section Compétences -->
+            <section class="skills">
+              <h3 class="section-title">Compétences</h3>
+              <div class="skills-grid">
+                <span
+                  v-for="(skill, index) in cvData.skills.technical"
+                  :key="index"
+                  class="skill-tag"
+                >
+                  {{ skill }}
+                </span>
               </div>
-            </div>
-          </section>
-        </div>
+            </section>
 
-        <!-- Colonne de droite - Compétences, Formation, etc. -->
-        <div class="right-column">
-          <!-- Section Compétences -->
-          <section class="skills">
-            <h3 class="section-title">Compétences</h3>
-            <div class="skills-grid">
-              <span
-                v-for="(skill, index) in cvData.skills.technical"
+            <section class="project">
+              <h3 class="section-title">Projets</h3>
+              <div class="project-item">
+                <p>https://job-ai-mu.vercel.app</p>
+                <p>https://www.re-ne-sens.com</p>
+              </div>
+            </section>
+
+            <!-- Section Formation -->
+            <section class="education">
+              <h3 class="section-title">Diplômes et Formations</h3>
+
+              <div
+                v-for="(education, index) in cvData.education"
+                :key="education.id || index"
+                class="education-item"
+              >
+                <div>
+                  <h4>{{ education.degree }}</h4>
+                  <p class="school">{{ education.institution }}</p>
+                  <p class="period">
+                    {{ education.year }}
+                    <span class="location">{{
+                      education.location || "France"
+                    }}</span>
+                  </p>
+                  <p v-if="education.description" class="compact-description">
+                    {{ education.description }}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section Langues -->
+            <section class="languages">
+              <h3 class="section-title">Langues</h3>
+              <div
+                v-for="(language, index) in cvData.skills.languages"
                 :key="index"
-                class="skill-tag"
+                class="language-item"
               >
-                {{ skill }}
-              </span>
-            </div>
-          </section>
-
-          <section class="project">
-            <h3 class="section-title">Projets</h3>
-            <div class="project-item">
-              <p>https://job-ai-mu.vercel.app</p>
-              <p>https://www.re-ne-sens.com</p>
-            </div>
-          </section>
-
-          <!-- Section Formation -->
-          <section class="education">
-            <h3 class="section-title">Diplômes et Formations</h3>
-
-            <div
-              v-for="(education, index) in cvData.education"
-              :key="education.id || index"
-              class="education-item"
-            >
-              <div>
-                <h4>{{ education.degree }}</h4>
-                <p class="school">{{ education.institution }}</p>
-                <p class="period">
-                  {{ education.year }}
-                  <span class="location">{{
-                    education.location || "France"
-                  }}</span>
-                </p>
-                <p v-if="education.description" class="compact-description">
-                  {{ education.description }}
-                </p>
+                <p>{{ language.split(" (")[0] }} B2</p>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <!-- Section Langues -->
-          <section class="languages">
-            <h3 class="section-title">Langues</h3>
-            <div
-              v-for="(language, index) in cvData.skills.languages"
-              :key="index"
-              class="language-item"
-            >
-              <p>{{ language.split(" (")[0] }} B2</p>
-            </div>
-          </section>
-
-          <!-- Section Centres d'intérêt -->
-          <section class="interests">
-            <h3 class="section-title">Centres d'intérêt</h3>
-            <ul class="interests-list">
-              <li>La Tech</li>
-              <li>Musique</li>
-              <li>Vêtements</li>
-            </ul>
-          </section>
+            <!-- Section Centres d'intérêt -->
+            <section class="interests">
+              <h3 class="section-title">Centres d'intérêt</h3>
+              <ul class="interests-list">
+                <li>La Tech</li>
+                <li>Musique</li>
+                <li>Vêtements</li>
+              </ul>
+            </section>
+          </div>
         </div>
       </div>
     </div>
@@ -230,7 +234,7 @@ defineProps<{
   cvData: CV
 }>()
 
-const cvContainer = ref<HTMLElement | null>(null)
+const measureRef = ref<HTMLElement | null>(null)
 const scale = ref(1)
 
 // Dimensions A4 en pixels (à 96 DPI)
@@ -242,35 +246,57 @@ const wrapperStyle = computed(() => ({
   height: `${A4_HEIGHT}px`,
   transform: `scale(${scale.value})`,
   transformOrigin: "top center",
+  transition: "transform 0.2s ease-out", // Transition fluide
+}))
+
+const containerStyle = computed(() => ({
+  height: `${A4_HEIGHT * scale.value}px`, // S'adapte au scale
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  transition: "height 0.2s ease-out", // Transition fluide de la hauteur
 }))
 
 const calculateScale = () => {
-  if (!cvContainer.value) return
+  if (!measureRef.value) return
 
-  const containerWidth = cvContainer.value.clientWidth
-  const containerHeight = cvContainer.value.clientHeight
-
+  // On mesure l'espace disponible dans le parent de mesure
+  const availableWidth = measureRef.value.clientWidth
   const margin = 40
-  const availableWidth = containerWidth - margin * 2
-  const availableHeight = containerHeight - margin * 2
+  const widthToUse = availableWidth - margin * 2
 
-  const scaleX = availableWidth / A4_WIDTH
-  const scaleY = availableHeight / A4_HEIGHT
+  // On ne scale que sur la largeur pour éviter le blocage vertical
+  const scaleX = widthToUse / A4_WIDTH
 
-  scale.value = Math.min(scaleX, scaleY, 1) // Max 1 pour ne pas agrandir
+  // Max 1 pour ne pas pixeliser, Min 0.1 pour la sécurité
+  scale.value = Math.max(0.1, Math.min(scaleX, 1))
 }
+
+let observer: ResizeObserver | null = null
 
 onMounted(() => {
   calculateScale()
-  window.addEventListener("resize", calculateScale)
+  observer = new ResizeObserver(() => {
+    calculateScale()
+  })
+
+  if (measureRef.value) {
+    observer.observe(measureRef.value)
+  }
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", calculateScale)
+  observer?.disconnect()
 })
 </script>
 
 <style scoped>
+.cv-measure-zone {
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  background-color: white;
+}
 /* Conteneur A4 - Dimensions réelles de la feuille A4 */
 .cv-container {
   width: 100%;
@@ -284,9 +310,9 @@ onBeforeUnmount(() => {
 }
 
 .cv-wrapper {
-  transition: transform 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  aspect-ratio: 210 / 297;
+  background: white;
+  box-shadow: 0 14px 20px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 /* Header Section avec gradient violet */

@@ -10,6 +10,10 @@ import { validateJobAnalysisRequest } from "../utils/validation/middleware"
 export default defineEventHandler(async (event) => {
   const startTime = Date.now()
 
+  // Check if CV data is provided for ATS optimization
+  const body = await readBody(event)
+  const hasCV = !!body.cvData
+  console.log("le hasss CV", hasCV)
   const jobAnalysisSchema = {
     type: "object",
     properties: {
@@ -37,6 +41,50 @@ export default defineEventHandler(async (event) => {
         type: "array",
         items: { type: "string" },
       },
+      ...(hasCV && {
+        atsOptimization: {
+          type: "object",
+          properties: {
+            score: {
+              type: "number",
+              minimum: 0,
+              maximum: 100,
+            },
+            adaptationNeeded: {
+              type: "boolean",
+            },
+            keywords: {
+              type: "object",
+              properties: {
+                matched: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+                missing: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+                recommended: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+                priority: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+              },
+              required: ["matched", "missing", "recommended", "priority"],
+              additionalProperties: false,
+            },
+            suggestions: {
+              type: "array",
+              items: { type: "string" },
+            },
+          },
+          required: ["score", "adaptationNeeded", "keywords", "suggestions"],
+          additionalProperties: false,
+        },
+      }),
     },
     required: [
       "requiredSkills",
@@ -45,15 +93,27 @@ export default defineEventHandler(async (event) => {
       "requirements",
       "experienceLevel",
       "industryKeywords",
+      ...(hasCV ? ["atsOptimization"] : []),
     ],
     additionalProperties: false,
   }
 
   try {
-    // Validate and sanitize request body using middleware
-    const sanitizedRequest: JobAnalysisRequest =
-      await validateJobAnalysisRequest(event)
+    // Use the body we already read for validation
+    const { parseJobAnalysisRequest } = await import(
+      "../utils/validation/schemas"
+    )
+    const parseResult = parseJobAnalysisRequest(body)
 
+    if (!parseResult.success) {
+      console.log(parseResult)
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Invalid request data",
+      })
+    }
+
+    const sanitizedRequest: JobAnalysisRequest = parseResult.data
     const prompt = generateJobAnalysisPrompt(sanitizedRequest)
 
     const client = getOpenAIClient()
@@ -62,8 +122,9 @@ export default defineEventHandler(async (event) => {
       input: [
         {
           role: "system",
-          content:
-            "Tu es un expert en analyse d'offres d'emploi. Réponds toujours en JSON valide uniquement.",
+          content: hasCV
+            ? "Tu es un expert en analyse d'offres d'emploi et optimisation ATS. Réponds toujours en JSON valide uniquement."
+            : "Tu es un expert en analyse d'offres d'emploi. Réponds toujours en JSON valide uniquement.",
         },
         {
           role: "user",
@@ -73,16 +134,24 @@ export default defineEventHandler(async (event) => {
       text: {
         format: {
           type: "json_schema",
-          name: "job_analysis",
+          name: hasCV ? "job_analysis_with_ats" : "job_analysis",
           strict: true,
           schema: jobAnalysisSchema,
         },
       },
     })
 
+    const processingTime = Date.now() - startTime
+    const analysisType = hasCV
+      ? "Job analysis with ATS optimization"
+      : "Job analysis"
+    console.log(`✅ API: ${analysisType} completed in ${processingTime}ms`)
+
     return {
       success: true,
       data: JSON.parse(response.output_text),
+      processingTime,
+      hasAtsOptimization: hasCV,
     }
   } catch (error) {
     const processingTime = Date.now() - startTime

@@ -51,7 +51,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="p-6">
       <!-- Page Title and Description -->
       <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -84,25 +84,16 @@
           />
         </div>
 
-        <!-- Step 2: Document Generation -->
+        <!-- Step 2: Download (bypassing Document Generation) -->
         <div v-else-if="currentStep === 1">
-          <DocumentGenerationStep
-            :job-analysis="jobAnalysis"
-            @back="goToStep(0)"
-            @next="goToStep(2)"
-            @documents-generated="handleDocumentsGenerated"
-          />
-        </div>
-
-        <!-- Step 3: Download -->
-        <div v-else-if="currentStep === 2">
           <DownloadStep
             :cv-data="cvData"
             :job-analysis="jobAnalysis"
             :letter-data="letterData"
+            :ats-data="jobAnalysis?.atsOptimization"
             :cv-id="cvId"
             :letter-id="letterId"
-            @back="goToStep(1)"
+            @back="goToStep(0)"
             @restart="handleRestart"
           />
         </div>
@@ -126,9 +117,9 @@
 
 <script setup lang="ts">
 import JobAnalysisStep from "~/components/dashboard/JobAnalysisStep.vue"
-import DocumentGenerationStep from "~/components/dashboard/DocumentGenerationStep.vue"
 import DownloadStep from "~/components/dashboard/DownloadStep.vue"
 import type { CV } from "../../types/cv"
+import type { JobAnalysisResponse } from "../../types/ats"
 
 // Page metadata
 useHead({
@@ -143,8 +134,8 @@ useHead({
 })
 
 // Workflow state
-const currentStep = ref(0)
-const jobAnalysis = ref<JobAnalysisResponse | null>(null)
+const currentStep = ref(1)
+const jobAnalysis = ref<JobAnalysisResponse | undefined>(undefined)
 const cvData = ref<CV | undefined>(undefined)
 const letterData = ref<any | undefined>(undefined)
 const cvId = ref<string | undefined>(undefined)
@@ -154,17 +145,12 @@ const letterId = ref<string | undefined>(undefined)
 const workflowSteps = [
   {
     title: "Analyser l'offre",
-    description: "Analyse de l'offre d'emploi",
+    description: "Analyse de l'offre d'emploi et optimisation ATS",
     icon: "i-heroicons-document-magnifying-glass",
   },
   {
-    title: "Générer le document",
-    description: "Création du CV",
-    icon: "i-heroicons-document-text",
-  },
-  {
-    title: "Télécharger",
-    description: "Récupération du fichier généré",
+    title: "Optimiser et télécharger",
+    description: "Optimisation ATS et téléchargement",
     icon: "i-heroicons-arrow-down-tray",
   },
 ]
@@ -175,26 +161,23 @@ const goToStep = (step: number) => {
 }
 
 // Step event handlers
-const handleAnalysisComplete = (data: JobAnalysisResponse) => {
-  if (data) jobAnalysis.value = data
-}
-
-const handleDocumentsGenerated = (data: {
-  cvData: any
-  letterData: any
-  cvId: string
-  letterId: string
+const handleAnalysisComplete = (data: {
+  analysis: JobAnalysisResponse
+  cvData?: CV
 }) => {
-  cvData.value = data.cvData
-  letterData.value = data.letterData
-  cvId.value = data.cvId
-  letterId.value = data.letterId
+  if (data.analysis) {
+    jobAnalysis.value = data.analysis
+    // If CV data was provided during analysis, store it
+    if (data.cvData) {
+      cvData.value = data.cvData
+    }
+  }
 }
 
 const handleRestart = () => {
   // Reset all state
   currentStep.value = 0
-  jobAnalysis.value = null
+  jobAnalysis.value = undefined
   cvData.value = undefined
   letterData.value = undefined
   cvId.value = undefined

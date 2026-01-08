@@ -26,7 +26,13 @@ const WorkExperienceSchema = z.object({
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().min(1, "End date is required"),
   description: z.string().min(1, "Description is required"),
-  bullets: z.array(z.string()).min(1, "At least one bullet point is required"),
+  bullets: z
+    .union([
+      z.array(z.string()).min(1, "At least one bullet point is required"),
+      z.array(z.string()).max(0), // Accepte explicitement le tableau vide
+      z.undefined(), // Accepte l'absence de valeur
+    ])
+    .optional(),
 })
 
 /**
@@ -110,17 +116,33 @@ export const CVSchema = z.object({
 export type CVData = z.infer<typeof CVSchema>
 
 /**
- * Schema for validating job analysis request data
+ * Schema for validating job analysis request data (now supports optional CV for ATS)
  */
 export const JobAnalysisRequestSchema = z.object({
   jobOffer: z.string().min(10, "Job offer text must be at least 10 characters"),
   company: z.string().optional(),
   position: z.string().optional(),
   additionalContext: z.string().optional(),
+  cvData: CVSchema.optional(), // Optional CV for ATS optimization
 })
 
 /**
- * Schema for validating job analysis response data
+ * Schema for ATS optimization data
+ */
+export const ATSOptimizationSchema = z.object({
+  score: z.number().min(0).max(100),
+  adaptationNeeded: z.boolean(),
+  keywords: z.object({
+    matched: z.array(z.string()),
+    missing: z.array(z.string()),
+    recommended: z.array(z.string()),
+    priority: z.array(z.string()),
+  }),
+  suggestions: z.array(z.string()),
+})
+
+/**
+ * Schema for validating job analysis response data (now includes ATS optimization)
  */
 export const JobAnalysisResponseSchema = z.object({
   requiredSkills: z.array(z.string()),
@@ -131,6 +153,7 @@ export const JobAnalysisResponseSchema = z.object({
     .enum(["Entry", "Junior", "Mid", "Senior", "Lead", "Executive"])
     .optional(),
   industryKeywords: z.array(z.string()).default([]),
+  atsOptimization: ATSOptimizationSchema.optional(),
 })
 
 /**
@@ -138,6 +161,7 @@ export const JobAnalysisResponseSchema = z.object({
  */
 export type JobAnalysisRequest = z.infer<typeof JobAnalysisRequestSchema>
 export type JobAnalysisResponse = z.infer<typeof JobAnalysisResponseSchema>
+export type ATSOptimization = z.infer<typeof ATSOptimizationSchema>
 
 /**
  * Schema for validating CV adaptation request
@@ -161,10 +185,60 @@ export const CoverLetterRequestSchema = z.object({
 })
 
 /**
+ * Schema for validating ATS matching request
+ */
+export const ATSMatchingRequestSchema = z.object({
+  cvData: CVSchema,
+  jobAnalysis: JobAnalysisResponseSchema,
+})
+
+/**
+ * Schema for ATS matching response
+ */
+export const ATSMatchingResponseSchema = z.object({
+  atsScore: z.number().min(0).max(100),
+  scoreBreakdown: z.object({
+    requiredKeywords: z.object({
+      score: z.number(),
+      maxScore: z.number(),
+      foundKeywords: z.array(z.string()),
+      missingKeywords: z.array(z.string()),
+    }),
+    preferredKeywords: z.object({
+      score: z.number(),
+      maxScore: z.number(),
+      foundKeywords: z.array(z.string()),
+      missingKeywords: z.array(z.string()),
+    }),
+    textOptimization: z.object({
+      score: z.number(),
+      maxScore: z.number(),
+      keywordDensity: z.string(),
+      strategicPlacement: z.boolean(),
+    }),
+  }),
+  recommendations: z.object({
+    criticalMissing: z.array(z.string()),
+    suggestions: z.array(z.string()),
+    keywordVariations: z.array(
+      z.object({
+        original: z.string(),
+        alternatives: z.array(z.string()),
+      })
+    ),
+  }),
+  adaptationNeeded: z.boolean(),
+  adaptationPriority: z.enum(["low", "medium", "high", "critical"]),
+  summary: z.string(),
+})
+
+/**
  * Type inference for request schemas
  */
 export type CVAdaptationRequest = z.infer<typeof CVAdaptationRequestSchema>
 export type CoverLetterRequest = z.infer<typeof CoverLetterRequestSchema>
+export type ATSMatchingRequest = z.infer<typeof ATSMatchingRequestSchema>
+export type ATSMatchingResponse = z.infer<typeof ATSMatchingResponseSchema>
 
 /**
  * Utility function to safely parse CV data
@@ -209,5 +283,17 @@ export function parseCoverLetterRequest(
   | { success: true; data: CoverLetterRequest }
   | { success: false; error: z.ZodError } {
   const result = CoverLetterRequestSchema.safeParse(data)
+  return result
+}
+
+/**
+ * Utility function to safely parse ATS matching request
+ */
+export function parseATSMatchingRequest(
+  data: unknown
+):
+  | { success: true; data: ATSMatchingRequest }
+  | { success: false; error: z.ZodError } {
+  const result = ATSMatchingRequestSchema.safeParse(data)
   return result
 }

@@ -313,29 +313,10 @@ watch([errorMessage, successMessage], () => {
   @apply p-6;
 }
 
-.cv-preview-wrapper {
-  @apply max-h-[800px] overflow-y-auto border border-gray-200 rounded-lg bg-gray-50;
-
-  /* Calcul pour maintenir le ratio A4 dans le preview */
-  transform: scale(0.7);
-  transform-origin: top center;
-  width: calc(100% / 0.7); /* Compenser le scale */
-  margin: 0 auto;
-
-  /* Assurer que le contenu reste centré */
-  display: flex;
-  justify-content: center;
-}
-
 /* Responsive design */
 @media (max-width: 1279px) {
   .download-layout {
     @apply grid-cols-1;
-  }
-
-  .cv-preview-wrapper {
-    transform: scale(1);
-    width: 100%;
   }
 }
 
@@ -350,10 +331,6 @@ watch([errorMessage, successMessage], () => {
 
   .history-item {
     @apply flex-col items-start gap-3;
-  }
-
-  .cv-preview-wrapper {
-    @apply max-h-[600px];
   }
 }
 </style>

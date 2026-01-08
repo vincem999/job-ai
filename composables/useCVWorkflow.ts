@@ -111,22 +111,37 @@ export const useCVWorkflow = () => {
       // Step 1: Analyze job offer
       const analysis = await jobAnalysisStore.analyzeJobOffer(jobOfferText)
 
-      // Step 2: Generate adapted CV and cover letter
-      const adaptedCV = await cvGenerationStore.generateDocuments(analysis)
+      // Step 2: Check ATS compatibility
+      const atsMatching = await checkATSCompatibility(analysis)
 
-      // Step 3: Export documents
-      const [cvExport, letterExport] = await Promise.all([
-        documentExportStore.exportCV(adaptedCV, `cv_${Date.now()}.pdf`),
-        documentExportStore.exportCoverLetter(
-          cvGenerationStore.generatedCoverLetter,
-          `cover_letter_${Date.now()}.pdf`
-        )
-      ])
+      // Step 3: Generate adapted CV and cover letter (only if needed)
+      let adaptedCV = null
+      let coverLetter = null
+
+      if (atsMatching.adaptationNeeded) {
+        adaptedCV = await cvGenerationStore.generateDocuments(analysis)
+        coverLetter = cvGenerationStore.generatedCoverLetter
+      }
+
+      // Step 4: Export documents
+      let cvExport = null
+      let letterExport = null
+
+      if (adaptedCV) {
+        [cvExport, letterExport] = await Promise.all([
+          documentExportStore.exportCV(adaptedCV, `cv_${Date.now()}.pdf`),
+          documentExportStore.exportCoverLetter(
+            coverLetter,
+            `cover_letter_${Date.now()}.pdf`
+          )
+        ])
+      }
 
       return {
         analysis,
+        atsMatching,
         adaptedCV,
-        coverLetter: cvGenerationStore.generatedCoverLetter,
+        coverLetter,
         exports: { cv: cvExport, letter: letterExport }
       }
 
@@ -143,6 +158,36 @@ export const useCVWorkflow = () => {
       )
       throw error
     }
+  }
+
+  // New ATS checking method
+  const checkATSCompatibility = async (analysis: any) => {
+    try {
+      const cvData = await loadCurrentCV() // We need to implement this
+
+      const response = await $fetch('/api/ats-matching', {
+        method: 'POST',
+        body: {
+          cvData,
+          jobAnalysis: analysis
+        }
+      })
+
+      return response.data
+    } catch (error) {
+      errorHandlerStore.handleAPIError(error as Error, {
+        component: 'CVWorkflow',
+        action: 'checkATSCompatibility'
+      })
+      throw error
+    }
+  }
+
+  // Helper to load current CV - this should probably come from a CV store
+  const loadCurrentCV = async () => {
+    // TODO: This should load the user's current CV from the CV store
+    // For now, we'll need to implement this based on your CV management system
+    throw new Error('loadCurrentCV not implemented - need to connect to CV store')
   }
 
   // Individual step methods
@@ -292,6 +337,7 @@ export const useCVWorkflow = () => {
     // Actions
     startCompleteWorkflow,
     analyzeJobOffer,
+    checkATSCompatibility,
     generateCV,
     exportDocuments,
     resetWorkflow,

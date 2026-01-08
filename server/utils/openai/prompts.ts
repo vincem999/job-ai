@@ -18,12 +18,13 @@ interface PromptConfig {
 }
 
 /**
- * Generate a structured prompt for job offer analysis using GPT-5
+ * Generate a structured prompt for job offer analysis with optional ATS optimization
  *
  * This function creates a comprehensive prompt for analyzing job descriptions
- * and extracting key requirements, skills, and responsibilities.
+ * and extracting key requirements, skills, and responsibilities. When CV data is provided,
+ * it also includes ATS optimization analysis.
  *
- * @param request - Job analysis request data
+ * @param request - Job analysis request data (now with optional CV)
  * @param config - Optional configuration for prompt generation
  * @returns Structured prompt string ready for GPT-5
  *
@@ -32,7 +33,8 @@ interface PromptConfig {
  * const prompt = generateJobAnalysisPrompt({
  *   jobOffer: "Software Engineer position at TechCorp...",
  *   company: "TechCorp",
- *   position: "Software Engineer"
+ *   position: "Software Engineer",
+ *   cvData: userCV // Optional for ATS optimization
  * })
  * ```
  */
@@ -40,10 +42,12 @@ export function generateJobAnalysisPrompt(
   request: JobAnalysisRequest,
   config: PromptConfig = {}
 ): string {
-  const { jobOffer, company, position, additionalContext } = request
+  const { jobOffer, company, position, additionalContext, cvData } = request
   const { context } = config
 
-  const basePrompt = `Vous êtes un analyste RH expert et consultant en carrière. Votre tâche est d'analyser une offre d'emploi et d'extraire des informations complètes sur les exigences du poste pour optimiser un CV.
+  const hasCV = !!cvData
+
+  const basePrompt = `Vous êtes un analyste RH expert et consultant en carrière. Votre tâche est d'analyser une offre d'emploi et d'extraire des informations complètes sur les exigences du poste${hasCV ? ' ET d\'optimiser le passage ATS d\'un CV candidat' : ''}.
 
 **INSTRUCTIONS IMPORTANTES :**
 - Soyez précis et spécifique dans votre catégorisation
@@ -51,13 +55,18 @@ export function generateJobAnalysisPrompt(
 - Concentrez-vous sur des insights actionnables pour l'optimisation de CV
 - **RÉPONDEZ EN FRANÇAIS dans tous les champs de texte**
 
-**JOB OFFER TO ANALYZE:**
+**OFFRE D'EMPLOI À ANALYSER :**
 ${jobOffer}
 
-${company ? `**COMPANY:** ${company}` : ""}
-${position ? `**POSITION:** ${position}` : ""}
-${additionalContext ? `**ADDITIONAL CONTEXT:** ${additionalContext}` : ""}
-${context ? `**EXTRA CONTEXT:** ${context}` : ""}
+${company ? `**ENTREPRISE :** ${company}` : ""}
+${position ? `**POSTE :** ${position}` : ""}
+${additionalContext ? `**CONTEXTE SUPPLÉMENTAIRE :** ${additionalContext}` : ""}
+${context ? `**CONTEXTE EXTRA :** ${context}` : ""}
+
+${hasCV ? `
+**CV DU CANDIDAT (pour optimisation ATS) :**
+${JSON.stringify(cvData, null, 2)}
+` : ""}
 
 **DIRECTIVES D'ANALYSE :**
 1. **Required Skills:** Compétences techniques et relationnelles explicitement mentionnées comme obligatoires
@@ -67,7 +76,91 @@ ${context ? `**EXTRA CONTEXT:** ${context}` : ""}
 5. **Experience Level:** Déterminer le niveau selon années d'expérience et responsabilités (Entry/Junior/Mid/Senior/Lead/Executive)
 6. **Industry Keywords:** Termes importants spécifiques à l'industrie/domaine qui optimiseront le passage des ATS
 
-Analysez l'offre et extrayez ces informations pour permettre l'adaptation optimale du CV du candidat.`
+${hasCV ? `
+**OPTIMISATION ATS (si CV fourni) :**
+Analysez la compatibilité du CV avec l'offre du point de vue ATS :
+- **Score ATS** (0-100) : Capacité du CV à passer les filtres automatiques
+- **Mots-clés matched** : Termes du CV qui correspondent à l'offre
+- **Mots-clés missing** : Termes critiques de l'offre absents du CV
+- **Mots-clés recommended** : Variantes exactes recommandées pour l'ATS
+- **Mots-clés priority** : Les plus critiques à ajouter
+- **Suggestions** : Actions concrètes pour optimiser le CV pour les ATS
+
+**Adaptation nécessaire ?** Déterminer si le CV a besoin d'être adapté (score < 80).
+` : ""}
+
+Analysez l'offre${hasCV ? ' et le CV' : ''} pour permettre l'adaptation optimale du candidat.`
+
+  return basePrompt
+}
+
+/**
+ * Generate a structured prompt for CV-to-ATS matching analysis
+ *
+ * This function creates a prompt for evaluating how well a CV will perform
+ * against ATS (Applicant Tracking Systems) for a specific job posting.
+ * Focuses on keyword matching, format compatibility, and ATS optimization.
+ *
+ * @param cvData - Complete CV data to be analyzed
+ * @param jobAnalysis - Analysis results from job offer analysis
+ * @param config - Optional configuration for prompt generation
+ * @returns Structured prompt string ready for GPT-5
+ *
+ * @example
+ * ```typescript
+ * const prompt = generateATSMatchingPrompt(cvData, jobAnalysis)
+ * ```
+ */
+export function generateATSMatchingPrompt(
+  cvData: CVData,
+  jobAnalysis: JobAnalysisResponse,
+  config: PromptConfig = {}
+): string {
+  const { context } = config
+
+  const basePrompt = `Vous êtes un expert en optimisation ATS (Applicant Tracking Systems). Votre tâche est d'évaluer la compatibilité entre un CV et une offre d'emploi du point de vue des systèmes de tri automatique, puis de fournir un score d'optimisation ATS.
+
+**OBJECTIF :**
+Analyser uniquement la capacité du CV à passer les filtres automatiques des ATS, pas l'adéquation générale du profil au poste.
+
+**INSTRUCTIONS IMPORTANTES :**
+- Focus sur la correspondance des mots-clés avec l'offre d'emploi
+- Évaluer la présence des termes techniques et compétences exactes demandées
+- Identifier les variations de terminologie qui pourraient être ratées par l'ATS
+- **RÉPONDEZ EN FRANÇAIS dans tous les champs**
+
+**CV DU CANDIDAT :**
+${JSON.stringify(cvData, null, 2)}
+
+**ANALYSE DE L'OFFRE D'EMPLOI :**
+${JSON.stringify(jobAnalysis, null, 2)}
+
+${context ? `**CONTEXTE SUPPLÉMENTAIRE :** ${context}` : ""}
+
+**CRITÈRES D'ÉVALUATION ATS :**
+
+1. **Mots-clés obligatoires (50% du score) :**
+   - Présence exacte des compétences techniques requises
+   - Correspondance des intitulés de postes et responsabilités
+   - Terminologie spécifique à l'industrie
+
+2. **Mots-clés préférentiels (30% du score) :**
+   - Présence des compétences souhaitées mais non obligatoires
+   - Technologies et outils mentionnés comme "un plus"
+
+3. **Optimisation textuelle (20% du score) :**
+   - Variations et synonymes des termes clés
+   - Densité appropriée des mots-clés (ni trop, ni trop peu)
+   - Placement stratégique dans les sections importantes
+
+**RÈGLES DE SCORING ATS :**
+- Score ≥ 85: Excellent passage ATS garanti
+- Score 70-84: Bon passage ATS, optimisation légère recommandée
+- Score 55-69: Passage ATS moyen, optimisation importante nécessaire
+- Score 40-54: Risque de filtrage ATS, adaptation majeure requise
+- Score < 40: Forte probabilité d'être filtré par l'ATS
+
+Analysez la correspondance ATS et fournissez un scoring détaillé avec des recommandations d'optimisation spécifiques.`
 
   return basePrompt
 }
@@ -211,9 +304,13 @@ ${JSON.stringify(
   {
     personalInfo: cvData.personalInfo,
     workExperiences: cvData.workExperiences.slice(0, 3), // Most recent 3 experiences
-    skills: cvData.skills.slice(0, 10), // Top 10 skills
+    skills: {
+      technical: cvData.skills.technical.slice(0, 10),
+      languages: cvData.skills.languages.slice(0, 5),
+      soft: cvData.skills.soft.slice(0, 5)
+    }, // Top skills
     education: cvData.education.slice(0, 2), // Most recent education
-    projects: cvData.projects.slice(0, 3), // Top 3 projects
+    projects: cvData.projects?.slice(0, 3) || [], // Top 3 projects
   },
   null,
   2

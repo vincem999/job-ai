@@ -62,8 +62,9 @@
         </div>
       </UFormField>
 
-      <UDivider
+      <USeparator
         v-if="index < props.cvData.workExperiences.length - 1"
+        orientation="horizontal"
         class="my-6"
       />
     </div>

@@ -85,7 +85,7 @@ interface JobOfferData {
 
 const emit = defineEmits<{
   next: []
-  analysisComplete: [data: any]
+  analysisComplete: [data: { analysis: any; cvData?: any }]
 }>()
 
 const jobAnalysis = ref(null)
@@ -97,7 +97,7 @@ const hasJobAnalysis = computed(() => !!jobAnalysis.value)
 const handleJobSubmission = async (jobData: JobOfferData) => {
   try {
     console.log("Job offer submitted:", jobData)
-
+    const { mockCVData } = await import("~/components/templates/mockCVData")
     // Start analyzing state
     isAnalyzing.value = true
     statusMessage.value = null // Clear any previous status messages
@@ -113,6 +113,7 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
         jobOffer: jobData.description,
         company: jobData.company,
         position: jobData.title,
+        cvData: mockCVData,
       },
     })
 
@@ -130,8 +131,11 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
         "L'analyse de l'offre d'emploi est terminée. Transition automatique vers l'étape suivante..."
       )
 
-      // Emit analysis completion
-      emit("analysisComplete", response.data)
+      // Emit analysis completion with CV data
+      emit("analysisComplete", {
+        analysis: response.data,
+        cvData: mockCVData
+      })
 
       // Auto-transition to next step
       setTimeout(() => {
