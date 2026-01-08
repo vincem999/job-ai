@@ -1,9 +1,7 @@
 <template>
-  <div class="space-y-6">
+  <UCard class="space-y-6">
     <!-- Job Offer Input Section -->
-    <div
-      class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
-    >
+    <div class="rounded-lg">
       <div class="mb-6">
         <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           <UIcon
@@ -17,7 +15,7 @@
         </p>
       </div>
 
-      <JobOfferInput @submit="handleJobSubmission" @clear="handleJobClear" />
+      <JobOfferInput @submit="handleJobSubmission" />
 
       <!-- Loading State -->
       <div v-if="isAnalyzing" class="mt-6">
@@ -64,7 +62,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </UCard>
 </template>
 
 <script setup lang="ts">
@@ -134,7 +132,7 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
       // Emit analysis completion with CV data
       emit("analysisComplete", {
         analysis: response.data,
-        cvData: mockCVData
+        cvData: mockCVData,
       })
 
       // Auto-transition to next step
@@ -159,12 +157,6 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
     // Clear job analysis on error
     jobAnalysis.value = null
   }
-}
-
-const handleJobClear = () => {
-  jobAnalysis.value = null
-  statusMessage.value = null
-  isAnalyzing.value = false
 }
 
 const showStatusMessage = (

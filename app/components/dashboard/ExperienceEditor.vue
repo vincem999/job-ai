@@ -127,7 +127,7 @@ const removeBullet = (expIndex: number, bulletIndex: number) => {
 @reference "~/assets/css/main.css";
 
 .experience-editor {
-  @apply space-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700;
+  @apply space-y-6 p-6 bg-white dark:bg-elevated rounded-lg light:border light:border-gray-200;
 }
 
 .editor-title {

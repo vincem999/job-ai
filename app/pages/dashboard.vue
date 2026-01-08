@@ -1,23 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="min-h-screen">
     <!-- Header Section -->
     <header
-      class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      class="bg-white dark:bg-elevated border-b light:border-gray-200 dark:border-neutral-700"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <!-- Logo and Title -->
-          <div class="flex items-center space-x-4">
-            <UIcon name="i-heroicons-briefcase" class="w-8 h-8 text-blue-600" />
-            <div>
-              <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-                CV Optimizer
-              </h1>
-              <p class="text-sm text-gray-500 dark:text-gray-400">
-                Tableau de bord
-              </p>
-            </div>
-          </div>
+          <div class="flex items-center space-x-4"></div>
 
           <!-- Navigation Actions -->
           <div class="flex items-center space-x-4">
@@ -29,29 +19,14 @@
             >
               Accueil
             </UButton>
-
-            <!-- Color Mode Toggle -->
-            <UButton
-              variant="ghost"
-              color="neutral"
-              icon="i-heroicons-sun"
-              :aria-label="
-                $colorMode.preference === 'dark'
-                  ? 'Switch to light mode'
-                  : 'Switch to dark mode'
-              "
-              @click="
-                $colorMode.preference =
-                  $colorMode.preference === 'dark' ? 'light' : 'dark'
-              "
-            />
+            <ColorModeButton />
           </div>
         </div>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="p-6">
+    <UMain class="p-6">
       <!-- Page Title and Description -->
       <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -66,6 +41,7 @@
       <!-- Workflow Stepper -->
       <div class="mb-8">
         <UStepper
+          id="stepper"
           :model-value="currentStep"
           :items="workflowSteps"
           disabled
@@ -111,7 +87,7 @@
           </NuxtLink>
         </p>
       </div>
-    </main>
+    </UMain>
   </div>
 </template>
 
@@ -134,7 +110,7 @@ useHead({
 })
 
 // Workflow state
-const currentStep = ref(1)
+const currentStep = ref(0)
 const jobAnalysis = ref<JobAnalysisResponse | undefined>(undefined)
 const cvData = ref<CV | undefined>(undefined)
 const letterData = ref<any | undefined>(undefined)
@@ -145,7 +121,7 @@ const letterId = ref<string | undefined>(undefined)
 const workflowSteps = [
   {
     title: "Analyser l'offre",
-    description: "Analyse de l'offre d'emploi et optimisation ATS",
+    description: "Analyse de l'offre d'emploi",
     icon: "i-heroicons-document-magnifying-glass",
   },
   {
@@ -190,6 +166,10 @@ const handleRestart = () => {
 .grid {
   /* Ensure grid columns are balanced */
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+
+#stepper :deep(button) {
+  cursor: auto !important;
 }
 
 @media (min-width: 1280px) {

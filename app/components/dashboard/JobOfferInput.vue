@@ -7,46 +7,37 @@
       @submit="onSubmit"
       @error="onError"
     >
-      <UFormField name="title" label="Job Title" required>
+      <UFormField name="title" label="Titre du poste" required>
         <UInput
           v-model="state.title"
           class="w-full"
-          placeholder="e.g. Senior Frontend Developer"
+          placeholder="ex. Développeur Frontend Senior"
           :disabled="loading"
         />
       </UFormField>
 
-      <UFormField name="company" label="Company" required>
+      <UFormField name="company" label="Entreprise" required>
         <UInput
           v-model="state.company"
           class="w-full"
-          placeholder="e.g. Tech Corp Inc."
+          placeholder="ex. Entreprise Tech SAS"
           :disabled="loading"
         />
       </UFormField>
 
-      <UFormField name="description" label="Job Description" required>
+      <UFormField name="description" label="Description du poste" required>
         <UTextarea
           v-model="state.description"
           class="w-full"
           :rows="8"
-          placeholder="Paste the complete job description here..."
+          placeholder="Colle la description complète du poste ici..."
           :disabled="loading"
         />
       </UFormField>
 
       <div class="flex justify-end space-x-3 pt-4">
-        <UButton
-          type="button"
-          color="neutral"
-          variant="ghost"
-          :disabled="loading"
-          @click="clearForm"
-        >
-          Clear
-        </UButton>
         <UButton type="submit" :loading="loading" :disabled="!isFormValid">
-          Analyze Job Offer
+          Analyser l'offre
         </UButton>
       </div>
     </UForm>
@@ -78,16 +69,16 @@ import type { FormSubmitEvent, FormErrorEvent } from "@nuxt/ui"
 const schema = z.object({
   title: z
     .string()
-    .min(2, "Job title must be at least 2 characters")
-    .max(100, "Job title is too long"),
+    .min(2, "Le titre du poste doit contenir au moins 2 caractères")
+    .max(100, "Le titre du poste est trop long"),
   company: z
     .string()
-    .min(2, "Company name must be at least 2 characters")
-    .max(100, "Company name is too long"),
+    .min(2, "Le nom de l'entreprise doit contenir au moins 2 caractères")
+    .max(100, "Le nom de l'entreprise est trop long"),
   description: z
     .string()
-    .min(50, "Job description must be at least 50 characters")
-    .max(5000, "Job description is too long"),
+    .min(50, "La description du poste doit contenir au moins 50 caractères")
+    .max(5000, "La description du poste est trop longue"),
 })
 
 type Schema = z.infer<typeof schema>
@@ -128,20 +119,20 @@ watch(
     if (newValue.length > 0 && newValue.length < 50) {
       showFeedback(
         "warning",
-        "Description too short",
-        `Add ${50 - newValue.length} more characters for a better analysis`
+        "Description trop courte",
+        `Ajoutez ${50 - newValue.length} caractères pour une meilleure analyse`
       )
     } else if (newValue.length >= 50 && newValue.length < 100) {
       showFeedback(
         "success",
-        "Good start!",
-        "Keep adding details for a more comprehensive analysis"
+        "Bon début !",
+        "Continuez à ajouter des détails pour une analyse plus complète"
       )
     } else if (newValue.length >= 4500) {
       showFeedback(
         "warning",
-        "Description very long",
-        "Consider keeping it under 5000 characters"
+        "Description très longue",
+        "Considérez de la garder sous 5000 caractères"
       )
     } else if (feedback.value?.type === "warning" && newValue.length >= 100) {
       feedback.value = null
@@ -159,8 +150,8 @@ watch(
     ) {
       showFeedback(
         "warning",
-        "Input too short",
-        "Title and company name should be at least 2 characters"
+        "Saisie trop courte",
+        "Le titre et le nom de l'entreprise doivent contenir au moins 2 caractères"
       )
     } else if (
       feedback.value?.type === "warning" &&
@@ -189,15 +180,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     showFeedback(
       "success",
-      "Job offer submitted!",
-      "Analyzing the job requirements..."
+      "Offre d'emploi soumise !",
+      "Analyse des exigences du poste en cours..."
     )
   } catch (error) {
     console.error("Error submitting job offer:", error)
     showFeedback(
       "error",
-      "Submission failed",
-      "Please try again or check your input"
+      "Échec de la soumission",
+      "Veuillez réessayer ou vérifier votre saisie"
     )
   } finally {
     loading.value = false
@@ -209,17 +200,11 @@ const onError = (event: FormErrorEvent) => {
   const errorCount = event.errors.length
   showFeedback(
     "error",
-    `${errorCount} error${errorCount > 1 ? "s" : ""} found`,
-    "Please correct the highlighted fields"
+    `${errorCount} erreur${errorCount > 1 ? "s" : ""} trouvée${
+      errorCount > 1 ? "s" : ""
+    }`,
+    "Veuillez corriger les champs mis en évidence"
   )
-}
-
-const clearForm = () => {
-  state.title = ""
-  state.company = ""
-  state.description = ""
-  feedback.value = null
-  emit("clear")
 }
 
 // Auto-resize functionality could be added here in the future

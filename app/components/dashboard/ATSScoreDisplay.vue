@@ -15,7 +15,9 @@
 
     <div v-if="adaptationNeeded" class="adaptation-notice">
       <UIcon name="i-heroicons-exclamation-triangle" class="w-5 h-5" />
-      <span class="text-sm">Optimisation recommandée pour améliorer la compatibilité ATS</span>
+      <span class="text-sm"
+        >Optimisation recommandée pour améliorer la compatibilité ATS</span
+      >
     </div>
   </div>
 </template>
@@ -28,17 +30,17 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function getScoreColor(): string {
-  if (props.score >= 85) return 'green'
-  if (props.score >= 70) return 'orange'
-  return 'red'
+function getScoreColor(): "success" | "warning" | "error" {
+  if (props.score >= 85) return "success"
+  if (props.score >= 70) return "warning"
+  return "error"
 }
 
 function getMessage(): string {
-  if (props.score >= 85) return 'Excellent'
-  if (props.score >= 70) return 'Bon'
-  if (props.score >= 50) return 'À améliorer'
-  return 'Critique'
+  if (props.score >= 85) return "Excellent"
+  if (props.score >= 70) return "Bon"
+  if (props.score >= 50) return "À améliorer"
+  return "Critique"
 }
 </script>
 

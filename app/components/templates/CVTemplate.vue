@@ -1,5 +1,8 @@
 <template>
-  <div ref="measureRef" class="cv-measure-zone">
+  <div
+    ref="measureRef"
+    class="cv-measure-zone light:bg-inverted/5 dark:bg-white"
+  >
     <div ref="cvContainer" class="cv-layout-container" :style="containerStyle">
       <div class="cv-wrapper" :style="wrapperStyle">
         <!-- Header Section avec gradient -->
@@ -295,7 +298,7 @@ onBeforeUnmount(() => {
   width: 100%;
   min-height: 100%;
   padding: 20px;
-  background-color: white;
+  border-radius: calc(var(--ui-radius) * 2);
 }
 /* Conteneur A4 - Dimensions réelles de la feuille A4 */
 .cv-container {
