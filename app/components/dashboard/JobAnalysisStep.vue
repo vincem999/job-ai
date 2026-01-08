@@ -15,7 +15,7 @@
         </p>
       </div>
 
-      <JobOfferInput @submit="handleJobSubmission" />
+      <JobOfferInput :analyzing="isProcessing" @submit="handleJobSubmission" />
 
       <!-- Loading State -->
       <div v-if="isAnalyzing" class="mt-6">
@@ -89,15 +89,16 @@ const emit = defineEmits<{
 const jobAnalysis = ref(null)
 const statusMessage = ref<StatusMessage | null>(null)
 const isAnalyzing = ref(false)
+const isProcessing = ref(false)
 
 const hasJobAnalysis = computed(() => !!jobAnalysis.value)
 
 const handleJobSubmission = async (jobData: JobOfferData) => {
   try {
-    console.log("Job offer submitted:", jobData)
     const { mockCVData } = await import("~/components/templates/mockCVData")
     // Start analyzing state
     isAnalyzing.value = true
+    isProcessing.value = true
     statusMessage.value = null // Clear any previous status messages
 
     // Call job analysis API
@@ -138,6 +139,7 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
       // Auto-transition to next step
       setTimeout(() => {
         emit("next")
+        isProcessing.value = false
       }, 1500) // Petite pause pour permettre à l'utilisateur de voir le message de succès
     } else {
       throw new Error(
@@ -151,7 +153,7 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
 
     // Stop analyzing state
     isAnalyzing.value = false
-
+    isProcessing.value = false
     showStatusMessage("error", "Erreur d'analyse", errorMessage)
 
     // Clear job analysis on error

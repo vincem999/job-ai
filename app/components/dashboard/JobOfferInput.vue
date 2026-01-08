@@ -35,7 +35,7 @@
         />
       </UFormField>
 
-      <div class="flex justify-end space-x-3 pt-4">
+      <div v-if="!isAnalyzing" class="flex justify-end space-x-3 pt-4">
         <UButton type="submit" :loading="loading" :disabled="!isFormValid">
           Analyser l'offre
         </UButton>
@@ -91,6 +91,7 @@ const state = reactive({
 })
 
 const loading = ref(false)
+const isAnalyzing = ref(false)
 const feedback = ref<{
   type: "success" | "error" | "warning"
   title: string
@@ -111,6 +112,20 @@ const emit = defineEmits<{
   submit: [data: Schema]
   clear: []
 }>()
+
+// Define props
+const props = defineProps<{
+  analyzing?: boolean
+}>()
+
+// Watch for analyzing prop changes
+watch(
+  () => props.analyzing,
+  (newValue) => {
+    isAnalyzing.value = !!newValue
+  },
+  { immediate: true }
+)
 
 // Real-time validation feedback
 watch(
@@ -177,12 +192,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     // Emit the validated data to parent component
     emit("submit", event.data)
-
-    showFeedback(
-      "success",
-      "Offre d'emploi soumise !",
-      "Analyse des exigences du poste en cours..."
-    )
   } catch (error) {
     console.error("Error submitting job offer:", error)
     showFeedback(
