@@ -15,8 +15,34 @@
             <!-- Profile Image -->
             <div class="flex justify-center">
               <div class="relative">
-                <div style="width: 150px">
-                  <img src="/photo_profil.png" alt="Vincent Monneger" >
+                <!-- Main image -->
+                <div
+                  v-if="!imageError"
+                  class="w-[150px] h-[150px] overflow-hidden rounded-full"
+                >
+                  <img
+                    src="/photo_profil.png"
+                    alt="Vincent Monneger"
+                    class="w-full h-full object-cover"
+                    loading="eager"
+                    @error="onImageError"
+                    @load="onImageLoad"
+                  >
+                </div>
+
+                <!-- Fallback image -->
+                <div
+                  v-else
+                  class="w-[150px] h-[150px] rounded-full bg-gradient-to-br from-primary-400 to-purple-500 p-1"
+                >
+                  <div
+                    class="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center"
+                  >
+                    <UIcon
+                      name="i-lucide-user"
+                      class="w-16 h-16 text-gray-400 dark:text-gray-500"
+                    />
+                  </div>
                 </div>
 
                 <div
@@ -95,4 +121,17 @@
 <script setup lang="ts">
 // DeveloperProfile component introduces the developer behind the CV optimizer
 // Provides professional credibility and personal connection with users
+
+const imageError = ref(false)
+
+function onImageError(event: Event) {
+  const img = event.target as HTMLImageElement
+  console.warn('Profile image failed to load:', img.src)
+  imageError.value = true
+}
+
+function onImageLoad(_event: Event) {
+  console.log('Profile image loaded successfully')
+  imageError.value = false
+}
 </script>
