@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen">
     <!-- Header Section -->
-    <UHeader>
+    <UHeader mode="drawer">
       <template #title> Le Logo </template>
 
       <!-- Navigation Actions -->
@@ -10,6 +10,10 @@
         Accueil
       </UButton> -->
       <UNavigationMenu :items="items" />
+      <template #body>
+        <UNavigationMenu :items="items" />
+      </template>
+
       <template #right>
         <ColorModeButton />
       </template>
@@ -106,12 +110,11 @@ useHead({
   ],
 })
 
-const route = useRoute()
-
 const items = computed<NavigationMenuItem[]>(() => [
   {
     label: "Accueil",
     to: "/",
+    icon: "i-lucide-home",
   },
 ])
 
