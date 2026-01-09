@@ -7,7 +7,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <!-- Logo and Title -->
-          <div class="flex items-center space-x-4"></div>
+          <div class="flex items-center space-x-4"/>
 
           <!-- Navigation Actions -->
           <div class="flex items-center space-x-4">

@@ -9,16 +9,10 @@
     </div>
     <div class="grid sm:grid-cols-2 gap-4">
       <div>
-        <ATSKeywordInsights
-          v-if="atsData"
-          :keywords="atsData.keywords"
-        />
+        <ATSKeywordInsights v-if="atsData" :keywords="atsData.keywords" />
       </div>
       <div>
-        <ATSSuggestions
-          v-if="atsData"
-          :suggestions="atsData.suggestions"
-        />
+        <ATSSuggestions v-if="atsData" :suggestions="atsData.suggestions" />
       </div>
     </div>
 
@@ -64,8 +58,9 @@
       <!-- Layout 2 colonnes -->
       <div class="grid sm:grid-flow-col auto-cols-fr gap-4">
         <!-- Colonne gauche: ATS Insights -->
-        <div v-if="showEditor && editableCvData" class="">
+        <div v-if="showEditor && editableCvData" class="relative h-full">
           <ExperienceEditor
+            class="absolute top-0 left-0 right-0 bottom-0 overflow-y-auto"
             :cv-data="editableCvData"
             @update:cv-data="updateCV"
           />
@@ -74,7 +69,7 @@
         <!-- CV Preview -->
         <div>
           <div class="sticky top-0 light:bg-neutral" style="width: 100%">
-            <CVTemplate :cv-data="editableCvData" />
+            <CVTemplate v-if="editableCvData" :cv-data="editableCvData" />
           </div>
         </div>
       </div>
@@ -109,13 +104,17 @@ import type { ATSOptimization, JobAnalysisResponse } from "../../../types/ats"
 import type { CoverLetter, ExportFormat } from "../../../types/api"
 
 interface Props {
-  cvData?: CV
+  cvData?: CV | AdaptedCV
   letterData?: CoverLetter
   jobAnalysis?: JobAnalysisResponse
   atsData?: ATSOptimization
 }
 
 const props = defineProps<Props>()
+
+defineEmits<{
+  back: []
+}>()
 
 const { generatePDF } = usePDFExport()
 
@@ -125,7 +124,7 @@ const isDownloadingCV = ref(false)
 const errorMessage = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
 
-const editableCvData = ref<AdaptedCV | undefined>(
+const editableCvData = ref<CV | AdaptedCV | undefined>(
   props.cvData ? { ...props.cvData } : undefined
 )
 
@@ -195,7 +194,7 @@ function downloadFile(downloadUrl: string, filename: string): void {
 }
 
 // Mise à jour du CV
-const updateCV = (updatedCV: AdaptedCV) => {
+const updateCV = (updatedCV: CV) => {
   editableCvData.value = updatedCV
 }
 

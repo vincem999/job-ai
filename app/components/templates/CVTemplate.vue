@@ -19,7 +19,7 @@
                     cvData.personalInfo.lastName
                   "
                   class="profile-img"
-                />
+                >
               </div>
 
               <!-- Informations personnelles -->

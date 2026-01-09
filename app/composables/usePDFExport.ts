@@ -1,4 +1,4 @@
-import type { AdaptedCV } from "../../types/cv"
+import type { AdaptedCV, CV } from "../../types/cv"
 
 /**
  * Composable for client-side PDF generation using html2pdf.js
@@ -7,7 +7,7 @@ export const usePDFExport = () => {
   /**
    * Generate PDF from CV data using server-side Puppeteer for ATS-compatible text extraction
    */
-  const generatePDF = async (cv: AdaptedCV): Promise<Blob> => {
+  const generatePDF = async (cv: CV | AdaptedCV): Promise<Blob> => {
     // Vérifier qu'on est côté client
     if (import.meta.server) {
       throw new Error("PDF generation can only be done on the client side")

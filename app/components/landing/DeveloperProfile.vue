@@ -16,7 +16,7 @@
             <div class="flex justify-center">
               <div class="relative">
                 <div style="width: 150px">
-                  <img src="/photo_profil.png" alt="Vincent Monneger" />
+                  <img src="/photo_profil.png" alt="Vincent Monneger" >
                 </div>
 
                 <div
