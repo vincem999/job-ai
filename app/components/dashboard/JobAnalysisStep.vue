@@ -1,16 +1,16 @@
 <template>
-  <UCard class="space-y-6">
+  <UCard>
     <!-- Job Offer Input Section -->
     <div class="rounded-lg">
       <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           <UIcon
             name="i-heroicons-clipboard-document-list"
             class="w-5 h-5 inline mr-2"
           />
           Analyser l'offre d'emploi
         </h3>
-        <p class="text-gray-600 dark:text-gray-300 text-sm">
+        <p class="text-sm">
           Saisissez les détails de l'offre d'emploi pour commencer l'analyse
         </p>
       </div>

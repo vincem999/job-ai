@@ -1,8 +1,30 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-button,
-[type="button"],
-[role="button"] {
-  cursor: pointer;
+@theme {
+  --font-sans: "Inter Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Custom colors */
+  --color-background-light: #f9fafb;
+  --color-background-dark: #0b0b0b;
+  --color-card-dark: #161616;
+  --color-border-dark: #2a2a2a;
+}
+
+/* Force custom colors to be available immediately */
+:root {
+  --color-background-light: #f9fafb;
+  --color-background-dark: #0b0b0b;
+  --color-card-dark: #161616;
+  --color-border-dark: #2a2a2a;
+}
+
+p {
+  @apply font-medium; /* ou font-bold, font-light, etc. */
+  @apply text-slate-500 dark:text-slate-400;
+}
+
+h {
+  @apply text-gray-900 dark:text-white;
 }

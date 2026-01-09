@@ -7,23 +7,25 @@
       @submit="onSubmit"
       @error="onError"
     >
-      <UFormField name="title" label="Titre du poste" required>
-        <UInput
-          v-model="state.title"
-          class="w-full"
-          placeholder="ex. Développeur Frontend Senior"
-          :disabled="loading"
-        />
-      </UFormField>
+      <div class="flex gap-4 justify-between">
+        <UFormField class="grow" name="title" label="Titre du poste" required>
+          <UInput
+            v-model="state.title"
+            class="w-full"
+            placeholder="ex. Développeur Frontend Senior"
+            :disabled="loading"
+          />
+        </UFormField>
 
-      <UFormField name="company" label="Entreprise" required>
-        <UInput
-          v-model="state.company"
-          class="w-full"
-          placeholder="ex. Entreprise Tech SAS"
-          :disabled="loading"
-        />
-      </UFormField>
+        <UFormField class="grow" name="company" label="Entreprise" required>
+          <UInput
+            v-model="state.company"
+            class="w-full"
+            placeholder="ex. Entreprise Tech SAS"
+            :disabled="loading"
+          />
+        </UFormField>
+      </div>
 
       <UFormField name="description" label="Description du poste" required>
         <UTextarea
@@ -36,7 +38,12 @@
       </UFormField>
 
       <div v-if="!isAnalyzing" class="flex justify-end space-x-3 pt-4">
-        <UButton type="submit" :loading="loading" :disabled="!isFormValid">
+        <UButton
+          type="submit"
+          size="md"
+          :loading="loading"
+          :disabled="!isFormValid"
+        >
           Analyser l'offre
         </UButton>
       </div>
