@@ -208,7 +208,7 @@
                 :key="index"
                 class="language-item"
               >
-                <p>{{ language.split(" (")[0] }} B2</p>
+                <p class="language-text">{{ language.split(" (")[0] }} B2</p>
               </div>
             </section>
 
@@ -357,13 +357,15 @@ onBeforeUnmount(() => {
   font-size: 18pt;
   font-weight: 700;
   letter-spacing: -0.3pt;
+  color: white !important;
 }
 
 .profile-title {
   font-size: 12pt;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 1mm;
   opacity: 0.95;
+  color: white !important;
 }
 
 .profile-bio {
@@ -372,6 +374,7 @@ onBeforeUnmount(() => {
   opacity: 0.9;
   max-width: 160mm;
   margin: 0;
+  color: white !important;
 }
 
 .linkedin-link {
@@ -603,7 +606,10 @@ onBeforeUnmount(() => {
   align-items: center;
   padding: 2.5mm 0;
   font-size: 9pt;
-  color: #666;
+}
+
+.language-text {
+  color: #666 !important;
 }
 
 .level {

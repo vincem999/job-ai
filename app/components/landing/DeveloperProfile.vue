@@ -1,5 +1,5 @@
 <template>
-  <section class="py-16 bg-gray-50 dark:bg-gray-800">
+  <section class="py-25 border-y border-white dark:border-white/5">
     <UContainer>
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -7,113 +7,109 @@
         </h2>
       </div>
 
-      <div class="max-w-4xl mx-auto">
-        <div
-          class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 lg:p-12"
-        >
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <!-- Profile Image -->
-            <div class="flex justify-center">
-              <div class="relative">
-                <!-- Main image -->
-                <div
-                  v-if="!imageError"
-                  class="w-[150px] h-[150px] overflow-hidden rounded-full"
-                >
-                  <img
-                    src="/photo_profil.png"
-                    alt="Vincent Monneger"
-                    class="w-full h-full object-cover"
-                    loading="eager"
-                    @error="onImageError"
-                    @load="onImageLoad"
-                  >
-                </div>
-
-                <!-- Fallback image -->
-                <div
-                  v-else
-                  class="w-[150px] h-[150px] rounded-full bg-gradient-to-br from-primary-400 to-purple-500 p-1"
-                >
-                  <div
-                    class="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center"
-                  >
-                    <UIcon
-                      name="i-lucide-user"
-                      class="w-16 h-16 text-gray-400 dark:text-gray-500"
-                    />
-                  </div>
-                </div>
-
-                <div
-                  class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-400 rounded-full border-4 border-white dark:border-gray-900 flex items-center justify-center"
-                >
-                  <UIcon name="i-lucide-check" class="w-4 h-4 text-white" />
-                </div>
-              </div>
-            </div>
-
-            <!-- Profile Info -->
-            <div class="lg:col-span-2 text-center lg:text-left">
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Vincent Monneger
-              </h3>
-              <p
-                class="text-primary-600 dark:text-primary-400 font-semibold mb-4"
-              >
-                Développeur Full-Stack spécialisé Front-End & Passionné d'IA
-              </p>
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Développeur expérimenté spécialisé dans les technologies web
-                modernes et l'intégration de l'IA. Passionné par la création
-                d'outils qui rationalisent les flux de travail et améliorent la
-                productivité. Cet optimiseur de CV est né de l'expérience
-                personnelle sur le marché du travail et du désir d'aider les
-                autres à présenter leur meilleur profil professionnel.
-              </p>
-
-              <!-- Skills -->
+      <UCard class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <!-- Profile Image -->
+          <div class="flex justify-center">
+            <div class="relative">
+              <!-- Main image -->
               <div
-                class="flex flex-wrap gap-2 mb-6 justify-center lg:justify-start"
+                v-if="!imageError"
+                class="w-[150px] h-[150px] overflow-hidden rounded-full"
               >
-                <UBadge variant="subtle" color="primary">Vue.js</UBadge>
-                <UBadge variant="subtle" color="primary">Nuxt</UBadge>
-                <UBadge variant="subtle" color="primary">TypeScript</UBadge>
-                <UBadge variant="subtle" color="primary">Node.js</UBadge>
-                <UBadge variant="subtle" color="primary">AI Integration</UBadge>
+                <img
+                  src="/photo_profil.png"
+                  alt="Vincent Monneger"
+                  class="w-full h-full object-cover"
+                  loading="eager"
+                  @error="onImageError"
+                  @load="onImageLoad"
+                />
               </div>
 
-              <!-- Social Links -->
-              <div class="flex gap-4 justify-center lg:justify-start">
-                <UButton
-                  variant="ghost"
-                  size="sm"
-                  to="https://linkedin.com/in/vincent-monneger"
-                  target="_blank"
-                  external
+              <!-- Fallback image -->
+              <div
+                v-else
+                class="w-[150px] h-[150px] rounded-full bg-gradient-to-br from-primary-400 to-purple-500 p-1"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center"
                 >
-                  <template #leading>
-                    <UIcon name="i-lucide-linkedin" />
-                  </template>
-                  LinkedIn
-                </UButton>
+                  <UIcon
+                    name="i-lucide-user"
+                    class="w-16 h-16 text-gray-400 dark:text-gray-500"
+                  />
+                </div>
+              </div>
 
-                <UButton
-                  variant="ghost"
-                  size="sm"
-                  to="mailto:vincentmonneger@gmail.com"
-                  external
-                >
-                  <template #leading>
-                    <UIcon name="i-lucide-mail" />
-                  </template>
-                  Contact
-                </UButton>
+              <div
+                class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-400 rounded-full border-4 border-white dark:border-gray-900 flex items-center justify-center"
+              >
+                <UIcon name="i-lucide-check" class="w-4 h-4 text-white" />
               </div>
             </div>
           </div>
+
+          <!-- Profile Info -->
+          <div class="lg:col-span-2 text-center lg:text-left">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Vincent Monneger
+            </h3>
+            <p
+              class="text-primary-600 dark:text-primary-400 font-semibold mb-4"
+            >
+              Développeur Full-Stack spécialisé Front-End & Passionné d'IA
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              Développeur expérimenté spécialisé dans les technologies web
+              modernes et l'intégration de l'IA. Passionné par la création
+              d'outils qui rationalisent les flux de travail et améliorent la
+              productivité. Cet optimiseur de CV est né de l'expérience
+              personnelle sur le marché du travail et du désir d'aider les
+              autres à présenter leur meilleur profil professionnel.
+            </p>
+
+            <!-- Skills -->
+            <div
+              class="flex flex-wrap gap-2 mb-6 justify-center lg:justify-start"
+            >
+              <UBadge variant="subtle" color="primary">Vue.js</UBadge>
+              <UBadge variant="subtle" color="primary">Nuxt</UBadge>
+              <UBadge variant="subtle" color="primary">TypeScript</UBadge>
+              <UBadge variant="subtle" color="primary">Node.js</UBadge>
+              <UBadge variant="subtle" color="primary">AI Integration</UBadge>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex gap-4 justify-center lg:justify-start">
+              <UButton
+                variant="ghost"
+                size="sm"
+                to="https://linkedin.com/in/vincent-monneger"
+                target="_blank"
+                external
+              >
+                <template #leading>
+                  <UIcon name="i-lucide-linkedin" />
+                </template>
+                LinkedIn
+              </UButton>
+
+              <UButton
+                variant="ghost"
+                size="sm"
+                to="mailto:vincentmonneger@gmail.com"
+                external
+              >
+                <template #leading>
+                  <UIcon name="i-lucide-mail" />
+                </template>
+                Contact
+              </UButton>
+            </div>
+          </div>
         </div>
-      </div>
+      </UCard>
     </UContainer>
   </section>
 </template>
@@ -126,12 +122,12 @@ const imageError = ref(false)
 
 function onImageError(event: Event) {
   const img = event.target as HTMLImageElement
-  console.warn('Profile image failed to load:', img.src)
+  console.warn("Profile image failed to load:", img.src)
   imageError.value = true
 }
 
 function onImageLoad(_event: Event) {
-  console.log('Profile image loaded successfully')
+  console.log("Profile image loaded successfully")
   imageError.value = false
 }
 </script>

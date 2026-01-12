@@ -1,8 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="min-h-screen bg-background-light dark:bg-background-dark">
     <!-- Header Section -->
     <header
-      class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      :class="`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? 'py-0 glass border-b'
+          : 'py-2 bg-transparent border-b border-transparent'
+      }`"
     >
       <UContainer>
         <div class="flex justify-between items-center h-16">
@@ -53,7 +57,7 @@
     </main>
 
     <!-- Footer Section -->
-    <footer class="bg-gray-900 dark:bg-gray-950 text-white py-12">
+    <footer class="text-white py-12">
       <UContainer>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Brand Section -->
@@ -70,7 +74,7 @@
           <!-- Quick Links -->
           <div>
             <h3 class="font-semibold mb-4">Liens rapides</h3>
-            <ul class="space-y-2 text-gray-300">
+            <ul class="space-y-2 text-gray-600 dark:text-gray-300">
               <li>
                 <NuxtLink
                   to="/dashboard"
@@ -85,7 +89,7 @@
           <!-- Contact & Social -->
           <div>
             <h3 class="font-semibold mb-4">Contact</h3>
-            <ul class="space-y-2 text-gray-300">
+            <ul class="space-y-2 text-gray-600 dark:text-gray-300">
               <li>
                 <a
                   href="https://linkedin.com/in/vincent-monneger"
@@ -108,7 +112,7 @@
         </div>
 
         <div
-          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+          class="border-t border-white dark:border-white/5 mt-8 pt-8 text-center text-gray-400"
         >
           <p>&copy; 2025 Optimiseur CV.</p>
         </div>
@@ -129,4 +133,26 @@ useHead({
     },
   ],
 })
+
+const scrolled = ref(false)
+
+const handleScroll = () => {
+  scrolled.value = window.scrollY > 20
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll)
+})
 </script>
+
+<style lang="css" scoped>
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+</style>

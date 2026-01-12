@@ -1,5 +1,8 @@
 <template>
-  <section id="demo" class="py-16 bg-gray-50 dark:bg-gray-900">
+  <section
+    id="demo"
+    class="py-25 border-bottom border-white dark:border-white/5"
+  >
     <UContainer>
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -41,11 +44,8 @@
               </div>
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Télécharger l'offre d'emploi
+                  L'offre d'emploi
                 </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Coller ou télécharger la description du poste
-                </p>
               </div>
             </div>
           </template>
@@ -108,9 +108,6 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Génération IA
                 </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Adaptation intelligente des documents
-                </p>
               </div>
             </div>
           </template>
@@ -176,9 +173,6 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Exporter et postuler
                 </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Sortie PDF professionnelle
-                </p>
               </div>
             </div>
           </template>
@@ -215,9 +209,7 @@
       </div>
 
       <!-- Demo Preview Area -->
-      <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
-      >
+      <UCard class="">
         <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -233,7 +225,7 @@
           <div class="relative min-h-64">
             <!-- Step 1 Content: Job Offer Input -->
             <div v-if="activeStep === 1" class="space-y-4">
-              <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
                 <div class="flex items-start space-x-3">
                   <UIcon
                     name="i-lucide-briefcase"
@@ -270,7 +262,7 @@
             <!-- Step 2 Content: AI Processing -->
             <div v-if="activeStep === 2" class="space-y-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon
                       name="i-lucide-file-text"
@@ -288,7 +280,7 @@
                     <p>✓ Exemples de projets Nuxt.js ajoutés</p>
                   </div>
                 </div>
-                <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+                <div class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4">
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon
                       name="i-lucide-pen-tool"
@@ -325,15 +317,15 @@
             <div v-if="activeStep === 3" class="space-y-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div
-                  class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 flex items-center space-x-3"
+                  class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4 flex items-center space-x-3"
                 >
-                  <div class="flex-shrink-0">
+                  <div class="shrink-0">
                     <div
-                      class="w-12 h-16 bg-red-100 dark:bg-red-900 rounded border-2 border-red-200 dark:border-red-700 flex items-center justify-center"
+                      class="w-12 h-16 rounded flex items-center justify-center"
                     >
                       <UIcon
                         name="i-lucide-file-text"
-                        class="w-6 h-6 text-red-600"
+                        class="w-6 h-6 text-primary"
                       />
                     </div>
                   </div>
@@ -351,15 +343,13 @@
                   </div>
                 </div>
                 <div
-                  class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 flex items-center space-x-3"
+                  class="bg-gray-50 dark:bg-neutral-800 rounded-lg p-4 flex items-center space-x-3"
                 >
-                  <div class="flex-shrink-0">
-                    <div
-                      class="w-12 h-16 bg-blue-100 dark:bg-blue-900 rounded border-2 border-blue-200 dark:border-blue-700 flex items-center justify-center"
-                    >
+                  <div class="shrink-0">
+                    <div class="w-12 h-16 flex items-center justify-center">
                       <UIcon
                         name="i-lucide-mail"
-                        class="w-6 h-6 text-blue-600"
+                        class="w-6 h-6 text-primary"
                       />
                     </div>
                   </div>
@@ -378,17 +368,19 @@
                 </div>
               </div>
               <div class="text-center pt-4">
-                <UButton size="lg" to="/dashboard">
-                  Démarrer votre candidature
-                  <template #trailing>
-                    <UIcon name="i-lucide-arrow-right" />
-                  </template>
-                </UButton>
+                <div class="flex">
+                  <UButton size="lg" to="/dashboard">
+                    Démarrer votre candidature
+                    <template #trailing>
+                      <UIcon name="i-lucide-arrow-right" />
+                    </template>
+                  </UButton>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </UCard>
 
       <!-- Auto-advance feature -->
       <div class="text-center mt-8">
