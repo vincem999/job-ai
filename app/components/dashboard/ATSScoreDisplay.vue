@@ -1,25 +1,61 @@
 <template>
-  <div class="ats-score-display">
-    <div class="score-section">
-      <div class="score-circle">
-        <div class="score-number">{{ score }}</div>
-        <div class="score-label">/100</div>
+  <UCard>
+    <div class="flex items-center gap-6">
+      <div class="score-circle-container">
+        <svg class="score-circle-svg" viewBox="0 0 100 100">
+          <!-- Cercle de fond -->
+          <circle
+            cx="50"
+            cy="50"
+            r="42"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="6"
+            class="circle-background"
+          />
+          <!-- Cercle de progression -->
+          <circle
+            cx="50"
+            cy="50"
+            r="42"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="6"
+            :stroke-dasharray="circleProgress"
+            :stroke-dashoffset="circleOffset"
+            stroke-linecap="round"
+            class="circle-progress"
+            :class="getProgressColorClass()"
+            transform="rotate(-90 50 50)"
+          />
+        </svg>
+        <div class="score-content">
+          <div class="score-number">{{ score }}</div>
+          <div class="score-label">/100</div>
+        </div>
       </div>
-      <div class="score-info">
-        <h3 class="score-title">Score ATS</h3>
-        <UBadge :color="getScoreColor()" size="lg" class="score-badge">
-          {{ getMessage() }}
-        </UBadge>
-      </div>
-    </div>
 
-    <div v-if="adaptationNeeded" class="adaptation-notice">
-      <UIcon name="i-heroicons-exclamation-triangle" class="w-5 h-5" />
-      <span class="text-sm"
-        >Optimisation recommandée pour améliorer la compatibilité ATS</span
-      >
+      <div class="flex flex-col gap-6">
+        <div class="score-info">
+          <h3 class="score-title">Score ATS</h3>
+          <UBadge
+            :color="getScoreColor()"
+            size="lg"
+            variant="soft"
+            class="score-badge"
+          >
+            {{ getMessage() }}
+          </UBadge>
+        </div>
+        <div v-if="adaptationNeeded" class="adaptation-notice">
+          <UIcon name="i-lucide-triangle-alert" class="w-5 h-5" />
+          <span class="text-sm"
+            >Optimisation recommandée pour améliorer la compatibilité ATS</span
+          >
+        </div>
+      </div>
     </div>
-  </div>
+  </UCard>
 </template>
 
 <script setup lang="ts">
@@ -30,10 +66,29 @@ interface Props {
 
 const props = defineProps<Props>()
 
+// Calcul de la circonférence du cercle (2πr, avec r=42)
+const circumference = 2 * Math.PI * 42
+
+// Calcul du stroke-dasharray et stroke-dashoffset pour le cercle de progression
+const circleProgress = computed(() => {
+  return `${circumference} ${circumference}`
+})
+
+const circleOffset = computed(() => {
+  const progress = (props.score / 100) * circumference
+  return circumference - progress
+})
+
 function getScoreColor(): "success" | "warning" | "error" {
   if (props.score >= 85) return "success"
   if (props.score >= 70) return "warning"
   return "error"
+}
+
+function getProgressColorClass(): string {
+  if (props.score >= 85) return "circle-success"
+  if (props.score >= 70) return "circle-warning"
+  return "circle-error"
 }
 
 function getMessage(): string {
@@ -47,27 +102,44 @@ function getMessage(): string {
 <style scoped>
 @reference "~/assets/css/main.css";
 
-.ats-score-display {
-  @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20;
-  @apply border border-blue-200 dark:border-blue-800 rounded-lg p-6;
+.score-circle-container {
+  @apply relative w-30 h-30 flex items-center justify-center;
 }
 
-.score-section {
-  @apply flex items-center gap-6 mb-4;
+.score-circle-svg {
+  @apply absolute inset-0;
 }
 
-.score-circle {
-  @apply relative w-20 h-20 rounded-full border-4 border-blue-600 dark:border-blue-400;
-  @apply flex flex-col items-center justify-center bg-white dark:bg-gray-800;
-  @apply shadow-lg;
+.circle-background {
+  @apply text-gray-200 dark:text-gray-700;
+}
+
+.circle-progress {
+  transition: stroke-dashoffset 0.6s ease-in-out;
+}
+
+.circle-success {
+  @apply text-green-500;
+}
+
+.circle-warning {
+  @apply text-yellow-500;
+}
+
+.circle-error {
+  @apply text-red-500;
+}
+
+.score-content {
+  @apply relative z-10 flex flex-col items-center justify-center;
 }
 
 .score-number {
-  @apply text-2xl font-bold text-blue-600 dark:text-blue-400;
+  @apply text-3xl font-extrabold light:text-gray-900 dark:text-white;
 }
 
 .score-label {
-  @apply text-xs text-gray-500 dark:text-gray-400 font-medium;
+  @apply text-xs text-gray-500 dark:text-gray-400 font-bold;
 }
 
 .score-info {
@@ -75,7 +147,7 @@ function getMessage(): string {
 }
 
 .score-title {
-  @apply text-xl font-semibold text-gray-900 dark:text-white mb-2;
+  @apply text-xl font-bold mb-2;
 }
 
 .score-badge {

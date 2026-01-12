@@ -1,5 +1,5 @@
 <template>
-  <div class="experience-editor">
+  <UCard>
     <h3 class="editor-title">Modifier les expériences</h3>
 
     <div
@@ -68,7 +68,7 @@
         class="my-6"
       />
     </div>
-  </div>
+  </UCard>
 </template>
 
 <script setup lang="ts">
@@ -125,10 +125,6 @@ const removeBullet = (expIndex: number, bulletIndex: number) => {
 
 <style scoped>
 @reference "~/assets/css/main.css";
-
-.experience-editor {
-  @apply space-y-6 p-6 bg-white dark:bg-elevated rounded-lg light:border light:border-gray-200;
-}
 
 .editor-title {
   @apply text-xl font-semibold text-gray-900 dark:text-white mb-4;

@@ -19,7 +19,7 @@
                     cvData.personalInfo.lastName
                   "
                   class="profile-img"
-                >
+                />
               </div>
 
               <!-- Informations personnelles -->
@@ -314,7 +314,7 @@ onBeforeUnmount(() => {
 
 .cv-wrapper {
   background: white;
-  box-shadow: 0 14px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 20px rgba(102, 76, 76, 0.1);
   flex-shrink: 0;
 }
 

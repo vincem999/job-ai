@@ -5,22 +5,66 @@ export default defineAppConfig({
       primary: "green",
     },
     card: {
+      slots: {
+        root: "p-2 rounded-lg overflow-hidden",
+        header: "pb-3",
+        // body: "p-0 sm:p-0",
+        // footer: "p-0 sm:p-0",
+      },
       variants: {
         variant: {
           solid: {
-            root: "bg-inverted text-inverted",
+            root: "bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-2xl shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500",
           },
           outline: {
             root: "bg-default ring ring-default divide-y divide-default",
           },
 
           subtle: {
-            root: "bg-white dark:bg-card-dark border-slate-200 dark:border-border-dark rounded-2xl shadow-xl p-8 animate-in fade-in slide-in-from-bottom-4 duration-500",
+            root: "bg-white dark:bg-card-dark border-slate-200 dark:border-border-dark rounded-2xl shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500",
           },
         },
       },
       defaultVariants: {
+        variant: "solid",
+      },
+    },
+    badge: {
+      variants: {
+        fieldGroup: {
+          horizontal:
+            "not-only:first:rounded-e-none not-only:last:rounded-s-none not-last:not-first:rounded-none focus-visible:z-[1]",
+          vertical:
+            "not-only:first:rounded-b-none not-only:last:rounded-t-none not-last:not-first:rounded-none focus-visible:z-[1]",
+        },
+        color: {
+          primary: "",
+          secondary: "",
+          success: "",
+          info: "",
+          warning: "",
+          error: "",
+          neutral: "",
+        },
+        variant: {
+          solid: "",
+          outline: "",
+          soft: "",
+          subtle: "",
+        },
+      },
+      compoundVariants: [
+        {
+          color: "neutral",
+          variant: "subtle",
+          class:
+            "ring-0 bg-slate-100 dark:bg-background-dark border border-slate-200 dark:border-border-dark rounded-md text-sm",
+        },
+      ],
+      defaultVariants: {
+        color: "neutral",
         variant: "subtle",
+        size: "md",
       },
     },
     stepper: {

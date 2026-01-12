@@ -2,10 +2,8 @@
   <UCard class="ats-suggestions-card">
     <template #header>
       <div class="flex items-center gap-2">
-        <UIcon name="i-heroicons-light-bulb" class="w-5 h-5 text-orange-600" />
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Suggestions d'optimisation
-        </h4>
+        <UIcon name="i-lucide-lightbulb" class="size-6 text-primary" />
+        <h4 class="text-lg font-bold">Suggestions d'optimisation</h4>
       </div>
     </template>
 
@@ -16,31 +14,33 @@
         class="suggestion-item"
       >
         <div class="suggestion-header">
-          <div class="suggestion-icon">
-            <UIcon name="i-heroicons-arrow-right" class="w-4 h-4" />
-          </div>
           <div class="suggestion-number">{{ index + 1 }}</div>
         </div>
         <div class="suggestion-content">
-          <p class="suggestion-text">{{ suggestion }}</p>
+          <p class="text-sm">{{ suggestion }}</p>
         </div>
       </div>
 
       <!-- Résumé des actions -->
-      <div class="summary-section">
-        <div class="summary-header">
-          <UIcon name="i-heroicons-clipboard-document-list" class="w-4 h-4 text-blue-600" />
-          <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
-            {{ suggestions.length }} action{{ suggestions.length > 1 ? 's' : '' }} recommandée{{ suggestions.length > 1 ? 's' : '' }}
-          </span>
-        </div>
+
+      <div class="summary-header mt-6">
+        <UIcon name="i-lucide-circle-check-big" class="size-4 text-primary" />
+        <span class="text-sm font-medium text-primary">
+          {{ suggestions.length }} action{{
+            suggestions.length > 1 ? "s" : ""
+          }}
+          recommandée{{ suggestions.length > 1 ? "s" : "" }}
+        </span>
       </div>
     </div>
 
     <!-- Aucune suggestion -->
     <div v-else class="empty-state">
       <div class="empty-icon">
-        <UIcon name="i-heroicons-check-circle" class="w-12 h-12 text-green-500" />
+        <UIcon
+          name="i-heroicons-check-circle"
+          class="w-12 h-12 text-green-500"
+        />
       </div>
       <div class="empty-content">
         <h5 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
@@ -70,8 +70,8 @@ defineProps<Props>()
 }
 
 .suggestion-item {
-  @apply flex gap-3 p-4 bg-orange-50 dark:bg-orange-900/10;
-  @apply border border-orange-200 dark:border-orange-800 rounded-lg;
+  @apply flex gap-3 p-4 light:bg-slate-100 dark:bg-background-dark/40;
+  @apply border border-slate-200 dark:border-border-dark  rounded-lg;
   @apply transition-all hover:shadow-sm;
 }
 
@@ -90,14 +90,6 @@ defineProps<Props>()
 
 .suggestion-content {
   @apply flex-1;
-}
-
-.suggestion-text {
-  @apply text-gray-800 dark:text-gray-200 text-sm leading-relaxed;
-}
-
-.summary-section {
-  @apply border-t border-gray-200 dark:border-gray-700 pt-4 mt-6;
 }
 
 .summary-header {

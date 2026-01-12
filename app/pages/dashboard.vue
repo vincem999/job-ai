@@ -29,12 +29,12 @@
           :class="currentStep === 0 ? 'w-[1000px] flex-col justify-center' : ''"
         >
           <div class="mb-8 max-w-[600px]">
-            <h2 class="text-3xl font-bold mb-3">
+            <h2 class="text-3xl font-extrabold mb-3">
               Générer des documents optimisés
             </h2>
             <p class="text-md">
               Analysez une offre d'emploi et générez un CV adapté avec une
-              lettre de motivation personnalisée
+              lettre de motivation personnalisée.
             </p>
           </div>
           <!-- Workflow Stepper -->

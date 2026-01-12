@@ -2,22 +2,17 @@
   <UCard class="ats-keywords-card">
     <template #header>
       <div class="flex items-center gap-2">
-        <UIcon name="i-heroicons-key" class="w-5 h-5 text-blue-600" />
-        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Analyse des mots-clés ATS
-        </h4>
+        <UIcon name="i-lucide-search" class="size-6 text-primary" />
+        <h4 class="text-lg font-bold">Analyse des mots-clés ATS</h4>
       </div>
     </template>
 
-    <div class="space-y-6">
+    <div class="space-y-10">
       <!-- Mots-clés critiques manquants -->
       <div v-if="keywords.priority?.length || keywords.missing?.length">
         <div class="flex items-center gap-2 mb-3">
-          <UIcon
-            name="i-heroicons-exclamation-triangle"
-            class="w-4 h-4 text-red-600"
-          />
-          <h5 class="font-medium text-red-600 dark:text-red-400">
+          <UIcon name="i-lucide-circle-alert" class="size-5 text-error" />
+          <h5 class="font-semibold text-error">
             Critiques manquants ({{
               (keywords.priority?.length || 0) +
               (keywords.missing?.length || 0)
@@ -28,23 +23,18 @@
           <UBadge
             v-for="keyword in keywords.priority"
             :key="`priority-${keyword}`"
-            color="red"
-            variant="solid"
-            size="lg"
           >
-            {{ keyword }} ⚠️
+            <UIcon name="i-lucide-triangle-alert" class="text-warning size-3" />
+            {{ keyword }}
           </UBadge>
           <UBadge
             v-for="keyword in keywords.missing"
             :key="`missing-${keyword}`"
-            color="red"
-            variant="outline"
-            size="lg"
           >
             {{ keyword }}
           </UBadge>
         </div>
-        <p class="text-sm text-red-600 dark:text-red-400 mt-2">
+        <p class="text-xs mt-3">
           Ces mots-clés sont essentiels pour passer les filtres ATS
         </p>
       </div>
@@ -52,11 +42,8 @@
       <!-- Mots-clés trouvés -->
       <div v-if="keywords.matched?.length">
         <div class="flex items-center gap-2 mb-3">
-          <UIcon
-            name="i-heroicons-check-circle"
-            class="w-4 h-4 text-green-600"
-          />
-          <h5 class="font-medium text-green-600 dark:text-green-400">
+          <UIcon name="i-lucide-circle-check" class="size-5 text-success" />
+          <h5 class="font-semibold text-success">
             Correspondants ({{ keywords.matched.length }})
           </h5>
         </div>
@@ -64,11 +51,9 @@
           <UBadge
             v-for="keyword in keywords.matched"
             :key="`matched-${keyword}`"
-            color="green"
-            variant="soft"
-            size="lg"
           >
-            {{ keyword }} ✓
+            <UIcon name="i-lucide-check" class="text-success size-3" />
+            {{ keyword }}
           </UBadge>
         </div>
       </div>
@@ -76,8 +61,8 @@
       <!-- Recommandations -->
       <div v-if="keywords.recommended?.length">
         <div class="flex items-center gap-2 mb-3">
-          <UIcon name="i-heroicons-light-bulb" class="w-4 h-4 text-blue-600" />
-          <h5 class="font-medium text-blue-600 dark:text-blue-400">
+          <UIcon name="i-lucide-lightbulb" class="size-5 text-info" />
+          <h5 class="font-semibold text-info">
             Recommandations ({{ keywords.recommended.length }})
           </h5>
         </div>
@@ -85,14 +70,12 @@
           <UBadge
             v-for="keyword in keywords.recommended"
             :key="`recommended-${keyword}`"
-            color="blue"
-            variant="outline"
-            size="lg"
           >
-            {{ keyword }} 💡
+            <UIcon name="i-lucide-lightbulb" class="text-info size-3" />
+            {{ keyword }}
           </UBadge>
         </div>
-        <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
+        <p class="text-xs mt-3">
           Ajoutez ces mots-clés pour renforcer votre profil
         </p>
       </div>

@@ -1,66 +1,59 @@
 <template>
   <UCard>
     <!-- Job Offer Input Section -->
-    <div class="rounded-lg">
-      <div class="mb-6">
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          <UIcon
-            name="i-heroicons-clipboard-document-list"
-            class="w-5 h-5 inline mr-2"
-          />
-          Analyser l'offre d'emploi
-        </h3>
-        <p class="text-sm">
-          Saisissez les détails de l'offre d'emploi pour commencer l'analyse
-        </p>
-      </div>
 
-      <JobOfferInput :analyzing="isProcessing" @submit="handleJobSubmission" />
+    <template #header>
+      <h3 class="text-2xl font-bold mb-2">Analyser l'offre d'emploi</h3>
+      <p class="text-sm">
+        Saisissez les détails de l'offre d'emploi pour commencer l'analyse
+      </p>
+    </template>
 
-      <!-- Loading State -->
-      <div v-if="isAnalyzing" class="mt-6">
-        <div
-          class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6"
-        >
-          <LoadingSpinner
-            text="Analyse en cours de l'offre d'emploi..."
-            color="text-blue-600 dark:text-blue-400"
-            size="md"
-          />
-          <p class="text-sm text-blue-600 dark:text-blue-300 mt-3 text-center">
-            Extraction des compétences requises et analyse des critères de
-            sélection
-          </p>
-        </div>
-      </div>
+    <JobOfferInput :analyzing="isProcessing" @submit="handleJobSubmission" />
 
-      <!-- Status Messages -->
-      <div v-if="statusMessage" class="mt-4">
-        <UAlert
-          :color="
-            statusMessage.type === 'error'
-              ? 'error'
-              : statusMessage.type === 'warning'
-              ? 'warning'
-              : 'success'
-          "
-          :title="statusMessage.title"
-          :description="statusMessage.message"
-          :close-button="{ 'aria-label': 'Close' }"
-          @close="statusMessage = null"
+    <!-- Loading State -->
+    <div v-if="isAnalyzing" class="mt-6">
+      <div
+        class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6"
+      >
+        <LoadingSpinner
+          text="Analyse en cours de l'offre d'emploi..."
+          color="text-blue-600 dark:text-blue-400"
+          size="md"
         />
-      </div>
-
-      <!-- Auto-transition notification -->
-      <div v-if="hasJobAnalysis" class="mt-6 text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-300">
-          <UIcon
-            name="i-heroicons-check-circle"
-            class="w-4 h-4 inline text-green-500 mr-1"
-          />
-          Transition automatique vers l'étape suivante...
+        <p class="text-sm text-blue-600 dark:text-blue-300 mt-3 text-center">
+          Extraction des compétences requises et analyse des critères de
+          sélection
         </p>
       </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div v-if="statusMessage" class="mt-4">
+      <UAlert
+        :color="
+          statusMessage.type === 'error'
+            ? 'error'
+            : statusMessage.type === 'warning'
+            ? 'warning'
+            : 'success'
+        "
+        :title="statusMessage.title"
+        :description="statusMessage.message"
+        :close-button="{ 'aria-label': 'Close' }"
+        @close="statusMessage = null"
+      />
+    </div>
+
+    <!-- Auto-transition notification -->
+    <div v-if="hasJobAnalysis" class="mt-6 text-center">
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        <UIcon
+          name="i-heroicons-check-circle"
+          class="w-4 h-4 inline text-green-500 mr-1"
+        />
+        Transition automatique vers l'étape suivante...
+      </p>
     </div>
   </UCard>
 </template>
@@ -122,13 +115,6 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
       jobAnalysis.value = response.data
 
       // Stop analyzing state
-      isAnalyzing.value = false
-
-      showStatusMessage(
-        "success",
-        "Offre d'emploi analysée",
-        "L'analyse de l'offre d'emploi est terminée. Transition automatique vers l'étape suivante..."
-      )
 
       // Emit analysis completion with CV data
       emit("analysisComplete", {
@@ -136,11 +122,9 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
         cvData: mockCVData,
       })
 
-      // Auto-transition to next step
-      setTimeout(() => {
-        emit("next")
-        isProcessing.value = false
-      }, 1500) // Petite pause pour permettre à l'utilisateur de voir le message de succès
+      isAnalyzing.value = false
+      isProcessing.value = false
+      emit("next")
     } else {
       throw new Error(
         response.error || "Erreur lors de l'analyse de l'offre d'emploi"

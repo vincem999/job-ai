@@ -25,6 +25,11 @@ p {
   @apply text-slate-500 dark:text-slate-400;
 }
 
-h {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply text-gray-900 dark:text-white;
 }

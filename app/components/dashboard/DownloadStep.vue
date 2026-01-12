@@ -1,44 +1,42 @@
 <template>
   <div class="space-y-6">
-    <!-- Header ATS Score -->
-    <div v-if="atsData" class="mb-6">
-      <ATSScoreDisplay
-        :score="atsData.score"
-        :adaptation-needed="atsData.adaptationNeeded"
-      />
-    </div>
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div>
-        <ATSKeywordInsights v-if="atsData" :keywords="atsData.keywords" />
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-6">
+        <div v-if="atsData">
+          <ATSScoreDisplay
+            :score="atsData.score"
+            :adaptation-needed="atsData.adaptationNeeded"
+          />
+        </div>
+        <div>
+          <ATSSuggestions v-if="atsData" :suggestions="atsData.suggestions" />
+        </div>
       </div>
       <div>
-        <ATSSuggestions v-if="atsData" :suggestions="atsData.suggestions" />
+        <ATSKeywordInsights v-if="atsData" :keywords="atsData.keywords" />
       </div>
     </div>
 
     <!-- Download Section -->
-    <UCard>
+    <div class="mt-15">
       <div class="mb-6">
-        <h3 class="text-xl font-semibold mb-4">
-          <UIcon
-            name="i-heroicons-arrow-down-tray"
-            class="w-5 h-5 inline mr-2"
-          />
-          Télécharger les documents
-        </h3>
+        <div class="flex items-center gap-2 mb-6">
+          <UIcon name="i-lucide-file-text" class="size-5 text-primary" />
+          <h3 class="text-2xl font-extrabold">Télécharger les documents</h3>
+        </div>
 
         <!-- Toggle entre Preview et Edition -->
         <div class="flex gap-4 mb-4">
           <UButton
             :variant="viewMode === 'preview' ? 'solid' : 'outline'"
-            icon="i-heroicons-eye"
+            icon="i-lucide-eye"
             @click="viewMode = 'preview'"
           >
             Aperçu
           </UButton>
           <UButton
             :variant="viewMode === 'edit' ? 'solid' : 'outline'"
-            icon="i-heroicons-pencil"
+            icon="i-lucide-pencil"
             @click="viewMode = 'edit'"
           >
             Modifier expériences
@@ -47,7 +45,7 @@
             :loading="isDownloadingCV"
             :disabled="isDownloadingCV"
             class="download-btn"
-            icon="i-heroicons-arrow-down-tray"
+            icon="i-lucide-download"
             @click="downloadCV"
           >
             {{ isDownloadingCV ? "Téléchargement..." : "Télécharger CV" }}
@@ -87,7 +85,7 @@
           </UButton>
         </div>
       </div>
-    </UCard>
+    </div>
 
     <!-- Summary Section -->
   </div>
