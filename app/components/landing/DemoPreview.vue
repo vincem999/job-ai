@@ -266,7 +266,7 @@
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon
                       name="i-lucide-file-text"
-                      class="w-5 h-5 text-blue-600"
+                      class="w-5 h-5 text-primary-600"
                     />
                     <h4 class="font-semibold text-blue-900 dark:text-blue-300">
                       Adaptation du CV
@@ -284,7 +284,7 @@
                   <div class="flex items-center space-x-2 mb-3">
                     <UIcon
                       name="i-lucide-pen-tool"
-                      class="w-5 h-5 text-purple-600"
+                      class="w-5 h-5 text-primary-600"
                     />
                     <h4
                       class="font-semibold text-purple-900 dark:text-purple-300"
@@ -325,7 +325,7 @@
                     >
                       <UIcon
                         name="i-lucide-file-text"
-                        class="w-6 h-6 text-primary"
+                        class="w-6 h-6 text-primary-600"
                       />
                     </div>
                   </div>
@@ -349,7 +349,7 @@
                     <div class="w-12 h-16 flex items-center justify-center">
                       <UIcon
                         name="i-lucide-mail"
-                        class="w-6 h-6 text-primary"
+                        class="w-6 h-6 text-primary-600"
                       />
                     </div>
                   </div>
