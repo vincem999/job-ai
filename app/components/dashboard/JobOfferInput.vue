@@ -212,7 +212,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 const onError = (event: FormErrorEvent) => {
-  console.log("Validation errors:", event.errors)
   const errorCount = event.errors.length
   showFeedback(
     "error",

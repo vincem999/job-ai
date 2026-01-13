@@ -68,12 +68,8 @@ export default defineEventHandler(async (event) => {
                   type: "array",
                   items: { type: "string" },
                 },
-                priority: {
-                  type: "array",
-                  items: { type: "string" },
-                },
               },
-              required: ["matched", "missing", "recommended", "priority"],
+              required: ["matched", "missing", "recommended"],
               additionalProperties: false,
             },
             suggestions: {

@@ -7,7 +7,6 @@ export interface ATSOptimization {
     matched: string[];
     missing: string[];
     recommended: string[];
-    priority: string[];
   };
   suggestions: string[];
 }
@@ -16,7 +15,6 @@ export interface ATSKeywords {
   matched: string[];
   missing: string[];
   recommended: string[];
-  priority: string[];
 }
 
 // Extended JobAnalysisResponse with ATS data

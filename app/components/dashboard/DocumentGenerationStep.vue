@@ -197,7 +197,6 @@ const handleCVGeneration = async () => {
   }
 
   try {
-    console.log("Generating CV...")
     loadingCVGeneration.value = true
     showStatusMessage(
       "success",
@@ -241,7 +240,6 @@ const handleCVGeneration = async () => {
         // Integrate some real data from API response
         workExperiences: response.data.workExperiences,
       }
-      console.log("le cv data", cvData.value)
       cvId.value = "cv-" + Date.now()
       showStatusMessage(
         "success",

@@ -115,7 +115,7 @@
   height: 700px;
   background: radial-gradient(
     circle at center,
-    rgba(16, 185, 129, 0.1) 0%,
+    rgba(16, 185, 129, 0.1) 20%,
     transparent 60%
   );
   pointer-events: none;

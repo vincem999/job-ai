@@ -80,10 +80,9 @@ ${hasCV ? `
 **OPTIMISATION ATS (si CV fourni) :**
 Analysez la compatibilité du CV avec l'offre du point de vue ATS :
 - **Score ATS** (0-100) : Capacité du CV à passer les filtres automatiques
-- **Mots-clés matched** : Termes du CV qui correspondent à l'offre
-- **Mots-clés missing** : Termes critiques de l'offre absents du CV
-- **Mots-clés recommended** : Variantes exactes recommandées pour l'ATS
-- **Mots-clés priority** : Les plus critiques à ajouter
+- **Mots-clés matched** : Termes du CV qui correspondent exactement à l'offre
+- **Mots-clés missing** : Termes critiques de l'offre d'emploi absents du CV
+- **Mots-clés recommended** : Suggestions de mots-clés du secteur pour renforcer le profil (pas nécessairement dans l'offre)
 - **Suggestions** : Actions concrètes pour optimiser le CV pour les ATS
 
 **Adaptation nécessaire ?** Déterminer si le CV a besoin d'être adapté (score < 80).

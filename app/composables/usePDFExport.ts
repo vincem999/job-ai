@@ -13,8 +13,6 @@ export const usePDFExport = () => {
       throw new Error("PDF generation can only be done on the client side")
     }
 
-    console.log("Generating PDF for CV:", cv)
-
     try {
       // Find the CVTemplate component in the DOM
       const cvElement = document.querySelector(".cv-wrapper") as HTMLElement

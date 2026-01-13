@@ -2,14 +2,9 @@
   <div class="min-h-screen">
     <!-- Header Section -->
     <UHeader mode="drawer">
-      <template #title> Le Logo </template>
+      <template #title><AppLogo /></template>
 
-      <!-- Navigation Actions -->
-
-      <!-- <UButton to="/" variant="ghost" color="neutral" icon="i-heroicons-home">
-        Accueil
-      </UButton> -->
-      <UNavigationMenu :items="items" />
+      <!-- <UNavigationMenu :items="items" /> -->
       <template #body>
         <UNavigationMenu :items="items" />
       </template>
@@ -28,7 +23,7 @@
         <div
           :class="currentStep === 0 ? 'w-[1000px] flex-col justify-center' : ''"
         >
-          <div class="mb-8 max-w-[600px]">
+          <div v-if="currentStep === 0" class="mb-8 max-w-[600px]">
             <h2 class="text-3xl font-extrabold mb-3">
               Générer des documents optimisés
             </h2>

@@ -111,7 +111,6 @@ const handleJobSubmission = async (jobData: JobOfferData) => {
 
     if (response.success && response.data) {
       // Store the analyzed job data
-      console.log("la resp front", response.data)
       jobAnalysis.value = response.data
 
       // Stop analyzing state

@@ -109,5 +109,10 @@ export default defineAppConfig({
         size: "md",
       },
     },
+    header: {
+      slots: {
+        root: "static bg-default/75 backdrop-blur border-b border-default h-(--ui-header-height) z-50",
+      },
+    },
   },
 })

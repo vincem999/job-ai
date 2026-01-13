@@ -127,7 +127,6 @@ function onImageError(event: Event) {
 }
 
 function onImageLoad(_event: Event) {
-  console.log("Profile image loaded successfully")
   imageError.value = false
 }
 </script>

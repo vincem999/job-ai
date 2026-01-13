@@ -11,16 +11,8 @@
       <UContainer>
         <div class="flex justify-between items-center h-16">
           <!-- Logo and Title -->
-          <div class="flex items-center space-x-4">
-            <!-- <UIcon name="i-heroicons-briefcase" class="w-8 h-8 text-primary-600" />
-            <div>
-              <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-                Optimiseur CV
-              </h1>
-              <p class="text-sm text-gray-500 dark:text-gray-400">
-                Générateur de CV et lettres IA
-              </p>
-            </div> -->
+          <div>
+            <AppLogo class="" />
           </div>
 
           <!-- Navigation Actions -->

@@ -9,28 +9,19 @@
 
     <div class="space-y-10">
       <!-- Mots-clés critiques manquants -->
-      <div v-if="keywords.priority?.length || keywords.missing?.length">
+      <div v-if="keywords.missing?.length">
         <div class="flex items-center gap-2 mb-3">
           <UIcon name="i-lucide-circle-alert" class="size-5 text-error" />
           <h5 class="font-semibold text-error">
-            Critiques manquants ({{
-              (keywords.priority?.length || 0) +
-              (keywords.missing?.length || 0)
-            }})
+            Critiques manquants ({{ keywords.missing.length }})
           </h5>
         </div>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="keyword in keywords.priority"
-            :key="`priority-${keyword}`"
-          >
-            <UIcon name="i-lucide-triangle-alert" class="text-warning size-3" />
-            {{ keyword }}
-          </UBadge>
-          <UBadge
             v-for="keyword in keywords.missing"
             :key="`missing-${keyword}`"
           >
+            <UIcon name="i-lucide-triangle-alert" class="text-warning size-3" />
             {{ keyword }}
           </UBadge>
         </div>
@@ -100,7 +91,6 @@ interface Props {
     matched: string[]
     missing: string[]
     recommended: string[]
-    priority: string[]
   }
 }
 
@@ -111,8 +101,7 @@ const hasKeywords = computed(() => {
   return (
     props.keywords.matched?.length > 0 ||
     props.keywords.missing?.length > 0 ||
-    props.keywords.recommended?.length > 0 ||
-    props.keywords.priority?.length > 0
+    props.keywords.recommended?.length > 0
   )
 })
 </script>
